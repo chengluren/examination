@@ -4,6 +4,7 @@
        xmlns:context = "http://www.springframework.org/schema/context"
        xmlns:tx = "http://www.springframework.org/schema/tx"
        xmlns:jpa = "http://www.springframework.org/schema/data/jpa"
+       xmlns:aop = "http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -11,7 +12,9 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/data/jpa
-        http://www.springframework.org/schema/data/jpa/spring-data-jpa.xsd">
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
     <context:component-scan base-package="org.dreamer.examination.service"/>
@@ -32,7 +35,6 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="org.dreamer.examination.entity"/>
 
-        <property name="persistenceUnitName" value="${jpa.persistenceUnit}"/>
         <property name="persistenceProvider">
             <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
         </property>
@@ -73,5 +75,20 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="count*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="list*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="serviceTxPc" expression="execution(* org.dreamer.examination.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="serviceTxPc" advice-ref="txAdvice"/>
+    </aop:config>
+
 </beans>

@@ -11,11 +11,13 @@ import java.io.Serializable;
 @Table(name = "questions")
 @Inheritance
 @DiscriminatorColumn(name = "QUES_TYPE")
-public abstract class Question implements Serializable {
+public class Question implements Serializable {
 
-    enum Difficulty {
+    public enum Difficulty {
         Easy, Moderate, DIFFICULT
     }
+
+    public Question(){}
 
     @Id()
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES")
@@ -27,10 +29,11 @@ public abstract class Question implements Serializable {
     //题干
     @Column(nullable = false, length = 300)
     private String stem;
-
     //难易程度
     @Enumerated
     private Difficulty difficulty;
+    @Column(length = 100)
+    private String answer;
 
     public long getId() {
         return id;
@@ -54,5 +57,13 @@ public abstract class Question implements Serializable {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

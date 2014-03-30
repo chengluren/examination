@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author lcheng
  * @version 1.0
- *          ${tags}
+ *
  */
 public interface ChoiceQuestionDao extends JpaRepository<ChoiceQuestion,Long>{
 }

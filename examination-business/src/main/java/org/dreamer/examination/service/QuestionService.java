@@ -17,8 +17,20 @@ public class QuestionService {
     @Autowired
     private QuestionDao questionDao;
 
+    /**
+     * 添加试题
+     * @param question
+     */
     public void addQuestion(Question question) {
         questionDao.save(question);
+    }
+
+    /**
+     * 批量添加试题
+     * @param questions
+     */
+    public void addQuestion(Iterable<Question> questions){
+        questionDao.save(questions);
     }
 
     public List<Question> findAll() {

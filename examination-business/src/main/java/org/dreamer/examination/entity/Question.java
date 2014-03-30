@@ -17,7 +17,8 @@ public class Question implements Serializable {
         Easy, Moderate, DIFFICULT
     }
 
-    public Question(){}
+    public Question() {
+    }
 
     @Id()
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES")
@@ -34,6 +35,9 @@ public class Question implements Serializable {
     private Difficulty difficulty;
     @Column(length = 100)
     private String answer;
+    //题目对应的图片地址
+    @Column(length = 150)
+    private String imgPath;
 
     public long getId() {
         return id;
@@ -65,5 +69,13 @@ public class Question implements Serializable {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

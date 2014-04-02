@@ -8,7 +8,7 @@ public class Types {
     //题型
     enum QuestionType {
 
-        Choice("choice"), Completion("completion"), TrueFalse("trueFalse"), ShortAnswer("shortAnswer");
+        Choice("Choice"), Completion("Completion"), TrueFalse("TrueFalse"), ShortAnswer("ShortAnswer");
 
         private String name;
         private QuestionType(String name){

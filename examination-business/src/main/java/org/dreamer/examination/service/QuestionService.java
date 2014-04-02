@@ -1,8 +1,15 @@
 package org.dreamer.examination.service;
 
+import org.dreamer.examination.entity.ChoiceQuestion;
 import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.entity.TrueOrFalseQuestion;
+import org.dreamer.examination.repository.ChoiceQuestionDao;
 import org.dreamer.examination.repository.QuestionDao;
+import org.dreamer.examination.repository.TrueOrFalseQuestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +23,14 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionDao questionDao;
+    @Autowired
+    private ChoiceQuestionDao choiceQuestionDao;
+    @Autowired
+    private TrueOrFalseQuestionDao trueFalseQuestionDao;
 
     /**
      * 添加试题
+     *
      * @param question
      */
     public void addQuestion(Question question) {
@@ -27,12 +39,14 @@ public class QuestionService {
 
     /**
      * 批量添加试题
+     *
      * @param questions
      */
-    public void addQuestion(Iterable<Question> questions){
+    public void addQuestion(Iterable<Question> questions) {
         questionDao.save(questions);
     }
 
+    @Deprecated
     public List<Question> findAll() {
         return questionDao.findAll();
     }
@@ -40,4 +54,21 @@ public class QuestionService {
     public void deleteQuestion(Question question) {
         questionDao.delete(question);
     }
+
+    public Page<ChoiceQuestion> getChoiceQuestions(long storeId, int pageNum, int pageSize) {
+        Pageable pr = new PageRequest(pageNum, pageSize);
+        return choiceQuestionDao.findByStoreId(storeId, pr);
+    }
+
+    public Page<ChoiceQuestion> getChoiceQuestions(long storeId, boolean multiple, int pageNum, int pageSize) {
+        Pageable pr = new PageRequest(pageNum, pageSize);
+        return choiceQuestionDao.findByStoreIdAndMultiple(storeId, multiple, pr);
+    }
+
+    public Page<TrueOrFalseQuestion> getTrueFalseQuestions(long storeId, int pageNum, int pageSize) {
+        Pageable pr = new PageRequest(pageNum, pageSize);
+        return trueFalseQuestionDao.findByStoreId(storeId, pr);
+    }
+
+
 }

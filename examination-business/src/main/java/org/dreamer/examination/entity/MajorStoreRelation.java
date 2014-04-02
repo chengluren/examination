@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Table(name = "major_store_rel")
 public class MajorStoreRelation implements Serializable {
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_MAJOR_STORE")
     @TableGenerator(name = "ID_MAJOR_STORE", table = "ids_gen", pkColumnName = "ID_NAME",
             valueColumnName = "ID_VALUE", pkColumnValue = "major_store_pk",initialValue = 1)

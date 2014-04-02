@@ -8,17 +8,18 @@ import java.io.Serializable;
  * Created by lcheng on 2014/4/1.
  */
 @Entity
-@Table(name = "TEMP_QUES_RULES")
-public class TemplateQuestionRule implements Serializable{
+@Table(name = "temp_ques_rules")
+public class TemplateQuestionDef implements Serializable{
 
     @Id()
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES_RULES")
-    @TableGenerator(name = "ID_QUES_RULES", table = "ids_gen", pkColumnName = "ID_NAME",
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES_DEFS")
+    @TableGenerator(name = "ID_QUES_DEFS", table = "ids_gen", pkColumnName = "ID_NAME",
             valueColumnName = "ID_VALUE", initialValue = 1)
     private long id;
 
     private long storeId;
 
+    @Enumerated(EnumType.STRING)
     private Types.QuestionType questionType;
 
     private int count;
@@ -27,6 +28,7 @@ public class TemplateQuestionRule implements Serializable{
     private float scorePer;
 
     @ManyToOne
+    @JoinColumn(name = "TEMP_ID")
     private ExamTemplate template;
 
 

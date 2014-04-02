@@ -1,6 +1,6 @@
 package org.dreamer.examination.repository;
 
-import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,8 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  *          ${tags}
  */
-
-public interface QuestionDao extends JpaRepository<Question,Long> {
-
-    public Long countByStoreId(long storeId);
+public interface TemplateQuestionDefDao extends JpaRepository<TemplateQuestionDef, Long> {
 }

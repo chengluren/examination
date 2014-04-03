@@ -6,7 +6,7 @@ package org.dreamer.examination.entity;
 public class Types {
 
     //题型
-    enum QuestionType {
+    public enum QuestionType {
 
         Choice("Choice"), Completion("Completion"), TrueFalse("TrueFalse"), ShortAnswer("ShortAnswer");
 

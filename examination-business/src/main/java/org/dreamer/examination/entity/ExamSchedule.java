@@ -11,6 +11,7 @@ import java.util.Date;
  *
  */
 @Entity
+@Table(name = "exam_schedules")
 public class ExamSchedule implements Serializable {
 
     @Id

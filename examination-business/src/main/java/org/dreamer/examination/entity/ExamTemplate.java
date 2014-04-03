@@ -10,6 +10,7 @@ import java.util.Map;
  * Created by lcheng on 2014/4/1.
  */
 @Entity
+@Table(name = "exam_templates")
 public class ExamTemplate implements Serializable {
 
     @Id
@@ -22,11 +23,13 @@ public class ExamTemplate implements Serializable {
     private String name;
 
     //必考题中按题型分类的必考题
-    @OneToMany(mappedBy = "template")
+    @OneToMany(mappedBy = "template",cascade = {CascadeType.PERSIST},
+            fetch = FetchType.EAGER)
     @OrderBy("questionType asc")
     List<MustChooseQuestionDef> mustChooseDefs;
 
-    @OneToMany(mappedBy = "template")
+    @OneToMany(mappedBy = "template",
+            cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @OrderBy("questionType asc")
     private List<TemplateQuestionDef> questionDefs;
 

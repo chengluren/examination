@@ -8,8 +8,18 @@ import java.io.Serializable;
  * Created by lcheng on 2014/4/1.
  */
 @Entity
-@Table(name = "temp_ques_rules")
-public class TemplateQuestionDef implements Serializable{
+@Table(name = "temp_ques_defs")
+public class TemplateQuestionDef implements Serializable {
+
+    public TemplateQuestionDef() {
+    }
+
+    public TemplateQuestionDef(long storeId, Types.QuestionType quesType, int count, float scorePer) {
+        this.storeId = storeId;
+        this.questionType = quesType;
+        this.count = count;
+        this.scorePer = scorePer;
+    }
 
     @Id()
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES_DEFS")
@@ -24,7 +34,7 @@ public class TemplateQuestionDef implements Serializable{
 
     private int count;
 
-    @Column(scale=1)
+    @Column(scale = 1)
     private float scorePer;
 
     @ManyToOne
@@ -70,5 +80,13 @@ public class TemplateQuestionDef implements Serializable{
 
     public void setScorePer(float scorePer) {
         this.scorePer = scorePer;
+    }
+
+    public ExamTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(ExamTemplate template) {
+        this.template = template;
     }
 }

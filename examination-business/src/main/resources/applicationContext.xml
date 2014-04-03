@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
-    <context:component-scan base-package="org.dreamer.examination.service"/>
+    <context:component-scan base-package="org.dreamer.examination.service,org.dreamer.examination.business"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -61,6 +61,7 @@
                 <entry key="hibernate.cache.region.factory_class" value="${hibernate.cache.region.factory_class}"/>
                 <entry key="net.sf.ehcache.configurationResourceName" value="${net.sf.ehcache.configurationResourceName}"/>
                 <entry key="hibernate.cache.use_structured_entries" value="${hibernate.cache.use_structured_entries}"/>
+                <entry key="hibernate.hbm2ddl.auto" value="update"/>
             </map>
         </property>
     </bean>
@@ -75,7 +76,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <!--<tx:annotation-driven transaction-business="transactionManager"/>-->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="get*" propagation="REQUIRED" read-only="true"/>

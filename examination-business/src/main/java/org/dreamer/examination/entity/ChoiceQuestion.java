@@ -12,7 +12,7 @@ import java.util.List;
 public class ChoiceQuestion extends Question {
 
     //单选还是多选
-    private boolean multiple;
+//    private boolean multiple;
 
     @OneToMany(fetch =FetchType.EAGER ,cascade ={CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinTable(name = "question_options",
@@ -23,13 +23,13 @@ public class ChoiceQuestion extends Question {
     List<QuestionOption> questionOptions;
 
 
-    public boolean isMultiple() {
-        return multiple;
-    }
-
-    public void setMultiple(boolean multiple) {
-        this.multiple = multiple;
-    }
+//    public boolean isMultiple() {
+//        return multiple;
+//    }
+//
+//    public void setMultiple(boolean multiple) {
+//        this.multiple = multiple;
+//    }
 
     public List<QuestionOption> getQuestionOptions() {
         return questionOptions;

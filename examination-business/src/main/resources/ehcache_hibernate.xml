@@ -23,4 +23,7 @@
             maxEntriesLocalHeap="5000"
             eternal="true"
             overflowToDisk="true"/>
+
+    <cache name="questions" maxEntriesLocalHeap="10000"
+           eternal="true" overflowToDisk="true"/>
 </ehcache>

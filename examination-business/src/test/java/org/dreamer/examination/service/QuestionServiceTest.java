@@ -37,7 +37,7 @@ public class QuestionServiceTest {
         ops.add(op4);
 
         ChoiceQuestion question = new ChoiceQuestion();
-        question.setMultiple(false);
+        //question.setMultiple(false);
         question.setAnswer("A");
         question.setStem("你任务对不对.");
         question.setQuestionOptions(ops);

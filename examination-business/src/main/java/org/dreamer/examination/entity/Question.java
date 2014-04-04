@@ -3,6 +3,9 @@ package org.dreamer.examination.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * 试题
  * Created by lcheng on 14-3-9.
@@ -10,6 +13,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "questions")
 @Inheritance
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "questions")
 @DiscriminatorColumn(name = "QUES_TYPE")
 public class Question implements Serializable {
 
@@ -20,7 +25,7 @@ public class Question implements Serializable {
     public Question() {
     }
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES")
     @TableGenerator(name = "ID_QUES", table = "ids_gen", pkColumnName = "ID_NAME",
             valueColumnName = "ID_VALUE", initialValue = 1)

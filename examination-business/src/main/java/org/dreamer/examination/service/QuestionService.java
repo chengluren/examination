@@ -3,6 +3,7 @@ package org.dreamer.examination.service;
 import org.dreamer.examination.entity.ChoiceQuestion;
 import org.dreamer.examination.entity.Question;
 import org.dreamer.examination.entity.TrueOrFalseQuestion;
+import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.repository.ChoiceQuestionDao;
 import org.dreamer.examination.repository.QuestionDao;
 import org.dreamer.examination.repository.TrueOrFalseQuestionDao;
@@ -70,5 +71,39 @@ public class QuestionService {
         return trueFalseQuestionDao.findByStoreId(storeId, pr);
     }
 
+    /**
+     * XX 题库中，某类型的试题的总数
+     * @param storeId
+     * @param type
+     * @return
+     */
+    public long countOfStoreTypedQues(long storeId, Types.QuestionType type) {
+        String qtype = getNativeQuesType(type);
+        return questionDao.countByStoreIdOfTypeNotMust(storeId,qtype);
+    }
 
+    public List<Long> getQuesIdsOfStoreWithType(long storeId, Types.QuestionType type,
+                                                int pageNum,int pageSize){
+        Pageable p = new PageRequest(pageNum,pageSize);
+        return questionDao.findQuesIdsByStoreIdOfTypeNotMust(storeId,getNativeQuesType(type),p);
+    }
+
+    private String getNativeQuesType(Types.QuestionType type){
+        String qtype = "";
+        switch (type){
+            case Choice:
+                qtype = "CH";
+                break;
+            case MultipleChoice:
+                qtype ="MC";
+                break;
+            case TrueFalse:
+                qtype = "TF";
+                break;
+            case Completion:
+                qtype = "CO";
+                break;
+        }
+        return qtype;
+    }
 }

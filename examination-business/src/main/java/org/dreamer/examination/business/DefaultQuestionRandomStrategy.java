@@ -1,12 +1,16 @@
 package org.dreamer.examination.business;
 
+import com.google.common.collect.Sets;
 import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * 默认的试题随机生成策略
@@ -14,7 +18,7 @@ import java.util.*;
  * @version 1.0
  *          ${tags}
  */
-public class DefaultQuestionRandomStrategy implements RandomStrategy {
+public class DefaultQuestionRandomStrategy extends AbstractRandomStrategy implements RandomStrategy {
     private static final Logger log = LoggerFactory.getLogger(DefaultQuestionRandomStrategy.class);
     private static int DEFAULT_MULTIPLY = 10;
 
@@ -26,12 +30,12 @@ public class DefaultQuestionRandomStrategy implements RandomStrategy {
     }
 
     public DefaultQuestionRandomStrategy(QuestionService questionService, int multiply) {
+        super();
         this.questionService = questionService;
         this.multiply = multiply;
     }
 
-    @Override
-    public List<Long> randomGenerate(TemplateQuestionDef def) {
+    public Set<Long> randomGenerate(TemplateQuestionDef def) {
         long storeId = def.getStoreId();
         Types.QuestionType questionType = def.getQuestionType();
         int required = def.getCount();
@@ -41,7 +45,8 @@ public class DefaultQuestionRandomStrategy implements RandomStrategy {
         if (totalCount<required){
             //总数小于需要生成的题数
             log.info("---试题总数小于需要的试题数---");
-            return questionService.getQuesIdsOfStoreWithType(storeId,questionType,0,required);
+            List<Long> selected =questionService.getQuesIdsOfStoreWithType(storeId,questionType,0,required);
+            return new LinkedHashSet<>(selected);
         } else if (totalCount >=required && totalCount<multipiedCount){
             log.info("---试题总数小于被乘的试题数---");
             return doGenerate(storeId,questionType,0,multipiedCount,required);
@@ -59,13 +64,34 @@ public class DefaultQuestionRandomStrategy implements RandomStrategy {
         return null;
     }
 
-    private List<Long> doGenerate(long storeId,Types.QuestionType type,int pageNum,int pageSize,int required){
+    private Set<Long> doGenerate(long storeId,Types.QuestionType type,int pageNum,int pageSize,int required){
         List<Long> space = questionService.getQuesIdsOfStoreWithType(storeId,type,pageNum,pageSize);
         Set<Long> generated = new LinkedHashSet<>();
         Random r = new Random();
-        while(generated.size()<required){
-            generated.add(r.nextLong()+1);
+        Set<Long> exist =  getGenerated().get(type);
+        if (exist!=null){
+            Set spaceSet = Sets.newHashSet(space);
+            Sets.SetView<Long> intersection = Sets.intersection(exist, spaceSet);
+            int offset = space.size() - intersection.size();
+            if (offset<required){
+                if (pageNum>0){
+                    return doGenerate(storeId,type,(pageNum-1),pageSize,required);
+                }else{
+                    log.warn("---随机试题空间与已随机出的试题交集过大，将不进行随机抽取...");
+                    spaceSet.removeAll(intersection);
+                    return spaceSet;
+                }
+            }else if (offset>=required){
+                space.removeAll(exist);
+            }
         }
-        return new ArrayList(generated);
+        while(generated.size()<required){
+            long g = space.get(r.nextInt(space.size()+1));
+//            if (exist!=null&& ! exist.contains(g)){
+//                generated.add(g);
+//            }
+            generated.add(g);
+        }
+        return generated;
     }
 }

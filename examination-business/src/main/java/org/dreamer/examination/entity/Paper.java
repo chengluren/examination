@@ -3,6 +3,8 @@ package org.dreamer.examination.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 学生的考试试卷
@@ -28,10 +30,9 @@ public class Paper implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     private String quesIdTxt;
 
-//    //参考人员标识
-//    @Column(length = 40)
-//    private String examStaffId;
-//
+    @Transient
+    private Map<Types.QuestionType,List<PaperQuestionVO>> paperQuestions;
+
     private Date createTime;
 
     //学生提交的答案
@@ -39,9 +40,26 @@ public class Paper implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     private String answers;
 
-//    @Column(scale = 1)
-//    private float finalScore;
+    public void quesIdsToTxt(){
+        if (paperQuestions!=null){
+           StringBuilder sb = new StringBuilder();
+           for (Types.QuestionType type : paperQuestions.keySet()){
+               List<PaperQuestionVO> typedIds = paperQuestions.get(type);
+               //sb.append()
+               for (PaperQuestionVO vo : typedIds){
 
+               }
+           }
+        }
+    }
+
+    public void quesIdsToMap(){
+        if (quesIdTxt!=null){
+
+        }
+    }
+
+    //==================getter and setter==============================
     public long getId() {
         return id;
     }
@@ -66,14 +84,6 @@ public class Paper implements Serializable {
         this.quesIdTxt = quesIdTxt;
     }
 
-//    public String getExamStaffId() {
-//        return examStaffId;
-//    }
-//
-//    public void setExamStaffId(String examStaffId) {
-//        this.examStaffId = examStaffId;
-//    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -90,11 +100,11 @@ public class Paper implements Serializable {
         this.answers = answers;
     }
 
-//    public float getFinalScore() {
-//        return finalScore;
-//    }
-//
-//    public void setFinalScore(float finalScore) {
-//        this.finalScore = finalScore;
-//    }
+    public Map<Types.QuestionType, List<PaperQuestionVO>> getPaperQuestions() {
+        return paperQuestions;
+    }
+
+    public void setPaperQuestions(Map<Types.QuestionType, List<PaperQuestionVO>> paperQuestions) {
+        this.paperQuestions = paperQuestions;
+    }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="spring">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxEntriesLocalHeap="1000"
+            eternal="false"
+            timeToIdleSeconds="3600"
+            timeToLiveSeconds="3600"
+            overflowToDisk="false">
+    </defaultCache>
+
+    <cache name="paper_questions" maxEntriesLocalHeap="10000"
+           eternal="false" overflowToDisk="true"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="7200"/>
+</ehcache>

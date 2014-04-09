@@ -1,5 +1,7 @@
 package org.dreamer.examination.business;
 
+import org.dreamer.examination.entity.MustChooseQuestionDef;
+import org.dreamer.examination.entity.PaperQuestionVO;
 import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.dreamer.examination.entity.Types;
 
@@ -17,7 +19,9 @@ public interface RandomStrategy {
 
     //Set<Long> randomGenerate(TemplateQuestionDef def);
 
-    public Map<Types.QuestionType,Set<Long>> randomGenerate(List<TemplateQuestionDef> defs);
+//    public Map<Types.QuestionType,Set<Long>> randomGenerate(List<TemplateQuestionDef> defs);
+//
+//    public Map<Types.QuestionType,StringBuilder> generateStr();
 
-    public Map<Types.QuestionType,StringBuilder> generateStr();
+    public Map<Types.QuestionType,List<PaperQuestionVO>> randomGenerate(List<TemplateQuestionDef> defs);
 }

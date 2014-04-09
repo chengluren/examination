@@ -52,6 +52,10 @@ public class QuestionService {
         return questionDao.findAll();
     }
 
+    public Question getQuestion(long id){
+       return questionDao.findOne(id);
+    }
+
     public void deleteQuestion(Question question) {
         questionDao.delete(question);
     }

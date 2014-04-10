@@ -19,6 +19,9 @@
         <version.junit>4.11</version.junit>
         <version.slf4j>1.7.6</version.slf4j>
         <version.log4j>1.2.17</version.log4j>
+        <version.servlet>3.1.0</version.servlet>
+        <version.jstl>1.2</version.jstl>
+        <version.jsp-api>2.0</version.jsp-api>
 
         <version.hibernate>4.3.4.Final</version.hibernate>
         <version.spring>3.2.8.RELEASE</version.spring>
@@ -35,6 +38,7 @@
         <version.ehcache-core>2.6.8</version.ehcache-core>
         <version.guava>16.0.1</version.guava>
         <version.logback>1.1.1</version.logback>
+        <version.jackson>1.9.13</version.jackson>
 
     </properties>
 

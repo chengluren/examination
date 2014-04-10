@@ -20,5 +20,38 @@ public class Types {
             return this.name;
         }
 
+        public String getShortName(){
+            switch (this){
+                case Choice:
+                    return "CH";
+                case MultipleChoice:
+                    return "MC";
+                case Completion:
+                    return "CO";
+                case TrueFalse:
+                    return "TF";
+                case ShortAnswer:
+                    return "SA";
+                default:
+                    return "";
+            }
+        }
+
+        public static QuestionType getTypeFromShortName(String type){
+             switch (type){
+                 case "CH":
+                     return QuestionType.Choice;
+                 case "MC":
+                     return QuestionType.MultipleChoice;
+                 case "CO":
+                     return QuestionType.Completion;
+                 case "TF":
+                     return QuestionType.TrueFalse;
+                 case "SA":
+                     return QuestionType.ShortAnswer;
+                 default:
+                     return null;
+             }
+        }
     }
 }

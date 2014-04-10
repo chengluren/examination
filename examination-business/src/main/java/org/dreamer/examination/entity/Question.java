@@ -44,7 +44,7 @@ public class Question implements Serializable {
     private String imgPath;
     //对应的题库Id
     @Column(nullable = false)
-    private long storeId;
+    private Long store;
 
     //是否是必考题的标识
     private boolean mustChoose;
@@ -53,7 +53,7 @@ public class Question implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,12 +89,12 @@ public class Question implements Serializable {
         this.imgPath = imgPath;
     }
 
-    public long getStoreId() {
-        return storeId;
+    public Long getStore() {
+        return store;
     }
 
-    public void setStoreId(long storeId) {
-        this.storeId = storeId;
+    public void setStore(Long store) {
+        this.store = store;
     }
 
     public boolean isMustChoose() {

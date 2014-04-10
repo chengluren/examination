@@ -14,33 +14,17 @@ public interface ChoiceQuestionDao extends JpaRepository<ChoiceQuestion,Long>{
     /**
      * 按题库获得选择题
      *
-     * @param storeId
+     * @param store
      * @param pageable
      * @return
      */
-    public Page<ChoiceQuestion> findByStoreId(long storeId,Pageable pageable);
-
-    /**
-     * 按题库获得单(多)选题
-     * @param storeId
-     * @param multiple
-     * @param pageable
-     * @return
-     */
-    public Page<ChoiceQuestion> findByStoreIdAndMultiple(long storeId,boolean multiple,Pageable pageable);
+    public Page<ChoiceQuestion> findByStore(long store, Pageable pageable);
 
     /**
      * 按库获得选择题的数量
-     * @param storeId
+     * @param store
      * @return
      */
-    public Long countByStoreId(long storeId);
+    public Long countByStore(long store);
 
-    /**
-     * 按库获得单(多)选题的数量
-     * @param storeId
-     * @param multiple
-     * @return
-     */
-    public Long countByStoreIdAndMultiple(long storeId,boolean multiple);
 }

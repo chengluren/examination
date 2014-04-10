@@ -1,6 +1,7 @@
 package org.dreamer.examination.business;
 
 import org.dreamer.examination.entity.Examination;
+import org.dreamer.examination.entity.Paper;
 import org.dreamer.examination.service.ExamTemplateService;
 import org.dreamer.examination.service.ExaminationService;
 import org.dreamer.examination.service.PaperService;
@@ -23,6 +24,10 @@ public class ExamPaperInfoSaveTask implements Callable<Long[]> {
 
     @Override
     public Long[] call() throws Exception {
+        Paper p = examination.getPaper();
+        if (p!=null&&p.getQuesIdTxt()==null){
+            p.quesIdsToTxt();
+        }
         examService.addExamination(examination);
         return new Long[]{examination.getId(),examination.getPaper().getId()};
     }

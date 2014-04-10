@@ -1,10 +1,10 @@
 package org.dreamer.examination.entity;
 
+import com.google.common.base.Joiner;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 学生的考试试卷
@@ -31,31 +31,63 @@ public class Paper implements Serializable {
     private String quesIdTxt;
 
     @Transient
-    private Map<Types.QuestionType,List<PaperQuestionVO>> paperQuestions;
+    private Map<Types.QuestionType, List<PaperQuestionVO>> paperQuestions;
 
     private Date createTime;
 
-    //学生提交的答案
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private String answers;
+//    //学生提交的答案
+//    @Lob
+//    @Basic(fetch = FetchType.LAZY)
+//    private String answers;
 
-    public void quesIdsToTxt(){
-        if (paperQuestions!=null){
-           StringBuilder sb = new StringBuilder();
-           for (Types.QuestionType type : paperQuestions.keySet()){
-               List<PaperQuestionVO> typedIds = paperQuestions.get(type);
-               //sb.append()
-               for (PaperQuestionVO vo : typedIds){
-
-               }
-           }
+    public void quesIdsToTxt() {
+        if (paperQuestions != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Types.QuestionType type : paperQuestions.keySet()) {
+                List<PaperQuestionVO> typedIds = paperQuestions.get(type);
+                for (PaperQuestionVO vo : typedIds) {
+                    if (vo.getId() != null) {
+                        sb.append(vo.getId());
+                    } else if (vo.getIds() != null && vo.getIds().size() > 0) {
+                        Joiner.on(",").appendTo(sb, vo.getIds());
+                    }
+                    sb.append(",");
+                    sb.append(vo.getScore());
+                    sb.append("|");
+                }
+                sb.append(type.getShortName() + "/");
+            }
+            this.quesIdTxt = sb.toString();
         }
     }
 
-    public void quesIdsToMap(){
-        if (quesIdTxt!=null){
-
+    public void quesIdsToMap() {
+        if (quesIdTxt != null) {
+            String[] typedStrArr = quesIdTxt.split("/");
+            Map<Types.QuestionType, List<PaperQuestionVO>> result = new HashMap<>();
+            for (String typedStr : typedStrArr) {
+                String[] quesArr = typedStr.split("|");
+                String strType = quesArr[quesArr.length - 1];
+                Types.QuestionType type = Types.QuestionType.getTypeFromShortName(strType);
+                result.put(type, new ArrayList<PaperQuestionVO>());
+                for (int i = 0; i < quesArr.length - 1; i++) {
+                    String q = quesArr[i];
+                    String[] detail = q.split(",");
+                    float score = Float.valueOf(detail[detail.length - 1]);
+                    if (detail.length == 2) {
+                        Long id = Long.valueOf(detail[0]);
+                        result.get(type).add(new PaperQuestionVO(id, score));
+                    } else if (detail.length > 2) {
+                        List<Long> ids = new ArrayList<>();
+                        for (int j = 0; j < detail.length - 1; j++) {
+                            Long id = Long.valueOf(detail[j]);
+                            ids.add(id);
+                        }
+                        result.get(type).add(new PaperQuestionVO(ids, score));
+                    }
+                }
+            }
+            this.paperQuestions = result;
         }
     }
 
@@ -92,13 +124,13 @@ public class Paper implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(String answers) {
-        this.answers = answers;
-    }
+//    public String getAnswers() {
+//        return answers;
+//    }
+//
+//    public void setAnswers(String answers) {
+//        this.answers = answers;
+//    }
 
     public Map<Types.QuestionType, List<PaperQuestionVO>> getPaperQuestions() {
         return paperQuestions;

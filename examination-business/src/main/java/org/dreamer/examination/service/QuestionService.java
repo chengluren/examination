@@ -62,17 +62,12 @@ public class QuestionService {
 
     public Page<ChoiceQuestion> getChoiceQuestions(long storeId, int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
-        return choiceQuestionDao.findByStoreId(storeId, pr);
-    }
-
-    public Page<ChoiceQuestion> getChoiceQuestions(long storeId, boolean multiple, int pageNum, int pageSize) {
-        Pageable pr = new PageRequest(pageNum, pageSize);
-        return choiceQuestionDao.findByStoreIdAndMultiple(storeId, multiple, pr);
+        return choiceQuestionDao.findByStore(storeId, pr);
     }
 
     public Page<TrueOrFalseQuestion> getTrueFalseQuestions(long storeId, int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
-        return trueFalseQuestionDao.findByStoreId(storeId, pr);
+        return trueFalseQuestionDao.findByStore(storeId, pr);
     }
 
     /**
@@ -83,13 +78,13 @@ public class QuestionService {
      */
     public long countOfStoreTypedQues(long storeId, Types.QuestionType type) {
         String qtype = getNativeQuesType(type);
-        return questionDao.countByStoreIdOfTypeNotMust(storeId,qtype);
+        return questionDao.countOfTypeNotMust(storeId, qtype);
     }
 
     public List<Long> getQuesIdsOfStoreWithType(long storeId, Types.QuestionType type,
                                                 int pageNum,int pageSize){
         Pageable p = new PageRequest(pageNum,pageSize);
-        return questionDao.findQuesIdsByStoreIdOfTypeNotMust(storeId,getNativeQuesType(type),p);
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId, getNativeQuesType(type), p);
     }
 
     private String getNativeQuesType(Types.QuestionType type){

@@ -1,10 +1,7 @@
 package org.dreamer.examination.business;
 
 import org.dreamer.examination.entity.*;
-import org.dreamer.examination.service.ExamTemplateService;
-import org.dreamer.examination.service.ExaminationService;
-import org.dreamer.examination.service.PaperService;
-import org.dreamer.examination.service.QuestionService;
+import org.dreamer.examination.service.*;
 import org.dreamer.examination.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +33,10 @@ public class ExaminationManager {
     @Autowired
     private ExaminationService examService;
     @Autowired
+    private ExamScheduleService scheduleService;
+    @Autowired
+    private AnswerService answerService;
+    @Autowired
     private PaperService paperService;
     @Autowired
     @Qualifier("examPaperSaveExecutor")
@@ -43,6 +44,11 @@ public class ExaminationManager {
     @Autowired
     private CacheManager cacheManager;
 
+    /**
+     * 生成试卷
+     * @param tempId
+     * @return
+     */
     public Paper generatePaper(long tempId) {
 
         ExamTemplate template = templateService.getExamTemplate(tempId);
@@ -72,7 +78,16 @@ public class ExaminationManager {
         return p;
     }
 
-    public List<FacadeQuestionVO> newExamination(long tempId,String staffId,Types.QuestionType type){
+    /**
+     * 学生参加考试
+     * @param staffId
+     * @param major
+     * @param defaultType
+     * @return
+     */
+    public List<FacadeQuestionVO> newExamination(String staffId,String major,Types.QuestionType defaultType){
+        Long tempId = scheduleService.getExamTemplateId(major);
+
         Paper paper = generatePaper(tempId);
         Examination exam = new Examination();
         exam.setPaper(paper);
@@ -82,11 +97,54 @@ public class ExaminationManager {
         Future<Long[]> ids = taskExecutor.submit(task);
 
         Map<Types.QuestionType,List<PaperQuestionVO>> quesIds  = paper.getPaperQuestions();
-        List<PaperQuestionVO> typeIds = quesIds.get(type);
+        List<PaperQuestionVO> typeIds = quesIds.get(defaultType);
+        List<FacadeQuestionVO> result =loadQuestions(typeIds);
+
+        Cache cache = getCache();
+        try {
+            Long[] savedId = ids.get();
+            cache.put(savedId[0],paper.getPaperQuestions());
+        } catch (InterruptedException|ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 加载某个人参与考试的某类型的题目
+     * @param examId
+     * @param questionType
+     * @return
+     */
+    public List<FacadeQuestionVO> getPaperQuestions(long examId,Types.QuestionType questionType){
+        Cache cache = cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
+        Map<Types.QuestionType,List<PaperQuestionVO>> cached = (Map<Types.QuestionType,List<PaperQuestionVO>>)cache.get(examId);
+        if (cached==null){
+            Examination exam = examService.getExamination(examId);
+            if (exam!=null){
+                Paper p = exam.getPaper();
+                p.quesIdsToMap();
+                cached = p.getPaperQuestions();
+                getCache().put(examId,cached);
+            }else {
+                return null;
+            }
+        }
+        List<PaperQuestionVO> typeIds = cached.get(questionType);
+        List<FacadeQuestionVO> result =loadQuestions(typeIds);
+        return result;
+    }
+
+    public void commitAnswers(List<Answer> answers){
+        answerService.addAnswers(answers);
+    }
+
+    //====================private methods =================================================
+    private List<FacadeQuestionVO> loadQuestions(List<PaperQuestionVO> typeIds){
         List<FacadeQuestionVO> result = new ArrayList<>();
         for (PaperQuestionVO vo:typeIds){
             if (vo.getId()!=null){
-               result.add(new FacadeQuestionVO(questionService.getQuestion(vo.getId()),vo.getScore()));
+                result.add(new FacadeQuestionVO(questionService.getQuestion(vo.getId()),vo.getScore()));
             }
             if (vo.getIds()!=null){
                 for (Long id : vo.getIds()){
@@ -94,24 +152,12 @@ public class ExaminationManager {
                 }
             }
         }
-
-        Cache cache = cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
-        try {
-            Long[] savedId = ids.get();
-            cache.put(savedId[1],paper.getPaperQuestions());
-        } catch (InterruptedException|ExecutionException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 
-    public List<FacadeQuestionVO> getPaperQuestions(long paperId,Types.QuestionType questionType){
-        Cache cache = cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
-        Map<Types.QuestionType,List<PaperQuestionVO>> cached = (Map<Types.QuestionType,List<PaperQuestionVO>>)cache.get(paperId);
-        if (cached==null){
-            //paperService
-        }
-
-        return null;
+    private Cache getCache(){
+       return cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
     }
+
+
 }

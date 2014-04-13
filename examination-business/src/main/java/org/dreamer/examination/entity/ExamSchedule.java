@@ -24,7 +24,7 @@ public class ExamSchedule implements Serializable {
 
     private Date endDate;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "TEMP_ID")
     private ExamTemplate template;
 

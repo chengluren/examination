@@ -26,4 +26,8 @@ public class ExaminationService {
         examination.setPaper(p);
         examDao.save(examination);
     }
+
+    public Examination getExamination(long examId){
+        return examDao.findOne(examId);
+    }
 }

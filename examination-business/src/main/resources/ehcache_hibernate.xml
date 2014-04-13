@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache name="hibernate">
 
-    <diskStore path="java.io.tmpdir"/>
+    <diskStore path="java.io.tmpdir/ehcache/hibernate"/>
 
     <defaultCache
             maxEntriesLocalHeap="1000"

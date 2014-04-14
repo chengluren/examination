@@ -17,7 +17,7 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
     public void deleteByExamIdAndQuesId(long examId,long quesId);
 
 
-    public void updateAnswer(Answer a);
+//    public void updateAnswer(Answer a);
 
     public int countByExamIdAndQuesId(long examId,long quesId);
 }

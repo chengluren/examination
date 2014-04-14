@@ -69,8 +69,8 @@
     <jpa:repositories base-package="org.dreamer.examination.repository"
                       repository-impl-postfix="Impl"
                       transaction-manager-ref="transactionManager"
-                      entity-manager-factory-ref="entityManagerFactory"/>
-
+                      entity-manager-factory-ref="entityManagerFactory"
+                      factory-class="org.dreamer.examination.repository.CommonRepositoryFactoryBean" />
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>

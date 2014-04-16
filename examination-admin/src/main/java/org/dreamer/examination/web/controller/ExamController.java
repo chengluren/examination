@@ -2,16 +2,17 @@ package org.dreamer.examination.web.controller;
 
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
-import org.dreamer.examination.entity.CommitAnswerVO;
+import org.dreamer.examination.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 考试控制器
+ *
  * @author lcheng
  * @version 1.0
  *          ${tags}
@@ -27,44 +28,46 @@ public class ExamController {
      * <p>学生参加考试。根据学生专业到后台匹配考试模板，
      * 匹配到模板后,为学生返回试题列表，考试Id、试卷号</p>
      */
-    @RequestMapping(value = "/newExam")
+    @RequestMapping(value = "/new")
     @ResponseBody
-    public JSONPObject takeExamination(String staffId,String major){
-
-        return null;
+    public JSONPObject takeExamination(String staffId, String major,String callback) {
+        ExamAndQuestionVO vo = examManager.newExamination(staffId, major);
+        JSONPObject r = new JSONPObject(callback, vo);
+        return r;
     }
 
     /**
-     * <p>学生提交答案，返回最终得分。此为一次性提交所有答案</p>
-     * <p>提交的答案内容格式为：
-     * {
-     *  examId:1
-     *  paperId:2
-     *  answers:{
-     *      1111: A
-     *      2222:B
-     *  }
-     * }</p>
-     * @param answer
+     * 获取试卷中试卷某类型试题
+     *
+     * @param examId
+     * @param quesType
+     * @param callback
+     * @return
+     */
+    @RequestMapping(value = "/fetch")
+    public JSONPObject fetchExamQuestions(long examId, String quesType, String callback) {
+        List<ExamQuestionVO> quesVO = examManager.getPaperQuestions(examId,
+                Types.QuestionType.getTypeFromShortName(quesType));
+        JSONPObject jsop = new JSONPObject(callback, quesVO);
+        return jsop;
+    }
+
+    /**
+     * <p>提交答案</p>
+     *
+     * @param answers
      * @return
      */
     @RequestMapping(value = "/commitAnswer")
     @ResponseBody
-    public JSONPObject commitAnswer(CommitAnswerVO answer){
-
-       return null;
+    public JSONPObject commitAnswer(List<Answer> answers) {
+        examManager.commitAnswers(answers);
+        return null;
     }
 
-    /**
-     * 按题型提交答案
-     * @param answer
-     * @param type
-     * @return
-     */
-    @RequestMapping(value = "/commitAnswer/{type}")
-    public JSONPObject commitAnswer(@PathVariable("type")String type,CommitAnswerVO answer){
-      return null;
+    @RequestMapping(value = "/commit")
+    @ResponseBody
+    public JSONPObject commitExam(long examId, String callback) {
+        return null;
     }
-
-    //public JSONPObject
 }

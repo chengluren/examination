@@ -55,7 +55,7 @@ public class ExaminationManager {
         if (null == template)
             return null;
 
-        RandomStrategy randomStrategy = new DefaultQuestionRandomStrategy(questionService);
+        TemplateRandomStrategy randomStrategy = new DefaultTemplateRandomStrategy(questionService);
 
         List<MustChooseQuestionDef> mustChoose = template.getMustChooseDefs();
         List<TemplateQuestionDef> tempQuesDef = template.getQuestionDefs();
@@ -68,6 +68,15 @@ public class ExaminationManager {
                     generated.put(type,new ArrayList<PaperQuestionVO>());
                 }
                 generated.get(type).add(new PaperQuestionVO(def.getQuestionId(),def.getQuesScore()));
+            }
+        }
+
+        boolean multiMixed = template.isMultiChoiceMixedInChoice();
+        if(multiMixed && generated.containsKey(Types.QuestionType.MultipleChoice)){
+            if (generated.containsKey(Types.QuestionType.Choice)){
+                generated.get(Types.QuestionType.Choice).addAll(
+                        generated.get(Types.QuestionType.MultipleChoice));
+                generated.remove(Types.QuestionType.MultipleChoice);
             }
         }
 
@@ -85,8 +94,14 @@ public class ExaminationManager {
      * @param defaultType
      * @return
      */
-    public List<FacadeQuestionVO> newExamination(String staffId,String major,Types.QuestionType defaultType){
+    public ExamAndQuestionVO newExamination(String staffId,String major){
         Long tempId = scheduleService.getExamTemplateId(major);
+        ExamAndQuestionVO vo = new ExamAndQuestionVO();
+        List<String> quesTypes = templateService.getDistinctQuesTypes(tempId);
+        if (quesTypes==null|| quesTypes.size()==0) {
+            return null;
+        }
+        vo.setQuesTypes(quesTypes);
 
         Paper paper = generatePaper(tempId);
         Examination exam = new Examination();
@@ -97,17 +112,21 @@ public class ExaminationManager {
         Future<Long[]> ids = taskExecutor.submit(task);
 
         Map<Types.QuestionType,List<PaperQuestionVO>> quesIds  = paper.getPaperQuestions();
+        Types.QuestionType defaultType = Types.QuestionType.getTypeFromShortName(quesTypes.get(0));
         List<PaperQuestionVO> typeIds = quesIds.get(defaultType);
-        List<FacadeQuestionVO> result =loadQuestions(typeIds);
+        List<ExamQuestionVO> questions =loadQuestions(typeIds);
 
         Cache cache = getCache();
         try {
             Long[] savedId = ids.get();
             cache.put(savedId[0],paper.getPaperQuestions());
+            vo.setExamId(savedId[0]);
+            vo.setPaperId(savedId[1]);
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }
-        return result;
+        vo.setQuestions(questions);
+        return vo;
     }
 
     /**
@@ -116,7 +135,7 @@ public class ExaminationManager {
      * @param questionType
      * @return
      */
-    public List<FacadeQuestionVO> getPaperQuestions(long examId,Types.QuestionType questionType){
+    public List<ExamQuestionVO> getPaperQuestions(long examId,Types.QuestionType questionType){
         Cache cache = cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
         Map<Types.QuestionType,List<PaperQuestionVO>> cached = (Map<Types.QuestionType,List<PaperQuestionVO>>)cache.get(examId);
         if (cached==null){
@@ -131,7 +150,7 @@ public class ExaminationManager {
             }
         }
         List<PaperQuestionVO> typeIds = cached.get(questionType);
-        List<FacadeQuestionVO> result =loadQuestions(typeIds);
+        List<ExamQuestionVO> result =loadQuestions(typeIds);
         return result;
     }
 
@@ -140,15 +159,17 @@ public class ExaminationManager {
     }
 
     //====================private methods =================================================
-    private List<FacadeQuestionVO> loadQuestions(List<PaperQuestionVO> typeIds){
-        List<FacadeQuestionVO> result = new ArrayList<>();
+    private List<ExamQuestionVO> loadQuestions(List<PaperQuestionVO> typeIds){
+        List<ExamQuestionVO> result = new ArrayList<>();
         for (PaperQuestionVO vo:typeIds){
             if (vo.getId()!=null){
-                result.add(new FacadeQuestionVO(questionService.getQuestion(vo.getId()),vo.getScore()));
+                Question q = questionService.getQuestion(vo.getId());
+                result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
             }
             if (vo.getIds()!=null){
                 for (Long id : vo.getIds()){
-                    result.add(new FacadeQuestionVO(questionService.getQuestion(id),vo.getScore()));
+                    Question q = questionService.getQuestion(vo.getId());
+                    result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
                 }
             }
         }

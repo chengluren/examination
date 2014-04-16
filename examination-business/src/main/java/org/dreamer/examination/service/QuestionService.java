@@ -71,38 +71,82 @@ public class QuestionService {
     }
 
     /**
-     * XX 题库中，某类型的试题的总数
+     * XX 题库中，某类型试题(非必选)的总数
      * @param storeId
      * @param type
      * @return
      */
-    public long countOfStoreTypedQues(long storeId, Types.QuestionType type) {
-        String qtype = getNativeQuesType(type);
+    public long countOfTypeQuestionNotMust(long storeId, Types.QuestionType type) {
+        String qtype = type.getShortName();
         return questionDao.countOfTypeNotMust(storeId, qtype);
     }
 
-    public List<Long> getQuesIdsOfStoreWithType(long storeId, Types.QuestionType type,
-                                                int pageNum,int pageSize){
-        Pageable p = new PageRequest(pageNum,pageSize);
-        return questionDao.findIdsByStoreAndTypeNotMust(storeId, getNativeQuesType(type), p);
+    /**
+     * XX题库中某类型的试题总数
+     * @param storeId
+     * @param type
+     * @return
+     */
+    public long countOfTypeQuestion(long storeId, Types.QuestionType type){
+        return questionDao.countOfType(storeId,type.getShortName());
     }
 
-    private String getNativeQuesType(Types.QuestionType type){
-        String qtype = "";
-        switch (type){
-            case Choice:
-                qtype = "CH";
-                break;
-            case MultipleChoice:
-                qtype ="MC";
-                break;
-            case TrueFalse:
-                qtype = "TF";
-                break;
-            case Completion:
-                qtype = "CO";
-                break;
-        }
-        return qtype;
+    /**
+     * 分页获得非必选题的Id列表
+     * @param storeId
+     * @param type
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<Long> getIdsNotMust(long storeId, Types.QuestionType type,
+                                    int pageNum, int pageSize){
+        Pageable p = new PageRequest(pageNum,pageSize);
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId, type.getShortName(), p);
     }
+
+    /**
+     * 分页获得非必选题的Id列表
+     * @param storeId
+     * @param type
+     * @param p
+     * @return
+     */
+    public List<Long> getIdsNotMust(long storeId,Types.QuestionType type,Pageable p){
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId,type.getShortName(),p);
+    }
+
+    /**
+     * 分页获得试题Id列表
+     * @param storeId
+     * @param type
+     * @param p
+     * @return
+     */
+    public List<Long> getIds(long storeId,Types.QuestionType type,Pageable p){
+        return questionDao.findIdsByStoreAndType(storeId,type.getShortName(),p);
+    }
+
+    /**
+     * 分页获得试题Id列表
+     * @param storeId
+     * @param type
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<Long> getIds(long storeId,Types.QuestionType type,int pageNum,int pageSize){
+        Pageable p = new PageRequest(pageNum,pageSize);
+        return questionDao.findIdsByStoreAndType(storeId,type.getShortName(),p);
+    }
+
+    public Page<Question> getQuestions(long stroreId,Types.QuestionType type,Pageable p){
+        return questionDao.findQuestions(stroreId,type.getShortName(),p);
+    }
+
+    public Page<Question> getQuestions(long storeId,Types.QuestionType type,int pageNum,int pageSize){
+        Pageable p = new PageRequest(pageNum,pageSize);
+        return questionDao.findQuestions(storeId,type.getShortName(),p);
+    }
+
 }

@@ -16,8 +16,8 @@ public class ExamSchedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_EXAM_SCHEDULES")
-    @TableGenerator(name = "ID_EXAM_SCHEDULES", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_EXAM_SCHEDULES", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     private Date startDate;

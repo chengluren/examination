@@ -1,12 +1,14 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.MustChooseQuestionDef;
+import org.dreamer.examination.entity.Types;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lcheng
@@ -15,9 +17,12 @@ import java.util.List;
  */
 public interface MustChooseQuestionDefDao extends JpaRepository<MustChooseQuestionDef,Long>{
 
+    public List<MustChooseQuestionDef> findByTemplateId(long tempId);
+
+    @Query("select distinct d.questionType from MustChooseQuestionDef d where d.template.id = :tempId")
+    public Set<Types.QuestionType> findDistinctQuesTypes(@Param("tempId")long tempId);
+
     @Modifying
     @Query("delete from MustChooseQuestionDef where template.id = :tempId")
     public void deleteDefsForTemplate(@Param("tempId")long tempId);
-
-    public List<MustChooseQuestionDef> findByTemplateId(long tempId);
 }

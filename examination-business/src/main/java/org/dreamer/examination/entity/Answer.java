@@ -11,8 +11,8 @@ import java.io.Serializable;
 public class Answer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_ANSWERS")
-    @TableGenerator(name = "ID_ANSWERS", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_ANSWERS", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
     private long quesId;
     private long examId;

@@ -13,8 +13,8 @@ public class MajorStoreRelation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_MAJOR_STORE")
-    @TableGenerator(name = "ID_MAJOR_STORE", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", pkColumnValue = "major_store_pk",initialValue = 1)
+    @TableGenerator(name = "ID_MAJOR_STORE", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     /**

@@ -1,27 +1,44 @@
 package org.dreamer.examination.business;
 
-import org.dreamer.examination.entity.MustChooseQuestionDef;
-import org.dreamer.examination.entity.PaperQuestionVO;
-import org.dreamer.examination.entity.TemplateQuestionDef;
-import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.entity.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
- *随机抽取试题的策略
+ *
  * @author lcheng
  * @version 1.0
  *          ${tags}
  */
 public interface RandomStrategy {
 
-    //Set<Long> randomGenerate(TemplateQuestionDef def);
+    /**
+     * 顺序加载某题库里 某类型的题目
+     * @param storeId
+     * @param quesType
+     * @param p
+     * @return
+     */
+    public Page<Question> sequenceLoad(long storeId,String quesType,Pageable p);
 
-//    public Map<Types.QuestionType,Set<Long>> randomGenerate(List<TemplateQuestionDef> defs);
-//
-//    public Map<Types.QuestionType,StringBuilder> generateStr();
+    /**
+     * 顺序加载某题库里 某类型的题目
+     * @param storeId
+     * @param quesType
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Page<Question> sequenceLoad(long storeId,String quesType,int pageNum,int pageSize);
 
-    public Map<Types.QuestionType,List<PaperQuestionVO>> randomGenerate(List<TemplateQuestionDef> defs);
+    /**
+     * 随机加载某题库里 某类型的题目
+     * @param storeId
+     * @param quesType
+     * @param size
+     * @return
+     */
+    public List<Question> randomLoad(long storeId,String quesType,int size);
 }

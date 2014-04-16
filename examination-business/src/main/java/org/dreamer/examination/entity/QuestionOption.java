@@ -12,8 +12,8 @@ public class QuestionOption implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUE_OPTS")
-    @TableGenerator(name = "ID_QUE_OPTS", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_QUE_OPTS", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     @Column(nullable = false)

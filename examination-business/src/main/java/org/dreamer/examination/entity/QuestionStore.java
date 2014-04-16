@@ -8,15 +8,15 @@ import java.io.Serializable;
  * Created by lcheng on 14-3-30.
  */
 @Entity
-@Table(name = "categories")
+@Table(name = "ques_stores")
 public class QuestionStore implements Serializable {
 
     public QuestionStore(){}
 
     @Id()
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_CATEGORIES")
-    @TableGenerator(name = "ID_CATEGORIES", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_STORES")
+    @TableGenerator(name = "ID_STORES", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     @Column(length = 50)

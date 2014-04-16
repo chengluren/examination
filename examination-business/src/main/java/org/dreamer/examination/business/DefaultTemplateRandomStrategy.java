@@ -17,18 +17,18 @@ import java.util.*;
  * @version 1.0
  *          ${tags}
  */
-public class DefaultQuestionRandomStrategy extends AbstractRandomStrategy implements RandomStrategy {
-    private static final Logger log = LoggerFactory.getLogger(DefaultQuestionRandomStrategy.class);
+public class DefaultTemplateRandomStrategy extends AbstractTemplateRandomStrategy implements TemplateRandomStrategy {
+    private static final Logger log = LoggerFactory.getLogger(DefaultTemplateRandomStrategy.class);
     private static int DEFAULT_MULTIPLY = 10;
 
     private QuestionService questionService;
     private int multiply;
 
-    public DefaultQuestionRandomStrategy(QuestionService questionService) {
+    public DefaultTemplateRandomStrategy(QuestionService questionService) {
         this(questionService, DEFAULT_MULTIPLY);
     }
 
-    public DefaultQuestionRandomStrategy(QuestionService questionService, int multiply) {
+    public DefaultTemplateRandomStrategy(QuestionService questionService, int multiply) {
         super();
         this.questionService = questionService;
         this.multiply = multiply;
@@ -39,14 +39,14 @@ public class DefaultQuestionRandomStrategy extends AbstractRandomStrategy implem
         Types.QuestionType questionType = def.getQuestionType();
         int required = def.getCount();
         int multipiedCount = required * multiply;
-        long totalCount = questionService.countOfStoreTypedQues(storeId,questionType);
+        long totalCount = questionService.countOfTypeQuestionNotMust(storeId, questionType);
         log.info("试题随机抽取：");
-        if (totalCount<required){
+        if (totalCount<=required){
             //总数小于需要生成的题数
             log.info("---试题总数小于需要的试题数---");
-            List<Long> selected =questionService.getQuesIdsOfStoreWithType(storeId,questionType,0,required);
+            List<Long> selected =questionService.getIdsNotMust(storeId, questionType, 0, required);
             return new PaperQuestionVO(selected,def.getScorePer());
-        } else if (totalCount >=required && totalCount<multipiedCount){
+        } else if (totalCount >required && totalCount<=multipiedCount){
             log.info("---试题总数小于被乘的试题数---");
             return doGenerate(storeId,questionType,0,multipiedCount,required,def.getScorePer());
         } else if (totalCount > multipiedCount){
@@ -64,7 +64,7 @@ public class DefaultQuestionRandomStrategy extends AbstractRandomStrategy implem
     }
 
     private PaperQuestionVO doGenerate(long storeId,Types.QuestionType type,int pageNum,int pageSize,int required,float score){
-        List<Long> space = questionService.getQuesIdsOfStoreWithType(storeId, type, pageNum, pageSize);
+        List<Long> space = questionService.getIdsNotMust(storeId, type, pageNum, pageSize);
         List<Long> generated = new ArrayList<>();
         Random r = new Random();
         Set<Long> exist = getGeneratedIds().get(type);

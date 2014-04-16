@@ -15,8 +15,8 @@ public class ExamTemplate implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_EXAM_TEMPS")
-    @TableGenerator(name = "ID_EXAM_TEMPS", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_EXAM_TEMPS", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     @Column(length = 80)
@@ -35,6 +35,9 @@ public class ExamTemplate implements Serializable {
 
     @Column(scale = 1)
     private float passScore;
+
+    //是否将多选题混入选择题中，而不把多选题当做单独考试题型
+    private boolean multiChoiceMixedInChoice;
 
     public long getId() {
         return id;
@@ -74,5 +77,13 @@ public class ExamTemplate implements Serializable {
 
     public void setPassScore(float passScore) {
         this.passScore = passScore;
+    }
+
+    public boolean isMultiChoiceMixedInChoice() {
+        return multiChoiceMixedInChoice;
+    }
+
+    public void setMultiChoiceMixedInChoice(boolean multiChoiceMixedInChoice) {
+        this.multiChoiceMixedInChoice = multiChoiceMixedInChoice;
     }
 }

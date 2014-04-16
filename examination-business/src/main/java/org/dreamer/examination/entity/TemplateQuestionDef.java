@@ -23,8 +23,8 @@ public class TemplateQuestionDef implements Serializable {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES_DEFS")
-    @TableGenerator(name = "ID_QUES_DEFS", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_QUES_DEFS", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     private long storeId;

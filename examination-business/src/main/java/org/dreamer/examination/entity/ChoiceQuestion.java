@@ -15,21 +15,9 @@ public class ChoiceQuestion extends Question {
 //    private boolean multiple;
 
     @OneToMany(fetch =FetchType.EAGER ,cascade ={CascadeType.PERSIST,CascadeType.REMOVE})
-    @JoinTable(name = "question_options",
-            joinColumns = @JoinColumn(name = "QUES_ID"),
-            inverseJoinColumns = @JoinColumn(name = "OPT_ID")
-    )
+    @JoinColumn(name = "ques_id")
     @OrderBy(" orderNo ASC")
     List<QuestionOption> questionOptions;
-
-
-//    public boolean isMultiple() {
-//        return multiple;
-//    }
-//
-//    public void setMultiple(boolean multiple) {
-//        this.multiple = multiple;
-//    }
 
     public List<QuestionOption> getQuestionOptions() {
         return questionOptions;

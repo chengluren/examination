@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 
 /**
  * 题库分类的DAO
@@ -14,9 +16,10 @@ import org.springframework.data.repository.query.Param;
  */
 public interface QuestionStoreDao extends JpaRepository<QuestionStore,Long> {
 
-    @Query(value = "SELECT s FROM QuestionStore as s WHERE s.id in " +
-            "(SELECT r.storeId FROM MajorStoreRelation as r WHERE r.major= :major)")
+    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and s.major = :major")
     public Page<QuestionStore> findStoreForMajor(@Param("major")String major,Pageable pageable);
 
+    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and s.major = :major")
+    public List<QuestionStore> findStoreForMajor(@Param("major")String major);
 
 }

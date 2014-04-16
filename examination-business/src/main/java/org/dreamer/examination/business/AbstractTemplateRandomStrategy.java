@@ -1,12 +1,9 @@
 package org.dreamer.examination.business;
 
-import com.google.common.base.Joiner;
-import org.dreamer.examination.entity.MustChooseQuestionDef;
 import org.dreamer.examination.entity.PaperQuestionVO;
 import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.dreamer.examination.entity.Types;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -14,14 +11,14 @@ import java.util.*;
  * @version 1.0
  *          ${tags}
  */
-public abstract class AbstractRandomStrategy implements RandomStrategy{
+public abstract class AbstractTemplateRandomStrategy implements TemplateRandomStrategy {
 
     private Map<Types.QuestionType,Set<Long>> generatedIds;
     private Map<Types.QuestionType,List<PaperQuestionVO>> generated;
 
    // private Map<Types.QuestionType,StringBuilder> generatedStr;
 
-    public AbstractRandomStrategy(){
+    public AbstractTemplateRandomStrategy(){
 //        generated = new HashMap<>();
 //        generatedStr = new HashMap<>();
         generatedIds = new HashMap<>();

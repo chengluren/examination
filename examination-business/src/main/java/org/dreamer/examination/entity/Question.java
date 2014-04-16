@@ -27,8 +27,8 @@ public class Question implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUES")
-    @TableGenerator(name = "ID_QUES", table = "ids_gen", pkColumnName = "ID_NAME",
-            valueColumnName = "ID_VALUE", initialValue = 1)
+    @TableGenerator(name = "ID_QUES", table = "gen_ids", pkColumnName = "id_name",
+            valueColumnName = "id_value", initialValue = 1)
     private long id;
 
     //题干
@@ -44,7 +44,7 @@ public class Question implements Serializable {
     private String imgPath;
     //对应的题库Id
     @Column(nullable = false)
-    private Long store;
+    private Long storeId;
 
     //是否是必考题的标识
     private boolean mustChoose;
@@ -89,12 +89,12 @@ public class Question implements Serializable {
         this.imgPath = imgPath;
     }
 
-    public Long getStore() {
-        return store;
+    public Long getStoreId() {
+        return storeId;
     }
 
-    public void setStore(Long store) {
-        this.store = store;
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
     }
 
     public boolean isMustChoose() {

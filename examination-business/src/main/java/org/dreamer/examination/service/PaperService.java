@@ -1,9 +1,11 @@
 package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.Paper;
+import org.dreamer.examination.entity.PaperQuestion;
 import org.dreamer.examination.entity.PaperQuestionVO;
 import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.repository.PaperDao;
+import org.dreamer.examination.repository.PaperQuestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,8 @@ public class PaperService {
 
     @Autowired
     private PaperDao paperDao;
+    @Autowired
+    private PaperQuestionDao paperQuestionDao;
 
     public void addPaper(Paper paper) {
         paperDao.save(paper);
@@ -44,6 +48,14 @@ public class PaperService {
 
        }
        return p;
+    }
+
+    public List<PaperQuestion> getPaperQuestions(long paperId){
+         return paperQuestionDao.findByPaperId(paperId);
+    }
+
+    public void addPaperQuestions(List<PaperQuestion> pqs){
+         paperQuestionDao.save(pqs);
     }
 
 //    public Paper getPaperById(long paperId) {
@@ -72,20 +84,5 @@ public class PaperService {
         paperDao.delete(paper);
     }
 
-    private Types.QuestionType getQuestionType(String abbre){
-        switch (abbre){
-            case "CH":
-                return Types.QuestionType.Choice;
-            case "MC":
-                return Types.QuestionType.MultipleChoice;
-            case "TF":
-                return Types.QuestionType.TrueFalse;
-            case "CO":
-                return Types.QuestionType.Completion;
-            case "SA":
-                return Types.QuestionType.ShortAnswer;
-            default:
-                return null;
-        }
-    }
+
 }

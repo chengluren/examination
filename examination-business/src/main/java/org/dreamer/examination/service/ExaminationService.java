@@ -1,11 +1,15 @@
 package org.dreamer.examination.service;
 
-import org.dreamer.examination.entity.Examination;
-import org.dreamer.examination.entity.Paper;
+import com.google.common.collect.Sets;
+import org.dreamer.examination.entity.*;
+import org.dreamer.examination.repository.AnswerDao;
 import org.dreamer.examination.repository.ExaminationDao;
 import org.dreamer.examination.repository.PaperDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lcheng
@@ -19,6 +23,8 @@ public class ExaminationService {
     private ExaminationDao examDao;
     @Autowired
     private PaperDao paperDao;
+    @Autowired
+    private AnswerDao answerDao;
 
     public void addExamination(Examination examination){
         Paper p = examination.getPaper();
@@ -29,5 +35,33 @@ public class ExaminationService {
 
     public Examination getExamination(long examId){
         return examDao.findOne(examId);
+    }
+
+    public float scoreExam(long examId){
+        List<AnswerJudgeVO> ajvos =  answerDao.findCommitAndRealAnswer(examId);
+        if (ajvos!=null && ajvos.size()>0){
+            float score = 0;
+            Types.QuestionType type = null;
+            for (AnswerJudgeVO vo : ajvos){
+                type = vo.getQuestionType();
+                if (type.equals(Types.QuestionType.Choice) || type.equals(Types.QuestionType.TrueFalse)){
+                    if (vo.getAnswer().equalsIgnoreCase(vo.getRealAnswer())){
+                        score += vo.getScore();
+                    }
+                }else if (type.equals(Types.QuestionType.MultipleChoice)){
+                    String[] as = vo.getAnswer().split(",");
+                    String[] ras = vo.getAnswer().split(",");
+                    Set<String> aset = Sets.newHashSet(as);
+                    Set<String> rset = Sets.newHashSet(ras);
+                    if (rset.size()==aset.size() && Sets.intersection(aset,rset).containsAll(aset)){
+                        score +=vo.getScore();
+                    }else if(rset.size()<aset.size() && Sets.intersection(aset,rset).containsAll(rset)){
+                        score += (vo.getScore()/2.0);
+                    }
+                }
+            }
+            return score;
+        }
+        return 0;
     }
 }

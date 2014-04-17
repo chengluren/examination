@@ -84,7 +84,8 @@ public class ExaminationManager {
         Paper p = new Paper();
         p.setTemplate(template);
         p.setCreateTime(new Date());
-        p.setPaperQuestions(generated);
+        p.setTypedQuestions(generated);
+//        p.setPaperQuestions(generated);
         return p;
     }
 
@@ -109,10 +110,10 @@ public class ExaminationManager {
         exam.setExamStaffId(staffId);
         exam.setExamStartTime(new Date());
 
-        Callable<Long[]> task = new ExamPaperInfoSaveTask(examService,exam);
+        Callable<Long[]> task = new ExamPaperInfoSaveTask(examService,paperService,exam);
         Future<Long[]> ids = taskExecutor.submit(task);
 
-        Map<Types.QuestionType,List<PaperQuestionVO>> quesIds  = paper.getPaperQuestions();
+        Map<Types.QuestionType,List<PaperQuestionVO>> quesIds  = paper.getTypedQuestions();
         Types.QuestionType defaultType = Types.QuestionType.getTypeFromShortName(quesTypes.get(0));
         List<PaperQuestionVO> typeIds = quesIds.get(defaultType);
         List<ExamQuestionVO> questions =loadQuestions(typeIds);
@@ -146,8 +147,10 @@ public class ExaminationManager {
             Examination exam = examService.getExamination(examId);
             if (exam!=null){
                 Paper p = exam.getPaper();
-                p.quesIdsToMap();
-                cached = p.getPaperQuestions();
+                List<PaperQuestion> pqs = paperService.getPaperQuestions(p.getId());
+                p.setPaperQuestions(pqs);
+                p.toTypedQuestions();
+                cached = p.getTypedQuestions();
                 getCache().put(examId,cached);
             }else {
                 return null;

@@ -3,6 +3,7 @@ package org.dreamer.examination.web.controller;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
 import org.dreamer.examination.entity.*;
+import org.dreamer.examination.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +24,8 @@ public class ExamController {
 
     @Autowired
     private ExaminationManager examManager;
+    @Autowired
+    private ExaminationService examService;
 
     /**
      * <p>学生参加考试。根据学生专业到后台匹配考试模板，
@@ -61,7 +64,7 @@ public class ExamController {
      */
     @RequestMapping(value = "/commitAnswer")
     @ResponseBody
-    public JSONPObject commitAnswer(List<Answer> answers) {
+    public Result commitAnswer(List<Answer> answers) {
         examManager.commitAnswers(answers);
         return null;
     }
@@ -69,6 +72,8 @@ public class ExamController {
     @RequestMapping(value = "/commit")
     @ResponseBody
     public JSONPObject commitExam(long examId, String callback) {
-        return null;
+        float score = examService.scoreExam(examId);
+        JSONPObject jsonp = new JSONPObject(callback,score);
+        return jsonp;
     }
 }

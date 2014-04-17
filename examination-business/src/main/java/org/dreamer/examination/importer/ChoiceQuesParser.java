@@ -1,12 +1,12 @@
 package org.dreamer.examination.importer;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.dreamer.examination.entity.ChoiceQuestion;
 import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.entity.QuestionOption;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +19,44 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
 
     @Override
     public Question parse(Row row) {
-        short max = row.getLastCellNum();
-        String stem = parseStem(row.getCell(0).getStringCellValue());
-        List<String> options = new ArrayList<>();
-        for (int i = 1; i < (max - 1); i++) {
-            Cell c = row.getCell(i);
-            if (c != null) {
-                String op = row.getCell(i).getStringCellValue();
-                if (op != null && !op.equals("")) {
-                    options.add(op.substring(2).trim());
-                }
+        String stem = null;
+        short max = -1;
+        if (row!=null){
+            max = row.getLastCellNum();
+            Cell stemCell = row.getCell(0);
+            if (stemCell!=null){
+                stem = parseStem(stemCell.getStringCellValue());
             }
-
         }
-        String answer = row.getCell(max - 1).getStringCellValue();
+        if (StringUtils.isNotEmpty(stem)){
+            List<String> options = new ArrayList<>();
+            for (int i = 1; i < (max - 1); i++) {
+                Cell c = row.getCell(i);
+                if (c != null) {
+                    String op = row.getCell(i).getStringCellValue();
+                    if (op != null && op.length()>2) {
+                        options.add(op.substring(2).trim());
+                    }
+                }
+
+            }
+            String answer = row.getCell(max - 1).getStringCellValue();
+            sysLogQuestions(stem,options,answer);
+
+            ChoiceQuestion q = new ChoiceQuestion();
+            q.setStem(stem);
+            q.setAnswer(answer);
+            q.setDifficulty(Question.Difficulty.Easy);
+
+            List<QuestionOption> ops = parseOption(options);
+            q.setQuestionOptions(ops);
+            return q;
+        } else{
+            return null;
+        }
+    }
+
+    private void sysLogQuestions(String stem,List<String> options,String answer){
         System.out.println(stem);
         char c = 64;
         for (int j = 0; j < options.size(); j++) {
@@ -40,23 +64,5 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
             System.out.println(c + "." + options.get(j));
         }
         System.out.println("答案：" + answer);
-        return null;
-    }
-
-    public static void main(String[] args) {
-        Parser p = new ChoiceQuesParser();
-        try (InputStream is = new FileInputStream("")) {
-            Workbook wb = WorkbookFactory.create(is);
-            Sheet s = wb.getSheetAt(0);
-            int endRow = s.getLastRowNum();
-            for (int i = 1; i < endRow; i++) {
-                System.out.println("===========" + i + "===============");
-                p.parse(s.getRow(i));
-                System.out.println("===============================");
-            }
-        } catch (IOException | InvalidFormatException e) {
-            e.printStackTrace();
-        }
-
     }
 }

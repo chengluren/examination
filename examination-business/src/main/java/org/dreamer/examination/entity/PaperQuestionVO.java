@@ -1,5 +1,6 @@
 package org.dreamer.examination.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @version 1.0
  *          ${tags}
  */
-public class PaperQuestionVO {
+public class PaperQuestionVO implements Serializable{
 
     private List<Long> ids;
     private Long id;

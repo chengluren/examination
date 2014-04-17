@@ -15,7 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Inheritance
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "questions")
-@DiscriminatorColumn(name = "QUES_TYPE")
+@DiscriminatorColumn(name = "ques_type")
 public class Question implements Serializable {
 
     public enum Difficulty {
@@ -32,7 +32,9 @@ public class Question implements Serializable {
     private long id;
 
     //题干
-    @Column(nullable = false, length = 300)
+    @Lob
+    @Basic(fetch=FetchType.EAGER)
+    @Column(nullable = false)
     private String stem;
     //难易程度
     @Enumerated

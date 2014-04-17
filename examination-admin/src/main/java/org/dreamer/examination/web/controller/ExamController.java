@@ -45,6 +45,7 @@ public class ExamController {
      * @return
      */
     @RequestMapping(value = "/fetch")
+    @ResponseBody
     public JSONPObject fetchExamQuestions(long examId, String quesType, String callback) {
         List<ExamQuestionVO> quesVO = examManager.getPaperQuestions(examId,
                 Types.QuestionType.getTypeFromShortName(quesType));

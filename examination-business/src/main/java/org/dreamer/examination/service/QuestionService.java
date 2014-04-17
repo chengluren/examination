@@ -7,6 +7,7 @@ import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.repository.ChoiceQuestionDao;
 import org.dreamer.examination.repository.QuestionDao;
 import org.dreamer.examination.repository.TrueOrFalseQuestionDao;
+import org.dreamer.examination.utils.QuestionTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,12 +63,12 @@ public class QuestionService {
 
     public Page<ChoiceQuestion> getChoiceQuestions(long storeId, int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
-        return choiceQuestionDao.findByStore(storeId, pr);
+        return choiceQuestionDao.findByStoreId(storeId, pr);
     }
 
     public Page<TrueOrFalseQuestion> getTrueFalseQuestions(long storeId, int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
-        return trueFalseQuestionDao.findByStore(storeId, pr);
+        return trueFalseQuestionDao.findByStoreId(storeId, pr);
     }
 
     /**
@@ -77,8 +78,9 @@ public class QuestionService {
      * @return
      */
     public long countOfTypeQuestionNotMust(long storeId, Types.QuestionType type) {
-        String qtype = type.getShortName();
-        return questionDao.countOfTypeNotMust(storeId, qtype);
+        //String qtype = type.getShortName();
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.countOfTypeNotMust(storeId, clazz);
     }
 
     /**
@@ -88,7 +90,8 @@ public class QuestionService {
      * @return
      */
     public long countOfTypeQuestion(long storeId, Types.QuestionType type){
-        return questionDao.countOfType(storeId,type.getShortName());
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.countOfType(storeId,clazz);
     }
 
     /**
@@ -102,7 +105,8 @@ public class QuestionService {
     public List<Long> getIdsNotMust(long storeId, Types.QuestionType type,
                                     int pageNum, int pageSize){
         Pageable p = new PageRequest(pageNum,pageSize);
-        return questionDao.findIdsByStoreAndTypeNotMust(storeId, type.getShortName(), p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId, clazz, p);
     }
 
     /**
@@ -113,7 +117,8 @@ public class QuestionService {
      * @return
      */
     public List<Long> getIdsNotMust(long storeId,Types.QuestionType type,Pageable p){
-        return questionDao.findIdsByStoreAndTypeNotMust(storeId,type.getShortName(),p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId,clazz,p);
     }
 
     /**
@@ -124,7 +129,8 @@ public class QuestionService {
      * @return
      */
     public List<Long> getIds(long storeId,Types.QuestionType type,Pageable p){
-        return questionDao.findIdsByStoreAndType(storeId,type.getShortName(),p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findIdsByStoreAndType(storeId,clazz,p);
     }
 
     /**
@@ -137,16 +143,19 @@ public class QuestionService {
      */
     public List<Long> getIds(long storeId,Types.QuestionType type,int pageNum,int pageSize){
         Pageable p = new PageRequest(pageNum,pageSize);
-        return questionDao.findIdsByStoreAndType(storeId,type.getShortName(),p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findIdsByStoreAndType(storeId,clazz,p);
     }
 
     public Page<Question> getQuestions(long stroreId,Types.QuestionType type,Pageable p){
-        return questionDao.findQuestions(stroreId,type.getShortName(),p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findQuestions(stroreId,clazz,p);
     }
 
     public Page<Question> getQuestions(long storeId,Types.QuestionType type,int pageNum,int pageSize){
         Pageable p = new PageRequest(pageNum,pageSize);
-        return questionDao.findQuestions(storeId,type.getShortName(),p);
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findQuestions(storeId,clazz,p);
     }
 
 }

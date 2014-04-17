@@ -10,5 +10,5 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue(value = "MC")
-public class MultpleChoiceQuestion extends ChoiceQuestion{
+public class MultipleChoiceQuestion extends ChoiceQuestion{
 }

@@ -1,6 +1,6 @@
 package org.dreamer.examination.utils;
 
-import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.entity.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -40,6 +40,20 @@ public class QuestionTypeUtils {
                 result.add(Types.QuestionType.ShortAnswer.getShortName());
             }
             return result;
+        }
+        return null;
+    }
+
+    public static Class<? extends Question> getClassType(Types.QuestionType type){
+        switch (type){
+            case Choice:
+                return ChoiceQuestion.class;
+            case MultipleChoice:
+                return MultipleChoiceQuestion.class;
+            case TrueFalse:
+                return TrueOrFalseQuestion.class;
+            case Completion:
+                return CompletionQuestion.class;
         }
         return null;
     }

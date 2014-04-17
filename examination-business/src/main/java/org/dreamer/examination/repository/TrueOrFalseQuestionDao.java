@@ -13,16 +13,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TrueOrFalseQuestionDao extends JpaRepository<TrueOrFalseQuestion,Long>{
     /**
      * 按库获得选择题的数量
-     * @param store
+     * @param storeId
      * @return
      */
-    public Long countByStore(long store);
+    public Long countByStoreId(long storeId);
 
     /**
      * 按库获得判断题
-     * @param store
+     * @param storeId
      * @param pageable
      * @return
      */
-    public Page<TrueOrFalseQuestion> findByStore(long store,Pageable pageable);
+    public Page<TrueOrFalseQuestion> findByStoreId(long storeId,Pageable pageable);
 }

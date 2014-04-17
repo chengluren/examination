@@ -16,10 +16,10 @@ import java.util.List;
  */
 public interface QuestionStoreDao extends JpaRepository<QuestionStore,Long> {
 
-    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and s.major = :major")
+    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and r.major = :major")
     public Page<QuestionStore> findStoreForMajor(@Param("major")String major,Pageable pageable);
 
-    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and s.major = :major")
+    @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and r.major = :major")
     public List<QuestionStore> findStoreForMajor(@Param("major")String major);
 
 }

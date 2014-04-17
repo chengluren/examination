@@ -85,7 +85,7 @@ public class DefaultTemplateRandomStrategy extends AbstractTemplateRandomStrateg
             }
         }
         while (generated.size() < required) {
-            long g = space.get(r.nextInt(space.size() + 1));
+            long g = space.get(r.nextInt(space.size()));
             generated.add(g);
         }
         return new PaperQuestionVO(generated,score);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -91,7 +92,6 @@ public class ExaminationManager {
      * 学生参加考试
      * @param staffId
      * @param major
-     * @param defaultType
      * @return
      */
     public ExamAndQuestionVO newExamination(String staffId,String major){
@@ -107,6 +107,7 @@ public class ExaminationManager {
         Examination exam = new Examination();
         exam.setPaper(paper);
         exam.setExamStaffId(staffId);
+        exam.setExamStartTime(new Date());
 
         Callable<Long[]> task = new ExamPaperInfoSaveTask(examService,exam);
         Future<Long[]> ids = taskExecutor.submit(task);
@@ -137,8 +138,11 @@ public class ExaminationManager {
      */
     public List<ExamQuestionVO> getPaperQuestions(long examId,Types.QuestionType questionType){
         Cache cache = cacheManager.getCache(Constants.CACHE_PAPER_QUES_ID);
-        Map<Types.QuestionType,List<PaperQuestionVO>> cached = (Map<Types.QuestionType,List<PaperQuestionVO>>)cache.get(examId);
-        if (cached==null){
+        Map<Types.QuestionType,List<PaperQuestionVO>> cached =null;
+        if (cache.get(examId)!=null){
+            Object cacheTarget = cache.get(examId).get();
+            cached = (Map<Types.QuestionType,List<PaperQuestionVO>>)cacheTarget;
+        }else{
             Examination exam = examService.getExamination(examId);
             if (exam!=null){
                 Paper p = exam.getPaper();
@@ -149,6 +153,7 @@ public class ExaminationManager {
                 return null;
             }
         }
+
         List<PaperQuestionVO> typeIds = cached.get(questionType);
         List<ExamQuestionVO> result =loadQuestions(typeIds);
         return result;
@@ -168,7 +173,7 @@ public class ExaminationManager {
             }
             if (vo.getIds()!=null){
                 for (Long id : vo.getIds()){
-                    Question q = questionService.getQuestion(vo.getId());
+                    Question q = questionService.getQuestion(id);
                     result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
                 }
             }

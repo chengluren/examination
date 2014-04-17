@@ -36,7 +36,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      * @return
      */
     @Query(value = "select count(q.id) from Question q where q.storeId= :storeId and TYPE(q)= :type and mustChoose is false")
-    public long countOfTypeNotMust(@Param("storeId") Long storeId, @Param("type") String type);
+    public long countOfTypeNotMust(@Param("storeId") Long storeId, @Param("type") Class<?> type);
 
     /**
      * 某题库下的某类型的题目数量
@@ -45,7 +45,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      * @return
      */
     @Query(value = "select count(q.id) from Question q where q.storeId= :storeId and TYPE(q)= :type")
-    public long countOfType(@Param("storeId") Long storeId, @Param("type") String type);
+    public long countOfType(@Param("storeId") Long storeId, @Param("type") Class<?> type);
 
     /**
      * XX 题库中必选题 按题型分组的数量统计
@@ -65,7 +65,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      */
     @Query(value = "select q.id from Question q  where q.storeId= (:storeId) and TYPE(q)= (:type) and mustChoose is false")
     public List<Long> findIdsByStoreAndTypeNotMust(@Param("storeId") Long storeId,
-                                                   @Param("type") String type, Pageable pageable);
+                                                   @Param("type") Class<?> type, Pageable pageable);
 
     /**
      * 分页获得某题库下某类型试题的Id
@@ -76,7 +76,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      */
     @Query(value = "select q.id from Question q  where q.storeId= (:storeId) and TYPE(q)= (:type)")
     public List<Long> findIdsByStoreAndType(@Param("storeId") Long storeId,
-                                            @Param("type") String type, Pageable pageable);
+                                            @Param("type") Class<?> type, Pageable pageable);
 
     /**
      * 分页获取某题库中，某类型的题目
@@ -86,5 +86,5 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      * @return
      */
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
-    public Page<Question> findQuestions(Long storeId,String type,Pageable pageable);
+    public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
 }

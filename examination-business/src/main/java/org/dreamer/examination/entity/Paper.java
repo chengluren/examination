@@ -66,7 +66,7 @@ public class Paper implements Serializable {
             String[] typedStrArr = quesIdTxt.split("/");
             Map<Types.QuestionType, List<PaperQuestionVO>> result = new HashMap<>();
             for (String typedStr : typedStrArr) {
-                String[] quesArr = typedStr.split("|");
+                String[] quesArr = typedStr.split("\\|");
                 String strType = quesArr[quesArr.length - 1];
                 Types.QuestionType type = Types.QuestionType.getTypeFromShortName(strType);
                 result.put(type, new ArrayList<PaperQuestionVO>());

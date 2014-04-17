@@ -1,8 +1,11 @@
 package org.dreamer.examination.importer;
 
 import com.google.common.base.Joiner;
+import org.dreamer.examination.entity.QuestionOption;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -40,11 +43,18 @@ public abstract class AbstractParser implements Parser {
         return r;
     }
 
-    protected String[] parseOption(String content){
-        String[] r = new String[2];
-        r[0] = String.valueOf(content.charAt(0));
-        r[1] = content.substring(2).trim();
-        return r;
+    protected List<QuestionOption> parseOption(List<String> ops){
+        if (ops!=null && ops.size()>0){
+            List<QuestionOption> result = new ArrayList<>();
+            char c = 64;
+            for (int j = 0; j < ops.size(); j++) {
+                c++;
+                QuestionOption qo = new QuestionOption(ops.get(j),String.valueOf(c));
+                result.add(qo);
+            }
+            return result;
+        }
+        return null;
     }
 
     protected String parseStem(String content) {

@@ -65,7 +65,7 @@ public class ExamTemplateService {
     public List<String> getDistinctQuesTypes(long tempId) {
         ExamTemplate template = templateDao.getOne(tempId);
         Set<Types.QuestionType> tempTypes = templateQuesDefDao.findDistinctQuesTypes(tempId);
-        Set<Types.QuestionType> mustTypes = templateQuesDefDao.findDistinctQuesTypes(tempId);
+        Set<Types.QuestionType> mustTypes = mustChooseDefDao.findDistinctQuesTypes(tempId);
         tempTypes.addAll(mustTypes);
 
         boolean multiMixed = template.isMultiChoiceMixedInChoice();

@@ -1,5 +1,7 @@
 package org.dreamer.examination.entity;
 
+import java.util.List;
+
 /**
  * @author lcheng
  * @version 1.0
@@ -11,6 +13,7 @@ public class ExamQuestionVO {
     private String stem;
     private String imgPath;
     private float score;
+    private List<QuestionOption> options;
 
     public ExamQuestionVO(){}
     public ExamQuestionVO(long quesId,String stem,String imgPath,float score){
@@ -50,5 +53,13 @@ public class ExamQuestionVO {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public List<QuestionOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<QuestionOption> options) {
+        this.options = options;
     }
 }

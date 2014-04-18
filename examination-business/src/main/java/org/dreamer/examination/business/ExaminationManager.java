@@ -121,7 +121,7 @@ public class ExaminationManager {
         Cache cache = getCache();
         try {
             Long[] savedId = ids.get();
-            cache.put(savedId[0],paper.getPaperQuestions());
+            cache.put(savedId[0],paper.getTypedQuestions());
             vo.setExamId(savedId[0]);
             vo.setPaperId(savedId[1]);
         } catch (InterruptedException|ExecutionException e) {
@@ -172,12 +172,21 @@ public class ExaminationManager {
         for (PaperQuestionVO vo:typeIds){
             if (vo.getId()!=null){
                 Question q = questionService.getQuestion(vo.getId());
-                result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
+                ExamQuestionVO eqvo  = new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore());
+                if (q instanceof ChoiceQuestion ||q instanceof MultipleChoiceQuestion){
+                    eqvo.setOptions(((ChoiceQuestion)q).getQuestionOptions());
+                }
+                result.add(eqvo);
             }
             if (vo.getIds()!=null){
                 for (Long id : vo.getIds()){
                     Question q = questionService.getQuestion(id);
-                    result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
+                    ExamQuestionVO eqvo  = new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore());
+                    if (q instanceof ChoiceQuestion ||q instanceof MultipleChoiceQuestion){
+                        eqvo.setOptions(((ChoiceQuestion)q).getQuestionOptions());
+                    }
+                    result.add(eqvo);
+//                    result.add(new ExamQuestionVO(q.getId(),q.getStem(),q.getImgPath(),vo.getScore()));
                 }
             }
         }

@@ -28,4 +28,8 @@ public class ExamScheduleService {
         List<Long> list = scheduleDao.findScheduleByDate(major, p);
         return (list != null && list.size() == 1) ? list.get(0) : null;
     }
+
+    public List<ExamSchedule> getExamSchedule(String major){
+        return scheduleDao.findScheduleByDate(major);
+    }
 }

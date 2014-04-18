@@ -18,6 +18,15 @@ public class Answer implements Serializable {
     private long examId;
     private String answer;
 
+    public Answer() {
+    }
+
+//    public Answer(long examId, long quesId, String answer) {
+//        this.examId = examId;
+//        this.quesId = quesId;
+//        this.answer = answer;
+//    }
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String txtAnswer;

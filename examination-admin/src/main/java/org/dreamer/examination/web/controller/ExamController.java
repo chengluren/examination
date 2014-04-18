@@ -1,5 +1,7 @@
 package org.dreamer.examination.web.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
 import org.dreamer.examination.entity.*;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,11 +66,19 @@ public class ExamController {
      * @param answers
      * @return
      */
-    @RequestMapping(value = "/commitAnswer")
+    @RequestMapping(value = "/commitAnswer",method = RequestMethod.POST,produces = "application/json")
     @ResponseBody
-    public Result commitAnswer(List<Answer> answers) {
-        examManager.commitAnswers(answers);
-        return null;
+    public Result commitAnswer(String answers) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            List<Answer> answerList = mapper.readValue(answers,
+                    TypeFactory.defaultInstance().constructCollectionType(List.class,Answer.class));
+            examManager.commitAnswers(answerList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Result r = new Result(true,"提交成功！");
+        return r;
     }
 
     @RequestMapping(value = "/commit")

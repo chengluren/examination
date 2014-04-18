@@ -19,4 +19,8 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
     @Query("select s.template.id from ExamSchedule s where s.major = (:major) and  current_time() " +
             "between s.startDate and s.endDate order by s.startDate desc")
     public List<Long> findScheduleByDate(@Param("major")String major,Pageable p);
+
+    @Query("from ExamSchedule s where s.major = (:major) and  current_time() " +
+            "between s.startDate and s.endDate order by s.startDate desc")
+    public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
 }

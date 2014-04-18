@@ -45,12 +45,12 @@ public class ExaminationService {
             for (AnswerJudgeVO vo : ajvos){
                 type = vo.getQuestionType();
                 if (type.equals(Types.QuestionType.Choice) || type.equals(Types.QuestionType.TrueFalse)){
-                    if (vo.getAnswer().equalsIgnoreCase(vo.getRealAnswer())){
+                    if (vo.getAnswer().trim().equalsIgnoreCase(vo.getRealAnswer())){
                         score += vo.getScore();
                     }
                 }else if (type.equals(Types.QuestionType.MultipleChoice)){
-                    String[] as = vo.getAnswer().split(",");
-                    String[] ras = vo.getAnswer().split(",");
+                    String[] as = vo.getAnswer().trim().split(",");
+                    String[] ras = vo.getRealAnswer().split(",");
                     Set<String> aset = Sets.newHashSet(as);
                     Set<String> rset = Sets.newHashSet(ras);
                     if (rset.size()==aset.size() && Sets.intersection(aset,rset).containsAll(aset)){

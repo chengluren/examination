@@ -16,6 +16,7 @@ public class PaperQuestion implements Serializable {
             valueColumnName = "id_value", initialValue = 1)
     private Long id;
     private Long examId;
+    @Enumerated(EnumType.STRING)
     private Types.QuestionType quesType;
     private Long quesId;
     private float score;

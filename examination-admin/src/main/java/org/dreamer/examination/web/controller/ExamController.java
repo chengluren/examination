@@ -1,12 +1,15 @@
 package org.dreamer.examination.web.controller;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.map.util.JSONPObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
 import org.dreamer.examination.entity.*;
+import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,8 @@ public class ExamController {
     private ExaminationManager examManager;
     @Autowired
     private ExaminationService examService;
+    @Autowired
+    private ExamScheduleService scheduleService;
 
     /**
      * <p>学生参加考试。根据学生专业到后台匹配考试模板，
@@ -37,8 +42,8 @@ public class ExamController {
      */
     @RequestMapping(value = "/new")
     @ResponseBody
-    public JSONPObject takeExamination(String staffId, String major,String callback) {
-        ExamAndQuestionVO vo = examManager.newExamination(staffId, major);
+    public JSONPObject takeExamination(String staffId, String major,long scheduleId,String callback) {
+        ExamAndQuestionVO vo = examManager.newExamination(staffId, major,scheduleId);
         JSONPObject r = new JSONPObject(callback, vo);
         return r;
     }
@@ -66,18 +71,18 @@ public class ExamController {
      * @param answers
      * @return
      */
-    @RequestMapping(value = "/commitAnswer",method = RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value = "/commitAnswer", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Result commitAnswer(String answers) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<Answer> answerList = mapper.readValue(answers,
-                    TypeFactory.defaultInstance().constructCollectionType(List.class,Answer.class));
+                    TypeFactory.defaultInstance().constructCollectionType(List.class, Answer.class));
             examManager.commitAnswers(answerList);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Result r = new Result(true,"提交成功！");
+        Result r = new Result(true, "提交成功！");
         return r;
     }
 
@@ -85,7 +90,21 @@ public class ExamController {
     @ResponseBody
     public JSONPObject commitExam(long examId, String callback) {
         float score = examService.scoreExam(examId);
-        JSONPObject jsonp = new JSONPObject(callback,score);
+        JSONPObject jsonp = new JSONPObject(callback, score);
         return jsonp;
+    }
+
+    @RequestMapping(value = "/examRecords")
+    @ResponseBody
+    public JSONPObject examRecords(String staffId, String callback, Pageable page) {
+        Page<ExamRecordVO> examRecordVOs = examService.getExamRecords(staffId, page);
+        return new JSONPObject(callback, examRecordVOs);
+    }
+
+    @RequestMapping(value = "/examSchedule")
+    @ResponseBody
+    public JSONPObject examSchedule(String major, String callback) {
+        List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major);
+        return new JSONPObject(callback, scheduleVOs);
     }
 }

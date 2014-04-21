@@ -1,6 +1,7 @@
 package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.QuestionStore;
+import org.dreamer.examination.entity.QuestionStoreVO;
 import org.dreamer.examination.repository.QuestionStoreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,10 @@ public class QuestionStoreService {
     public Page<QuestionStore> getAll(int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
         return questionStoreDao.findAll(pr);
+    }
+
+    public Page<QuestionStoreVO> getStoreAndQuesCountInfo(Pageable page) {
+        return questionStoreDao.findStoreBaseAndQuesCountInfo(page);
     }
 
     public Page<QuestionStore> getStoreForMajor(String major, int pageNum, int pageSize) {

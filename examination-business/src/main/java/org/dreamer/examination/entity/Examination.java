@@ -27,6 +27,10 @@ public class Examination implements Serializable{
     @JoinColumn(name = "paper_id")
     private Paper paper;
 
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
+    private ExamSchedule schedule;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String answers;
@@ -92,5 +96,13 @@ public class Examination implements Serializable{
 
     public void setAnswerCommitTime(Date answerCommitTime) {
         this.answerCommitTime = answerCommitTime;
+    }
+
+    public ExamSchedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(ExamSchedule schedule) {
+        this.schedule = schedule;
     }
 }

@@ -72,7 +72,7 @@ public class DefaultRandomStrategy implements RandomStrategy {
         Set<Long> randomIds = new HashSet<>();
         Random r = new Random();
         while (randomIds.size() < required) {
-            int i = r.nextInt(idSize + 1);
+            int i = r.nextInt(idSize);
             randomIds.add(ids.get(i));
         }
         return loadQuestions(randomIds);

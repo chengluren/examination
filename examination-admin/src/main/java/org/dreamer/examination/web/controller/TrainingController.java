@@ -1,6 +1,6 @@
 package org.dreamer.examination.web.controller;
 
-import org.codehaus.jackson.map.util.JSONPObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.dreamer.examination.business.DefaultRandomStrategy;
 import org.dreamer.examination.business.RandomStrategy;
 import org.dreamer.examination.entity.Question;

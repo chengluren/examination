@@ -1,6 +1,7 @@
 package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.ExamSchedule;
+import org.dreamer.examination.entity.ExamScheduleVO;
 import org.dreamer.examination.repository.ExamScheduleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +30,7 @@ public class ExamScheduleService {
         return (list != null && list.size() == 1) ? list.get(0) : null;
     }
 
-    public List<ExamSchedule> getExamSchedule(String major){
-        return scheduleDao.findScheduleByDate(major);
+    public List<ExamScheduleVO> getExamSchedule(String major){
+        return scheduleDao.findSchedule(major);
     }
 }

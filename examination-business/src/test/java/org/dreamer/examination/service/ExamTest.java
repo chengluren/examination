@@ -29,21 +29,21 @@ public class ExamTest {
     @Autowired
     private ExaminationManager examManager;
 
-    @Test
-    public void testTakeExam() {
-        ExamAndQuestionVO vo = examManager.newExamination("001", "M001");
-        System.out.println(vo.getExamId());
-        System.out.println(vo.getPaperId());
-        List<ExamQuestionVO> qvo = vo.getQuestions();
-        for (ExamQuestionVO o : qvo){
-            System.out.println(o.getQuesId()+"|"+o.getScore()+"|"+o.getStem());
-        }
-
-        qvo = examManager.getPaperQuestions(vo.getExamId(), Types.QuestionType.TrueFalse);
-        for (ExamQuestionVO o : qvo){
-            System.out.println(o.getQuesId()+"|"+o.getScore()+"|"+o.getStem());
-        }
-    }
+//    @Test
+//    public void testTakeExam() {
+//        ExamAndQuestionVO vo = examManager.newExamination("001", "M001",1);
+//        System.out.println(vo.getExamId());
+//        System.out.println(vo.getPaperId());
+//        List<ExamQuestionVO> qvo = vo.getQuestions();
+//        for (ExamQuestionVO o : qvo){
+//            System.out.println(o.getQuesId()+"|"+o.getScore()+"|"+o.getStem());
+//        }
+//
+//        qvo = examManager.getPaperQuestions(vo.getExamId(), Types.QuestionType.TrueFalse);
+//        for (ExamQuestionVO o : qvo){
+//            System.out.println(o.getQuesId()+"|"+o.getScore()+"|"+o.getStem());
+//        }
+//    }
 
 //    @Test
 //    public void testExamTemplateCrud() {
@@ -81,24 +81,25 @@ public class ExamTest {
 //        Assert.assertEquals("TF", types.get(1));
 //    }
 
-//    @Test
-//    public void testExamScheduleCrud() {
-//
-//        ExamTemplate template = templateService.getExamTemplate(1);
-//        ExamSchedule schedule = new ExamSchedule();
-//        Date now = new Date();
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(now);
-//        cal.add(Calendar.MONTH, 3);
-//
-//        Date endDate = cal.getTime();
-//
-//        schedule.setStartDate(now);
-//        schedule.setEndDate(endDate);
-//        schedule.setMajor("M001");
-//        schedule.setTemplate(template);
-//
-//        scheduleService.addExamSchedule(schedule);
-//        Assert.assertNotNull(schedule.getId());
-//    }
+    @Test
+    public void testExamScheduleCrud() {
+
+        ExamTemplate template = templateService.getExamTemplate(1);
+        ExamSchedule schedule = new ExamSchedule();
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.MONTH, 3);
+
+        Date endDate = cal.getTime();
+
+        schedule.setStartDate(now);
+        schedule.setEndDate(endDate);
+        schedule.setMajor("M001");
+        schedule.setTemplate(template);
+        schedule.setName("化学专业安全考试");
+
+        scheduleService.addExamSchedule(schedule);
+        Assert.assertNotNull(schedule.getId());
+    }
 }

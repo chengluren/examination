@@ -6,6 +6,8 @@ import org.dreamer.examination.repository.AnswerDao;
 import org.dreamer.examination.repository.ExaminationDao;
 import org.dreamer.examination.repository.PaperDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,10 @@ public class ExaminationService {
 
     public Examination getExamination(long examId){
         return examDao.findOne(examId);
+    }
+
+    public Page<ExamRecordVO> getExamRecords(String straffId,Pageable page){
+       return examDao.findStaffExamRecords(straffId,page);
     }
 
     public float scoreExam(long examId){

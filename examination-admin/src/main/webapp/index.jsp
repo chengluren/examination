@@ -5,18 +5,18 @@
 <html>
 <head>
     <title>JSONP 测试</title>
-    <script src="${ctx}/asset/lib/jquery/jquery-1.11.0.min.js"></script>
+    <script src="${ctx}/asset/js/jquery-1.11.0.min.js"></script>
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=M001&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=M001&scheduleId=1&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
                     });
         }
         function getExamQuestions() {
-            $.getJSON("http://localhost:8080/exam/fetch?examId=100&quesType=CH&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/fetch?examId=1&quesType=CH&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -70,13 +70,25 @@
                 console.log(data);
             });
         }
-        takeExam();
-//                getExamQuestions();
-//                sequenceLoadQuestion();
-//                randomLoadQuestion();
+        function getExamSchedule() {
+            $.getJSON("http://localhost:8080/exam/examSchedule?major=M001&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+        function getExamRecord() {
+            $.getJSON("http://localhost:8080/exam/examRecords?staffId=001&page=0&page.size=10&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+//                takeExam();
+//        getExamQuestions();
+        //                sequenceLoadQuestion();
+        //                randomLoadQuestion();
         //        commitAnswer();
         //        commitPaper();
-//        getMajorStore();
+        //        getMajorStore();
+                getExamSchedule();
+//                getExamRecord();
     </script>
 </head>
 <body>

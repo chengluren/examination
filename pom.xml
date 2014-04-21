@@ -38,8 +38,9 @@
         <version.ehcache-core>2.6.8</version.ehcache-core>
         <version.guava>16.0.1</version.guava>
         <version.logback>1.1.1</version.logback>
-        <version.jackson>1.9.13</version.jackson>
+        <version.jackson>2.3.3</version.jackson>
         <version.poi>3.10-FINAL</version.poi>
+        <version.tiles>3.0.3</version.tiles>
 
     </properties>
 
@@ -121,6 +122,24 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${version.guava}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${version.jackson}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${version.jackson}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version.jackson}</version>
         </dependency>
 
     </dependencies>

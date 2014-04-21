@@ -95,8 +95,10 @@ public class ExaminationManager {
      * @param major
      * @return
      */
-    public ExamAndQuestionVO newExamination(String staffId,String major){
-        Long tempId = scheduleService.getExamTemplateId(major);
+    public ExamAndQuestionVO newExamination(String staffId,String major,long scheduleId){
+        //Long tempId = scheduleService.getExamTemplateId(major);
+        ExamSchedule examSchedule = scheduleService.getExamSchedule(scheduleId);
+        long tempId = examSchedule.getTemplate().getId();
         ExamAndQuestionVO vo = new ExamAndQuestionVO();
         List<String> quesTypes = templateService.getDistinctQuesTypes(tempId);
         if (quesTypes==null|| quesTypes.size()==0) {
@@ -109,6 +111,7 @@ public class ExaminationManager {
         exam.setPaper(paper);
         exam.setExamStaffId(staffId);
         exam.setExamStartTime(new Date());
+        exam.setSchedule(examSchedule);
 
         Callable<Long[]> task = new ExamPaperInfoSaveTask(examService,paperService,exam);
         Future<Long[]> ids = taskExecutor.submit(task);

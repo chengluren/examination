@@ -30,6 +30,8 @@ public class ExamSchedule implements Serializable {
 
     //本次考试针对的专业
     private String major;
+    //考试名称
+    private String name;
 
     public long getId() {
         return id;
@@ -69,5 +71,13 @@ public class ExamSchedule implements Serializable {
 
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

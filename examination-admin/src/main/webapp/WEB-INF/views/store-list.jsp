@@ -31,10 +31,10 @@
                                 <th>描述</th>
                                 <th>操作</th>
                             </tr>
-                            <c:forEach items="${store}" var="s" varStatus="st">
+                            <c:forEach items="${store.content}" var="s" varStatus="st">
                                 <tr>
                                     <td>${st.index+1}</td>
-                                    <td>s.name</td>
+                                    <td>${s.name}</td>
                                     <td><span class="badge bg-red">${s.quesCount}</span></td>
                                     <td>${s.comment}</td>
                                     <td>

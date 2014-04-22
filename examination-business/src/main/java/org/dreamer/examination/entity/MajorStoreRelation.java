@@ -25,6 +25,14 @@ public class MajorStoreRelation implements Serializable {
 
     private long storeId;
 
+    public MajorStoreRelation() {
+    }
+
+    public MajorStoreRelation(long storeId, String major) {
+        this.storeId = storeId;
+        this.major = major;
+    }
+
     public long getId() {
         return id;
     }

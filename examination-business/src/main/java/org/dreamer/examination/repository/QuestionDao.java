@@ -4,6 +4,7 @@ import org.dreamer.examination.entity.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -87,4 +88,8 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      */
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
     public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
+
+    @Modifying
+    @Query("delete from Question where storeId = ?1")
+    public void deleteStoreQuestions(long storeId);
 }

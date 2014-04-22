@@ -82,12 +82,12 @@
         }
 //                takeExam();
 //        getExamQuestions();
-        //                sequenceLoadQuestion();
+                        sequenceLoadQuestion();
         //                randomLoadQuestion();
         //        commitAnswer();
         //        commitPaper();
         //        getMajorStore();
-                getExamSchedule();
+//                getExamSchedule();
 //                getExamRecord();
     </script>
 </head>

@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
     var startIndex = 1000;
+    var storeId = ${storeId};
+    var quesType = ${quesType};
+    var page = ${page};
     function deleteOption(id, groupId) {
         if (id && id != "") {
-            var url = "/question/option/delete" + id;
+            var url = "/question/option/delete/" + id;
             $.post(url, function (data) {
                 if (data.success) {
                     $(groupId).remove();
@@ -35,24 +38,24 @@
                 mustChoose = $("#mustChoose").parent().attr("aria-checked") == "true" ? 1 : 0;
 
         var options = $("input[name^=option]");
-        var opArr = new Array();
+        var opArr = new Array(),
+            seq = 65;
         $.each(options, function (idx, el) {
             var opid = $(el).attr("opid");
             if (opid && opid != "") {
-                opArr.push({id: opid, content: $(el).val()});
+                opArr.push({id: opid, content: $(el).val(),orderNo:String.fromCharCode(seq)});
             } else {
-                opArr.push({id: -1, content: $(el).val()});
+                opArr.push({content: $(el).val(),orderNo:String.fromCharCode(seq)});
             }
+            seq +=1;
         });
-
-        console.log(JSON.stringify({
-            "id": id, "stem": stem, "answer": answer, "mustChoose": mustChoose, "imgPath": imgPath, "options": opArr
-        }));
         $.post("/question/edit", {"question": JSON.stringify({ "id": id, "stem": stem, "answer": answer,
                             "mustChoose": mustChoose, "imgPath": imgPath, "options": opArr }
                 )},
                 function (data) {
-
+                    if(data.success){
+                        window.location.href = "question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
+                    }
                 });
     }
 

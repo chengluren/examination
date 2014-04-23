@@ -14,8 +14,8 @@ public class ChoiceQuestion extends Question {
     //单选还是多选
 //    private boolean multiple;
 
-    @OneToMany(fetch =FetchType.EAGER ,cascade ={CascadeType.PERSIST,CascadeType.REMOVE})
-    @JoinColumn(name = "ques_id")
+    @OneToMany(fetch =FetchType.EAGER ,cascade ={CascadeType.PERSIST,CascadeType.REMOVE},mappedBy = "question")
+//    @JoinColumn(name = "ques_id")
     @OrderBy(" orderNo ASC")
     List<QuestionOption> questionOptions;
 

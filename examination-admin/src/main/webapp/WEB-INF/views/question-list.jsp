@@ -80,7 +80,7 @@
                                             </c:choose>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary btn-xs" href="/question/edit/${q.id}">
+                                            <a class="btn btn-primary btn-xs" onclick="editQuestion(${q.id});">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <a class="btn btn-primary btn-xs" onclick="deleteQuestion(${q.id});">

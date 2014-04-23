@@ -42,7 +42,7 @@
                quesType = $("#quesType").val(),
                page = $("#paginator").bootstrapPaginator("getPages").current;
            window.location.href = "/question/delete/"+id+
-                   "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"$size=10";
+                   "?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1)+"&size=10";
        }
     }
     function createChosen(el){
@@ -60,6 +60,13 @@
         $("#quesType").on("change",function(){
             refresh();
         });
+    }
+
+    function editQuestion(id){
+        var storeId = $("#stores").val(),
+                quesType = $("#quesType").val(),
+                page = $("#paginator").bootstrapPaginator("getPages").current;
+       window.location.href="/question/edit/"+id+"?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1);
     }
 
     function refresh(){

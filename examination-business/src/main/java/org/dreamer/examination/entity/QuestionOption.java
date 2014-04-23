@@ -14,7 +14,7 @@ public class QuestionOption implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ID_QUE_OPTS")
     @TableGenerator(name = "ID_QUE_OPTS", table = "gen_ids", pkColumnName = "id_name",
             valueColumnName = "id_value", initialValue = 1)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String content;
@@ -22,6 +22,10 @@ public class QuestionOption implements Serializable {
     //序号：可以是A,B,C,D...或者是1,2,3,4..
     @Column(nullable = false, length = 2)
     private String orderNo;
+
+    @ManyToOne
+    @JoinColumn(name = "ques_id")
+    private ChoiceQuestion question;
 
     public QuestionOption() {
     }
@@ -31,11 +35,11 @@ public class QuestionOption implements Serializable {
         this.orderNo = orderNo;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,5 +57,13 @@ public class QuestionOption implements Serializable {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public ChoiceQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(ChoiceQuestion question) {
+        this.question = question;
     }
 }

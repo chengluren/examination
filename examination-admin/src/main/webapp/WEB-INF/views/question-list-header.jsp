@@ -3,6 +3,7 @@
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
+    var totalPages = ${totalPage};
     function createPaginator(el,curPage,totalPage,toUrl){
         if(totalPage==0 || curPage>totalPage){
             return;
@@ -50,9 +51,28 @@
             max_selected_options: 5,
             disable_search_threshold: 10
         });
+        $(el).on("change",function(){
+            refresh();
+        });
     }
+
+    function quesTypeChange(){
+        $("#quesType").on("change",function(){
+            refresh();
+        });
+    }
+
+    function refresh(){
+        var storeId = $("#stores").val(),
+                quesType = $("#quesType").val(),
+                page = 0;
+        window.location.href = "/question/list/"+
+                "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"&size=10";
+    }
+
     $(document).ready(function(){
         createChosen("#stores");
         createPaginator("#paginator",${page},${totalPage},"/question/list");
+        quesTypeChange();
     });
 </script>

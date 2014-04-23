@@ -1,11 +1,9 @@
 package org.dreamer.examination.service;
 
-import org.dreamer.examination.entity.ChoiceQuestion;
-import org.dreamer.examination.entity.Question;
-import org.dreamer.examination.entity.TrueOrFalseQuestion;
-import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.ChoiceQuestionDao;
 import org.dreamer.examination.repository.QuestionDao;
+import org.dreamer.examination.repository.QuestionOptionDao;
 import org.dreamer.examination.repository.TrueOrFalseQuestionDao;
 import org.dreamer.examination.utils.QuestionTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ public class QuestionService {
     private ChoiceQuestionDao choiceQuestionDao;
     @Autowired
     private TrueOrFalseQuestionDao trueFalseQuestionDao;
+    @Autowired
+    private QuestionOptionDao optionDao;
 
     /**
      * 添加试题
@@ -160,6 +160,10 @@ public class QuestionService {
 
     public void deleteQuestion(Long id){
         questionDao.delete(id);
+    }
+
+    public void deleteQuestionOption(Long opId){
+        optionDao.delete(opId);
     }
 
 }

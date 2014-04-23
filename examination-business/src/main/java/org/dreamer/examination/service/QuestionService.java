@@ -57,10 +57,6 @@ public class QuestionService {
        return questionDao.findOne(id);
     }
 
-    public void deleteQuestion(Question question) {
-        questionDao.delete(question);
-    }
-
     public Page<ChoiceQuestion> getChoiceQuestions(long storeId, int pageNum, int pageSize) {
         Pageable pr = new PageRequest(pageNum, pageSize);
         return choiceQuestionDao.findByStoreId(storeId, pr);
@@ -156,6 +152,14 @@ public class QuestionService {
         Pageable p = new PageRequest(pageNum,pageSize);
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
         return questionDao.findQuestions(storeId,clazz,p);
+    }
+
+    public void deleteQuestion(Question question) {
+        questionDao.delete(question);
+    }
+
+    public void deleteQuestion(Long id){
+        questionDao.delete(id);
     }
 
 }

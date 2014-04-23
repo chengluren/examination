@@ -5,7 +5,6 @@
     }
 </style>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
-<script type="text/javascript" src="${ctx}/asset/js/plugins/bootbox/bootbox.min.js"></script>
 <script type="text/javascript">
    function createPaginator(ulId,curPage,totalPage,toUrl){
        var pgOptions = {

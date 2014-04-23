@@ -1,40 +1,58 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="${ctx}/asset/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
-<script src="${ctx}/asset/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+<link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#quesTable').dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": false,
-            "bSort": false,
-            "bInfo": true,
-            "bAutoWidth": false,
-            "bServerSide": true,
-            "sAjaxSource":"/question/list",
-            "fnServerData":function(sSource,aoData,fnCallback){
-                aoData.push({name:"storeId",value:12});
-                aoData.push({name:"quesType",value:"CH"});
-                $.post(sSource,aoData,function(data){
-                    fnCallback(data);
-                });
+    function createPaginator(el,curPage,totalPage,toUrl){
+        if(totalPage==0 || curPage>totalPage){
+            return;
+        }
+        var pgOptions = {
+            bootstrapMajorVersion : 3,
+            currentPage: curPage,
+            totalPages: totalPage,
+            onPageClicked: function(e,originalEvent,type,page){
+                var p = page - 1,
+                    storeId = $("#stores").val(),
+                    quesType = $("#quesType").val();
+                window.location.href = toUrl+"?storeId="+storeId+"&quesType="+quesType+"&page="+p+"&size=10";
             },
-            "oLanguage" : {
-                "sLengthMenu": "每页显示 _MENU_ 条记录",
-                "sZeroRecords": "抱歉， 没有找到",
-                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-                "sInfoEmpty": "没有数据",
-                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-                "sZeroRecords": "没有检索到数据",
-                "sSearch": "名称:",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "前一页",
-                    "sNext": "后一页",
-                    "sLast": "尾页"
+            elementCls:"pagination pagination-sm no-margin pull-right",
+            itemTexts: function (type, page) {
+                switch (type) {
+                    case "first":
+                        return "&laquo;";
+                    case "prev":
+                        return "&lsaquo;";
+                    case "next":
+                        return "&rsaquo;";
+                    case "last":
+                        return "&raquo;";
+                    case "page":
+                        return page;
                 }
-
             }
+        };
+        $(el).bootstrapPaginator(pgOptions);
+    }
+    function deleteQuestion(id){
+       if(window.confirm("您确定要删除该实体吗？")){
+           var storeId = $("#stores").val(),
+               quesType = $("#quesType").val(),
+               page = $("#paginator").bootstrapPaginator("getPages").current;
+           window.location.href = "/question/delete/"+id+
+                   "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"$size=10";
+       }
+    }
+    function createChosen(el){
+        $(el).chosen({
+            no_results_text:"没有找到",
+            max_selected_options: 5,
+            disable_search_threshold: 10
         });
+    }
+    $(document).ready(function(){
+        createChosen("#stores");
+        createPaginator("#paginator",${page},${totalPage},"/question/list");
     });
 </script>

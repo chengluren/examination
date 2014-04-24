@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <label for="stem" class="col-sm-2 control-label">题干</label>
                                 <div class="col-sm-4">
-                                    <textarea id="stem" name="stem" class="form-control" rows="2">${q.stem}</textarea>
+                                    <textarea id="stem" name="stem" class="form-control" rows="3">${q.stem}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -29,7 +29,7 @@
                                 <label for="mustChoose" class="col-sm-2 control-label">是否必考</label>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="mustChoose" id="mustChoose" value="1">
+                                        <input type="checkbox" name="mustChoose" id="mustChoose" value="1" <c:if test="${q.mustChoose==true}"> checked</c:if> >
                                         必考
                                     </label>
                                 </div>
@@ -40,7 +40,7 @@
                                     <input type="text" id="imgPath" name="imgPath" class="form-control" value="${q.imgPath}" />
                                 </div>
                             </div>
-                            <c:if test="${not empty q.questionOptions}">
+                            <c:if test="${quesType!='TF' and not empty q.questionOptions}">
                                 <hr/>
                                  <c:forEach items="${q.questionOptions}" var="option" varStatus="st">
                                      <div class="form-group" id="opg-${st.index}">
@@ -57,7 +57,10 @@
                         </div>
                     </form>
                     <div class="box-footer">
-                        <button id="btnAddOpt" class="btn btn-primary" style="margin-left:250px;" onclick="createNewOption();">新增选项</button>
+                        <c:if test="${quesType=='CH' or quesType=='MC'}">
+                            <button id="btnAddOpt" class="btn btn-primary" style="margin-left:250px;" onclick="createNewOption();">新增选项</button>
+                        </c:if>
+
                         <button id="btnSave" class="btn btn-primary" style="margin-left:30px;" onclick="save();">保存</button>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 <script>
     var startIndex = 1000;
     var storeId = ${storeId};
-    var quesType = ${quesType};
+    var quesType = '${quesType}';
     var page = ${page};
     function deleteOption(id, groupId) {
         if (id && id != "") {
@@ -54,7 +54,7 @@
                 )},
                 function (data) {
                     if(data.success){
-                        window.location.href = "question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
+                        window.location.href = "/question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
                     }
                 });
     }

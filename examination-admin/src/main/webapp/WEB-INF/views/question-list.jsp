@@ -19,6 +19,9 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">试题列表</h3>
+                        <div class="box-tools pull-right" style="margin-right: 80px;">
+                            <a class="btn btn-primary btn-flat" style="color: #ffffff;" role="button" onclick="toQuestionImport();">试题导入</a>
+                        </div>
                     </div>
                     <div class="box-body table-responsive">
                         <form class="form-horizontal" role="form">
@@ -72,7 +75,13 @@
                                     <tr>
                                         <td>${st.index+1}</td>
                                         <td>${q.stem}</td>
-                                        <td>${q.answer}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${q.answer=='1'}">√</c:when>
+                                                <c:when test="${q.answer=='0'}">×</c:when>
+                                                <c:otherwise>${q.answer}</c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${q.mustChoose}">是</c:when>

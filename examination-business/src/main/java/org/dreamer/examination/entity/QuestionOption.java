@@ -23,9 +23,9 @@ public class QuestionOption implements Serializable {
     @Column(nullable = false, length = 2)
     private String orderNo;
 
-    @ManyToOne
-    @JoinColumn(name = "ques_id")
-    private ChoiceQuestion question;
+//    @ManyToOne
+//    @JoinColumn(name = "ques_id")
+//    private ChoiceQuestion question;
 
     public QuestionOption() {
     }
@@ -59,11 +59,11 @@ public class QuestionOption implements Serializable {
         this.orderNo = orderNo;
     }
 
-    public ChoiceQuestion getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(ChoiceQuestion question) {
-        this.question = question;
-    }
+//    public ChoiceQuestion getQuestion() {
+//        return question;
+//    }
+//
+//    public void setQuestion(ChoiceQuestion question) {
+//        this.question = question;
+//    }
 }

@@ -77,6 +77,11 @@
                 "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"&size=10";
     }
 
+    function toQuestionImport(){
+        var storeId = $("#stores").val();
+        window.location.href = "/question/import?storeId="+storeId;
+    }
+
     $(document).ready(function(){
         createChosen("#stores");
         createPaginator("#paginator",${page},${totalPage},"/question/list");

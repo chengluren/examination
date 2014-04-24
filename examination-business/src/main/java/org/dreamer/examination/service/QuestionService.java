@@ -172,14 +172,4 @@ public class QuestionService {
         optionDao.delete(opId);
     }
 
-    public void updateQuestion(Question q, List<QuestionOption> options) {
-        questionDao.save(q);
-        if (options != null && options.size() > 0) {
-           for(QuestionOption option : options){
-               option.setQuestion((ChoiceQuestion)q);
-           }
-           optionDao.save(options);
-        }
-    }
-
 }

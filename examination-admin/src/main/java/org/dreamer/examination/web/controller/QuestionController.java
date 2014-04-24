@@ -99,8 +99,9 @@ public class QuestionController {
 
             if (vo.getOptions() != null && vo.getOptions().length > 0) {
                 List<QuestionOption> options = Arrays.asList(vo.getOptions());
-                quesService.updateQuestion(q, options);
+                ((ChoiceQuestion)q).setQuestionOptions(options);
             }
+            quesService.addQuestion(q);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,10 +129,11 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/import")
-    public ModelAndView importQuestions() {
-        ModelAndView mv = new ModelAndView("exam.question-imoport");
+    public ModelAndView importQuestions(Long storeId) {
+        ModelAndView mv = new ModelAndView("exam.question-import");
         List<QuestionStore> stores = storeService.getAll();
         mv.addObject("stores", stores);
+        mv.addObject("storeId", storeId);
         return mv;
     }
 
@@ -150,7 +152,7 @@ public class QuestionController {
                 e.printStackTrace();
             }
         }
-        return "redirect:/question/list?storeId" + storeId + "&quesType=CH&page=0";
+        return "redirect:/question/list?storeId=" + storeId + "&quesType=CH&page=0";
     }
 
 }

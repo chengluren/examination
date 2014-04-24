@@ -1,10 +1,12 @@
 package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.MajorStoreRelation;
+import org.dreamer.examination.entity.QuestionOption;
 import org.dreamer.examination.entity.QuestionStore;
 import org.dreamer.examination.entity.QuestionStoreVO;
 import org.dreamer.examination.repository.MajorStoreRelationDao;
 import org.dreamer.examination.repository.QuestionDao;
+import org.dreamer.examination.repository.QuestionOptionDao;
 import org.dreamer.examination.repository.QuestionStoreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,8 @@ public class QuestionStoreService {
     private MajorStoreRelationDao majorStoreRelDao;
     @Autowired
     private QuestionDao questionDao;
+    @Autowired
+    private QuestionOptionDao optionDao;
 
     public void addQuestionStore(QuestionStore store) {
         questionStoreDao.save(store);
@@ -78,6 +82,7 @@ public class QuestionStoreService {
     public void deleteStore(long storeId) {
         questionStoreDao.delete(storeId);
         majorStoreRelDao.deleteByStoreId(storeId);
+        optionDao.deleteQuestionOptions(storeId);
         questionDao.deleteStoreQuestions(storeId);
     }
 

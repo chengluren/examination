@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "questions")
 @Inheritance
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "questions")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "questions")
 @DiscriminatorColumn(name = "ques_type")
 public class Question implements Serializable {
 

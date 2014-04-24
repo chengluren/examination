@@ -1,11 +1,9 @@
 package org.dreamer.examination.service;
 
-import org.dreamer.examination.entity.ChoiceQuestion;
-import org.dreamer.examination.entity.Question;
-import org.dreamer.examination.entity.TrueOrFalseQuestion;
-import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.ChoiceQuestionDao;
 import org.dreamer.examination.repository.QuestionDao;
+import org.dreamer.examination.repository.QuestionOptionDao;
 import org.dreamer.examination.repository.TrueOrFalseQuestionDao;
 import org.dreamer.examination.utils.QuestionTypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ public class QuestionService {
     private ChoiceQuestionDao choiceQuestionDao;
     @Autowired
     private TrueOrFalseQuestionDao trueFalseQuestionDao;
+    @Autowired
+    private QuestionOptionDao optionDao;
 
     /**
      * 添加试题
@@ -53,8 +53,8 @@ public class QuestionService {
         return questionDao.findAll();
     }
 
-    public Question getQuestion(long id){
-       return questionDao.findOne(id);
+    public Question getQuestion(long id) {
+        return questionDao.findOne(id);
     }
 
     public Page<ChoiceQuestion> getChoiceQuestions(long storeId, int pageNum, int pageSize) {
@@ -69,6 +69,7 @@ public class QuestionService {
 
     /**
      * XX 题库中，某类型试题(非必选)的总数
+     *
      * @param storeId
      * @param type
      * @return
@@ -81,17 +82,19 @@ public class QuestionService {
 
     /**
      * XX题库中某类型的试题总数
+     *
      * @param storeId
      * @param type
      * @return
      */
-    public long countOfTypeQuestion(long storeId, Types.QuestionType type){
+    public long countOfTypeQuestion(long storeId, Types.QuestionType type) {
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.countOfType(storeId,clazz);
+        return questionDao.countOfType(storeId, clazz);
     }
 
     /**
      * 分页获得非必选题的Id列表
+     *
      * @param storeId
      * @param type
      * @param pageNum
@@ -99,67 +102,74 @@ public class QuestionService {
      * @return
      */
     public List<Long> getIdsNotMust(long storeId, Types.QuestionType type,
-                                    int pageNum, int pageSize){
-        Pageable p = new PageRequest(pageNum,pageSize);
+                                    int pageNum, int pageSize) {
+        Pageable p = new PageRequest(pageNum, pageSize);
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
         return questionDao.findIdsByStoreAndTypeNotMust(storeId, clazz, p);
     }
 
     /**
      * 分页获得非必选题的Id列表
+     *
      * @param storeId
      * @param type
      * @param p
      * @return
      */
-    public List<Long> getIdsNotMust(long storeId,Types.QuestionType type,Pageable p){
+    public List<Long> getIdsNotMust(long storeId, Types.QuestionType type, Pageable p) {
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findIdsByStoreAndTypeNotMust(storeId,clazz,p);
+        return questionDao.findIdsByStoreAndTypeNotMust(storeId, clazz, p);
     }
 
     /**
      * 分页获得试题Id列表
+     *
      * @param storeId
      * @param type
      * @param p
      * @return
      */
-    public List<Long> getIds(long storeId,Types.QuestionType type,Pageable p){
+    public List<Long> getIds(long storeId, Types.QuestionType type, Pageable p) {
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findIdsByStoreAndType(storeId,clazz,p);
+        return questionDao.findIdsByStoreAndType(storeId, clazz, p);
     }
 
     /**
      * 分页获得试题Id列表
+     *
      * @param storeId
      * @param type
      * @param pageNum
      * @param pageSize
      * @return
      */
-    public List<Long> getIds(long storeId,Types.QuestionType type,int pageNum,int pageSize){
-        Pageable p = new PageRequest(pageNum,pageSize);
+    public List<Long> getIds(long storeId, Types.QuestionType type, int pageNum, int pageSize) {
+        Pageable p = new PageRequest(pageNum, pageSize);
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findIdsByStoreAndType(storeId,clazz,p);
+        return questionDao.findIdsByStoreAndType(storeId, clazz, p);
     }
 
-    public Page<Question> getQuestions(long stroreId,Types.QuestionType type,Pageable p){
+    public Page<Question> getQuestions(long stroreId, Types.QuestionType type, Pageable p) {
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findQuestions(stroreId,clazz,p);
+        return questionDao.findQuestions(stroreId, clazz, p);
     }
 
-    public Page<Question> getQuestions(long storeId,Types.QuestionType type,int pageNum,int pageSize){
-        Pageable p = new PageRequest(pageNum,pageSize);
+    public Page<Question> getQuestions(long storeId, Types.QuestionType type, int pageNum, int pageSize) {
+        Pageable p = new PageRequest(pageNum, pageSize);
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findQuestions(storeId,clazz,p);
+        return questionDao.findQuestions(storeId, clazz, p);
     }
 
     public void deleteQuestion(Question question) {
         questionDao.delete(question);
     }
 
-    public void deleteQuestion(Long id){
+    public void deleteQuestion(Long id) {
         questionDao.delete(id);
+    }
+
+    public void deleteQuestionOption(Long opId) {
+        optionDao.delete(opId);
     }
 
 }

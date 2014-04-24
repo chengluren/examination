@@ -90,6 +90,12 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
     public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
 
     @Modifying
+    @Query("update Question q set q.stem = ?1,q.answer =?2,q.mustChoose = ?3,q.imgPath =?4 where q.id = ?5")
+    public void updateQuestion(String stem,String answer,boolean mustChoose,String imgPath,Long id);
+
+    @Modifying
     @Query("delete from Question where storeId = ?1")
     public void deleteStoreQuestions(long storeId);
+
+
 }

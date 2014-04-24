@@ -39,8 +39,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
-                    <li><a href="question.jsp"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
-                    <li><a href="quesimport.jsp"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
+                    <li><a href="/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    <li><a href="/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
                 </ul>
             </li>
             <li class="treeview active">

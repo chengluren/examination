@@ -95,22 +95,27 @@
                         <div class="box box-info">
                             <div class="box-body">
                                 <div class="form-group">
-                                    选择题: <a class="conf" tname="选择题设定" tid="chTable"><i class="fa fa-plus-square"></i></a>
+                                    <h3>选择题: <a class="conf" tname="选择题设定" tid="chTable"><i class="fa fa-plus-square"></i></a></h3>
                                 </div>
                                 <table class="table" id="chTable">
+                                    <tbody></tbody>
                                 </table>
                                 <div class="form-group">
                                     多选题: <a class="conf" tname="多选题设定" tid="mcTable"><i class="fa fa-plus-square"></i></a>
                                 </div>
-                                <table id="mcTable" class="table"></table>
+                                <table id="mcTable" class="table">
+                                    <tbody></tbody>
+                                </table>
                                 <div class="form-group">
                                     判断题: <a class="conf" tname="判断题设定" tid="tfTable"><i class="fa fa-plus-square"></i></a>
                                 </div>
-                                <table id="tfTable" class="table"></table>
+                                <table id="tfTable" class="table">
+                                    <tbody></tbody>
+                                </table>
                             </div>
                             <div class="box-footer">
                                 <h4>考试方案名称：</h4><input type="text"/>
-                                <button class="btn btn-sm btn-primary"><i class="fa fa-save"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick="collectData();"><i class="fa fa-save"></i></button>
                             </div>
                         </div>
                     </div>

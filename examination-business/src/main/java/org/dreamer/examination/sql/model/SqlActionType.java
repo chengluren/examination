@@ -13,7 +13,7 @@ import org.dreamer.examination.utils.StringUtil;
  */
 public enum SqlActionType {
 	LIKE("like", "li"), EQUAL("=", "eq"), NOTEQUAL("<>", "no"), LESSTHAN("<",
-			"lt"), GREATERTHAN("<", "gt"), LESSTHANEQ("<=","le"),GREATERTHANEQ(">=", "ge");
+			"lt"), GREATERTHAN(">", "gt"), LESSTHANEQ("<=","le"),GREATERTHANEQ(">=", "ge");
 
 	/**
 	 * 查询动作

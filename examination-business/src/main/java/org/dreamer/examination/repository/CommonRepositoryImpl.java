@@ -7,11 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.dreamer.examination.entity.Paper;
 import org.dreamer.examination.sql.model.SqlActionType;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -143,16 +146,43 @@ public class CommonRepositoryImpl<T, ID extends Serializable> extends
 		return query.getResultList();
 	}
 
-	@Override
-	public List<T> queryResult(List<SqlQueryItem> _paramList,
+	private List<T> queryResultList(List<SqlQueryItem> _paramList,
 			List<SqlSortItem> _sortList, Pageable _pageable) {
 		String jpql = createQueryJpql(_paramList, _sortList);
 		Query query = createQueryParam(jpql, _paramList, _pageable);
-		log.info("执行Jpql Sql语句:" + jpql);
+		log.info("执行Jpql Sql语句:查询记录" + jpql);
 		return query.getResultList();
 	}
 
-	private String createQueryJpql(List<SqlQueryItem> _paramList,
+    @Override
+    public Page<T> queryResult(List<SqlQueryItem> _paramList,
+                               List<SqlSortItem> _sortList, Pageable _pageable) {
+        List<T> dataList = queryResultList(_paramList, _sortList , _pageable );
+        Long count = getResultCount( _paramList );
+        Page<T> page = new PageImpl<T>( dataList ,_pageable ,count);
+        return page;
+    }
+
+    private Long getResultCount(List<SqlQueryItem> _paramList)
+    {
+        String jpql = createQueryCountJpql(_paramList);
+        Query query = createQueryParam(jpql, _paramList,null);
+        log.info("执行Jpql Sql语句,查询总数量:" + jpql);
+        return (Long)query.getSingleResult();
+    }
+
+    private String createQueryCountJpql(List<SqlQueryItem> _paramList) {
+        StringBuffer jpql = new StringBuffer("select count(t) from ").append(
+                this.cls.getSimpleName()).append(" t ");
+        String filter = getFilter(_paramList);
+              if (!StringUtils.isEmpty(filter)) {
+            jpql.append(filter);
+        }
+
+        return jpql.toString();
+    }
+
+    private String createQueryJpql(List<SqlQueryItem> _paramList,
 			List<SqlSortItem> _sortList) {
 		StringBuffer jpql = new StringBuffer("select t from ").append(
 				this.cls.getSimpleName()).append(" t ");
@@ -193,7 +223,7 @@ public class CommonRepositoryImpl<T, ID extends Serializable> extends
 							"t.%s %s :%s and ",
 							new Object[] { item.getPropertyName(),
 									item.getAction().getAction(),
-									item.getPropertyName() });
+									item.getPropertyName().replace(".","") });
 		}
 		result = result.substring(0, result.length() - 5);
 		return result;
@@ -203,9 +233,8 @@ public class CommonRepositoryImpl<T, ID extends Serializable> extends
 			Pageable _pageable) {
 		Query query = manager.createQuery(_jpql);
 		if (_pageable != null) {
-			int maxResult = _pageable.getPageNumber() * _pageable.getPageSize()
-					+ _pageable.getOffset();
-			query.setFirstResult(_pageable.getOffset());
+			int maxResult =  _pageable.getPageSize();
+			query.setFirstResult(_pageable.getPageNumber() * _pageable.getPageSize());
 			query.setMaxResults(maxResult);
 		}
 		if (_paramList != null) {
@@ -224,7 +253,7 @@ public class CommonRepositoryImpl<T, ID extends Serializable> extends
 					}
 					value = val;
 				}
-				query.setParameter(param.getPropertyName(), value);
+				query.setParameter(param.getPropertyName().replace(".",""), value);
 			}
 		}
 		return query;

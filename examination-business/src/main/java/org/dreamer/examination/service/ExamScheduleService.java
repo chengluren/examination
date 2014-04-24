@@ -33,4 +33,13 @@ public class ExamScheduleService {
     public List<ExamScheduleVO> getExamSchedule(String major){
         return scheduleDao.findSchedule(major);
     }
+
+    /**
+     * 获取所有考试安排
+     * @return
+     */
+    public List<ExamSchedule> getAllSchedule( )
+    {
+        return scheduleDao.findAll();
+    }
 }

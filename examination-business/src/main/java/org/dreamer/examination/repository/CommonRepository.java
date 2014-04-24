@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -28,7 +29,7 @@ public interface CommonRepository<T ,  ID extends Serializable> extends JpaRepos
 	  * @return	查询出的实体对象集合
 	  */
 	
-	 public List<T> queryResult( List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _pageable );
+	 public Page<T> queryResult( List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _pageable );
 	 
 	 /**
 	  * 执行指定的JQPL,查询一个实体对象

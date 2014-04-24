@@ -50,7 +50,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="schema.jsp"><i class="fa fa-angle-double-right"></i> 方案制定</a></li>
+                    <li><a href="/template/new"><i class="fa fa-angle-double-right"></i> 方案制定</a></li>
                     <li><a href="schemalist.jsp"><i class="fa fa-angle-double-right"></i> 方案管理</a></li>
                     <li><a href="paper.jsp"><i class="fa fa-angle-double-right"></i> 试卷生成</a></li>
                 </ul>

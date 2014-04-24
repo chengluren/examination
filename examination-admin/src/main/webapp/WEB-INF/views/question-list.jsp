@@ -64,9 +64,9 @@
                             <tr>
                                 <th>#</th>
                                 <th style="width: 60%">试 题</th>
-                                <th>答 案</th>
-                                <th>必 考</th>
-                                <th>操 作</th>
+                                <th class="text-center">答 案</th>
+                                <th class="text-center">必 考</th>
+                                <th class="text-center">操 作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -75,20 +75,20 @@
                                     <tr>
                                         <td>${st.index+1}</td>
                                         <td>${q.stem}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <c:choose>
                                                 <c:when test="${q.answer=='1'}">√</c:when>
                                                 <c:when test="${q.answer=='0'}">×</c:when>
                                                 <c:otherwise>${q.answer}</c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <c:choose>
                                                 <c:when test="${q.mustChoose}">是</c:when>
                                                 <c:otherwise>否</c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a class="btn btn-primary btn-xs" onclick="editQuestion(${q.id});">
                                                 <i class="fa fa-edit"></i>
                                             </a>

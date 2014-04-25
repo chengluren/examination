@@ -61,16 +61,11 @@ public class QuestionController {
         return mv;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/mclist")
     @ResponseBody
-    public Map<String, Object> questionList(String sEcho, int iDisplayStart,
-                                            int iDisplayLength, long storeId, String quesType) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("sEcho", sEcho);
-        result.put("iTotalRecords", 20);
-        result.put("iTotalDisplayRecords", 20);
-        result.put("aaData", new String[][]{{"1", "测试题目1"}, {"2", "测试题目2"}});
-        return result;
+    public Page<QuestionVO> mustChooseList(Long storeId, String quesType, @PageableDefault Pageable page){
+        return quesService.getMustChooseQuestion(storeId,
+                Types.QuestionType.getTypeFromShortName(quesType),page);
     }
 
     @RequestMapping("/edit/{id}")

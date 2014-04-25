@@ -11,4 +11,6 @@ import java.util.List;
 public interface PaperQuestionDao extends JpaRepository<PaperQuestion,Long>{
 
     public List<PaperQuestion> findByPaperId(long paperId);
+
+    public int countByExamIdAndPaperId(Long examId,Long pid);
 }

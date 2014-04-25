@@ -16,6 +16,12 @@ public class QuestionVO {
 
     public QuestionVO(){}
 
+    public QuestionVO(Long id,String stem,String answer){
+        this.id = id;
+        this.stem = stem;
+        this.answer = answer;
+    }
+
     public Long getId() {
         return id;
     }

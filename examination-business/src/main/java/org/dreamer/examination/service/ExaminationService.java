@@ -5,6 +5,7 @@ import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.AnswerDao;
 import org.dreamer.examination.repository.ExaminationDao;
 import org.dreamer.examination.repository.PaperDao;
+import org.dreamer.examination.repository.PaperQuestionDao;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class ExaminationService {
     private PaperDao paperDao;
     @Autowired
     private AnswerDao answerDao;
+    @Autowired
+    private PaperQuestionDao paperQuestionDao;
 
     public void addExamination(Examination examination){
         Paper p = examination.getPaper();
@@ -45,6 +48,10 @@ public class ExaminationService {
 
     public Page<ExamRecordVO> getExamRecords(String straffId,Pageable page){
        return examDao.findStaffExamRecords(straffId,page);
+    }
+
+    public int getExamPaperQuestionCount(long examId,long paperId){
+        return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);
     }
 
     public float scoreExam(long examId){

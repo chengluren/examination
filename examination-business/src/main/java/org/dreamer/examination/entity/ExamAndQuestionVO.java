@@ -1,5 +1,6 @@
 package org.dreamer.examination.entity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,9 @@ public class ExamAndQuestionVO {
     private long paperId;
     private List<String> quesTypes;
     private List<ExamQuestionVO> questions;
+    private int quesTotalCount;
+    private Date startTime;
+    private Date endTime;
 
     public long getExamId() {
         return examId;
@@ -45,5 +49,29 @@ public class ExamAndQuestionVO {
 
     public void setQuesTypes(List<String> quesTypes) {
         this.quesTypes = quesTypes;
+    }
+
+    public int getQuesTotalCount() {
+        return quesTotalCount;
+    }
+
+    public void setQuesTotalCount(int quesTotalCount) {
+        this.quesTotalCount = quesTotalCount;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

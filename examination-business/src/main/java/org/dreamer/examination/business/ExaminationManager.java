@@ -105,6 +105,8 @@ public class ExaminationManager {
             return null;
         }
         vo.setQuesTypes(quesTypes);
+        vo.setStartTime(examSchedule.getStartDate());
+        vo.setEndTime(examSchedule.getEndDate());
 
         Paper paper = generatePaper(tempId);
         Examination exam = new Examination();
@@ -127,6 +129,8 @@ public class ExaminationManager {
             cache.put(savedId[0],paper.getTypedQuestions());
             vo.setExamId(savedId[0]);
             vo.setPaperId(savedId[1]);
+            int totalCount = examService.getExamPaperQuestionCount(savedId[0],savedId[1]);
+            vo.setQuesTotalCount(totalCount);
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();
         }

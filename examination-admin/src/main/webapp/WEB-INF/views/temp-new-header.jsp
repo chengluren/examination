@@ -1,17 +1,46 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
+<link type="text/css" href="${ctx}/asset/js/plugins/wizard/bwstep.css" rel="stylesheet"/>
+
 <script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/wizard/jquery.bootstrap.wizard.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/messages_zh.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/template/jsrender.js"></script>
+<script id="quesTmpl" type="text/x-jsrender">
+   <tr>
+      <td><input type="checkbox" name="idCheckbox" qid={{:id}} /></td>
+      <td>{{:id}}</td>
+      <td>{{:stem}}</td>
+      <td>{{:answer}}</td>
+      <td>1</td>
+   </tr>
+</script>
+
 <script type="text/javascript">
+    function initWizard() {
+        $("#wizard").bootstrapWizard({
+            'tabClass': 'bwizard-steps'
+        });
+    }
     function initModalDialog() {
         $("#confModal").modal({
             show: false
         });
     }
-    function createChosen(el) {
+    function initValidator() {
+        return $("#tempConfForm").validate({
+            rules: {
+                "confCount": {required: true, number: true},
+                "confScore": {required: true, number: true}
+            }
+        });
+    }
+    function createChosen(el, width) {
         $(el).chosen({
             no_results_text: "没有找到",
             max_selected_options: 5,
-            width: 165,
+            width: width,
             disable_search_threshold: 10
         });
     }
@@ -31,11 +60,11 @@
         else if (e.srcElement) target = e.srcElement;
         if (target.nodeType == 3)
             target = targ.parentNode;
-        if(target){
+        if (target) {
             var tn = target.tagName;
-            if(tn.toLowerCase()=="i"){
+            if (tn.toLowerCase() == "i") {
                 $(target).parent().parent().parent().remove();
-            }else if(tn.toLowerCase()=="a"){
+            } else if (tn.toLowerCase() == "a") {
                 $(target).parent().parent().remove();
             }
 
@@ -53,16 +82,27 @@
     }
     function bindConfConfirmEvent() {
         $("#confConfirm").on("click", function () {
-            var sid = $("#confStoreId").val(),
-                    sname = $("#confStoreId option:selected").text(),
-                    count = $("#confCount").val(),
-                    score = $("#confScore").val(),
-                    tableId = $("#modalTitle").attr("tid");
-            createRow(sid, sname, count, score, tableId);
-            $('#confModal').modal('hide');
-            $("#confCount").val("");
-            $("#confScore").val("");
+            var valid = $("#tempConfForm").valid();
+            if (valid) {
+                var sid = $("#confStoreId").val(),
+                        sname = $("#confStoreId option:selected").text(),
+                        count = $("#confCount").val(),
+                        score = $("#confScore").val(),
+                        tableId = $("#modalTitle").attr("tid");
+                createRow(sid, sname, count, score, tableId);
+                $('#confModal').modal('hide');
+                $("#tempConfForm")[0].reset();
+            }
             return false;
+        });
+    }
+
+    function bindSelectChangeEvent() {
+        $("#mcStoreId").on("change", function () {
+            loadMustChooseData(0, 10);
+        });
+        $("#mcqt").change(function () {
+            loadMustChooseData(0, 10);
         });
     }
 
@@ -99,10 +139,38 @@
         console.log(JSON.stringify(total));
 
     }
+
+    function loadMustChooseData(page, size) {
+        $.ajax("/question/mclist", {
+            dataType: "json",
+            data: {
+                storeId: $("#mcStoreId").val(),
+                quesType: $("#mcqt").val(),
+                page: page,
+                size: size
+            },
+            success: function (data) {
+                if (data.totalPages > 0) {
+                    $("#mcTableBody").empty();
+                    var tpl = $.templates("#quesTmpl");
+                    $("#mcTableBody").html(tpl.render(data.content));
+                    $("#paginator").bootstrapPaginator({
+                        currentPage: data.number+1,
+                        totalPages: data.totalPages
+                    });
+                }
+            }
+        });
+    }
+
     $(document).ready(function () {
-        createChosen("#confStoreId");
+        initWizard();
+        initValidator();
         initModalDialog();
+        createChosen("#confStoreId", 165);
+        createChosen("#mcStoreId", 250);
         bindConfEvent();
         bindConfConfirmEvent();
+        bindSelectChangeEvent();
     });
 </script>

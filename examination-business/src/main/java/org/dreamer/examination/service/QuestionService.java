@@ -149,9 +149,21 @@ public class QuestionService {
         return questionDao.findIdsByStoreAndType(storeId, clazz, p);
     }
 
-    public Page<Question> getQuestions(long stroreId, Types.QuestionType type, Pageable p) {
+    public Page<Question> getQuestions(long storeId, Types.QuestionType type, Pageable p) {
         Class<?> clazz = QuestionTypeUtils.getClassType(type);
-        return questionDao.findQuestions(stroreId, clazz, p);
+        return questionDao.findQuestions(storeId, clazz, p);
+    }
+
+    /**
+     * 分页获得必考题的基本信息
+     * @param storeId
+     * @param type
+     * @param p
+     * @return
+     */
+    public Page<QuestionVO> getMustChooseQuestion(Long storeId, Types.QuestionType type, Pageable p){
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findMustChooseQuestion(storeId, clazz, p);
     }
 
     public Page<Question> getQuestions(long storeId, Types.QuestionType type, int pageNum, int pageSize) {

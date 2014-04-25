@@ -1,6 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.entity.QuestionVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -88,6 +89,17 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      */
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
     public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
+
+    /**
+     * 分页获取必选题基本信息
+     * @param storeId
+     * @param type
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select new org.dreamer.examination.entity.QuestionVO(q.id,q.stem,q.answer) " +
+            "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
+    public Page<QuestionVO> findMustChooseQuestion(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
 
     @Modifying
     @Query("update Question q set q.stem = ?1,q.answer =?2,q.mustChoose = ?3,q.imgPath =?4 where q.id = ?5")

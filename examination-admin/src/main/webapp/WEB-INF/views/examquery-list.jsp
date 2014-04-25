@@ -25,10 +25,10 @@
                     <div class="box-body">
                         <form class="form-horizontal" role="form"  method="post" action="/examquery/list">
                             <div class="form-group">
-                                <label for="schedule.id" class="col-sm-2 control-label">考试名称:</label>
+                                <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">
 
-                                    <select name="schedule.id" id="schedule.id" class="form-control" >
+                                    <select name="scheduleid" id="scheduleid" class="form-control" >
                                         <option value="">请选择考试名称</option>
                                         <c:forEach items="${schedulelist}" var="schedule">
                                             <option value=${schedule.id} <c:if test="${scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>

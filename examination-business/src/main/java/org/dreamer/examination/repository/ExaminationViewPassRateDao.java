@@ -4,7 +4,7 @@ import org.dreamer.examination.entity.ExaminationViewNotPassVO;
 import org.dreamer.examination.entity.ExaminationViewPassRateVO;
 
 /**
- * @author lcheng
+ * @author xwang
  * @version 1.0
  *          ${tags}
  */

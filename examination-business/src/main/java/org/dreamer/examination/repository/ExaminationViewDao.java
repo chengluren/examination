@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- * @author lcheng
+ * @author xwang
  * @version 1.0
  *          ${tags}
  */

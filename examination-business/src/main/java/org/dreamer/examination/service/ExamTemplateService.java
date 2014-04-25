@@ -81,4 +81,8 @@ public class ExamTemplateService {
         templateDao.delete(id);
     }
 
+    public List<ExamTemplate> findAllTemplate( )
+    {
+        return templateDao.findAll();
+    }
 }

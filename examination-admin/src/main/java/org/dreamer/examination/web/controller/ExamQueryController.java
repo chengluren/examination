@@ -46,7 +46,7 @@ public class ExamQueryController {
      * @return
      */
     @RequestMapping(value = "/list")
-    public ModelAndView getExamRecordList(@RequestParam( value="schedule.id",required=false)  Long scheduleid ,
+    public ModelAndView getExamRecordList(@RequestParam( value="scheduleid",required=false)  Long scheduleid ,
                                           @RequestParam( value="examStaffId-li",required=false , defaultValue="") String examStaffId,
                                           @PageableDefault Pageable page){
         ModelAndView mv = new ModelAndView("exam.examquery-list");

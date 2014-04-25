@@ -22,4 +22,7 @@ public interface ExamTemplateDao extends JpaRepository<ExamTemplate,Long> {
     public Page<ExamTemplate> findByName(String name,Pageable pageable);
 
     public Page<ExamTemplate> findByNameLike(String likeName,Pageable pageable);
+
+
+
 }

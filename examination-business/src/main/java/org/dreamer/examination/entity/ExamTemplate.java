@@ -24,7 +24,7 @@ public class ExamTemplate implements Serializable {
 
     //必考题中按题型分类的必考题
     @OneToMany(mappedBy = "template",cascade = {CascadeType.PERSIST},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.EAGER,orphanRemoval = true)
     @OrderBy("questionType asc")
     List<MustChooseQuestionDef> mustChooseDefs;
 

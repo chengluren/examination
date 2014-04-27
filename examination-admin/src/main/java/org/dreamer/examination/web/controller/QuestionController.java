@@ -68,6 +68,14 @@ public class QuestionController {
                 Types.QuestionType.getTypeFromShortName(quesType),page);
     }
 
+    @RequestMapping(value = "/mcNotChoosedlist")
+    @ResponseBody
+    public Page<QuestionVO> mustChooseNotChoosedList(Long storeId, String quesType,Long tempId,
+                                                     @PageableDefault Pageable page){
+        return quesService.getMustChooseQuestionNotChoosed(storeId,
+                Types.QuestionType.getTypeFromShortName(quesType),tempId,page);
+    }
+
     @RequestMapping("/edit/{id}")
     public ModelAndView editQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page) {
         Question question = quesService.getQuestion(id);

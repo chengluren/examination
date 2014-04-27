@@ -14,15 +14,15 @@
             </div>
         </div>
         <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                            <span class="input-group-btn">
-                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i
-                                        class="fa fa-search"></i></button>
-                            </span>
-            </div>
-        </form>
+        <%--<form action="#" method="get" class="sidebar-form">--%>
+            <%--<div class="input-group">--%>
+                <%--<input type="text" name="q" class="form-control" placeholder="Search..."/>--%>
+                            <%--<span class="input-group-btn">--%>
+                                <%--<button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i--%>
+                                        <%--class="fa fa-search"></i></button>--%>
+                            <%--</span>--%>
+            <%--</div>--%>
+        <%--</form>--%>
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
@@ -51,7 +51,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/template/new"><i class="fa fa-angle-double-right"></i> 方案制定</a></li>
-                    <li><a href="schemalist.jsp"><i class="fa fa-angle-double-right"></i> 方案管理</a></li>
+                    <li><a href="/template/list"><i class="fa fa-angle-double-right"></i> 方案管理</a></li>
                     <li><a href="paper.jsp"><i class="fa fa-angle-double-right"></i> 试卷生成</a></li>
                 </ul>
             </li>

@@ -166,6 +166,11 @@ public class QuestionService {
         return questionDao.findMustChooseQuestion(storeId, clazz, p);
     }
 
+    public Page<QuestionVO> getMustChooseQuestionNotChoosed(Long storeId, Types.QuestionType type,Long tempId,Pageable p){
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findMustChooseQuestionNotChoosed(storeId, clazz,tempId, p);
+    }
+
     public Page<Question> getQuestions(long storeId, Types.QuestionType type, int pageNum, int pageSize) {
         Pageable p = new PageRequest(pageNum, pageSize);
         Class<?> clazz = QuestionTypeUtils.getClassType(type);

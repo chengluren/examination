@@ -29,6 +29,10 @@ public class ExamScheduleService {
         scheduleDao.save(schedule);
     }
 
+    public int getScheduleCountUseTemp(Long tempId){
+        return scheduleDao.countByTemplateId(tempId);
+    }
+
     public ExamSchedule getExamSchedule(long id) {
         return scheduleDao.findOne(id);
     }

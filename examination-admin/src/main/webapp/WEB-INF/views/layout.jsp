@@ -2,9 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html>
 <html>
 <head>
     <title><t:getAsString name="title"/></title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="${ctx}/asset/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/asset/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/asset/css/ionicons.css" rel="stylesheet" type="text/css"/>

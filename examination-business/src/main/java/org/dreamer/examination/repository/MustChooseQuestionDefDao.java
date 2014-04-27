@@ -2,6 +2,8 @@ package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.MustChooseQuestionDef;
 import org.dreamer.examination.entity.Types;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +27,9 @@ public interface MustChooseQuestionDefDao extends JpaRepository<MustChooseQuesti
     @Modifying
     @Query("delete from MustChooseQuestionDef where template.id = :tempId")
     public void deleteDefsForTemplate(@Param("tempId")long tempId);
+
+
+    @Query("select d.id,d.questionId,q.stem,q.answer,d.quesScore,d.questionType " +
+            "from MustChooseQuestionDef d,Question q where d.questionId = q.id and d.template.id = ?1")
+    public Page<List<Object[]>> findMustChooseDefs(Long tempId,Pageable pageable);
 }

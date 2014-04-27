@@ -17,7 +17,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-md-10">
+            <div>
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">考试计划列表</h3>
@@ -40,7 +40,7 @@
                                     <input type="text" value="${major}" class="form-control" id="major-li" name="major-li" placeholder="请输入专业">
                                 </div>
 
-                                <label for="tempid" class="col-sm-2 control-label">模板名称:</label>
+                                <label for="tempid" class="col-sm-2 control-label">方案名称:</label>
                                 <div class="col-sm-3">
 
                                     <select name="tempid" id="tempid" class="form-control" >

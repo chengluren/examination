@@ -31,6 +31,14 @@ public class MustChooseQuestionDef implements Serializable {
     @JoinColumn(name = "TEMP_ID")
     private ExamTemplate template;
 
+    public MustChooseQuestionDef(){}
+
+    public MustChooseQuestionDef(Long questionId,Types.QuestionType questionType,float quesScore){
+        this.questionId = questionId;
+        this.questionType = questionType;
+        this.quesScore = quesScore;
+    }
+
     public long getId() {
         return id;
     }

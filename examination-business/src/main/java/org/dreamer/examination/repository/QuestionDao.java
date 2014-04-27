@@ -98,8 +98,14 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      * @return
      */
     @Query(value = "select new org.dreamer.examination.entity.QuestionVO(q.id,q.stem,q.answer) " +
-            "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
+            "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true")
     public Page<QuestionVO> findMustChooseQuestion(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
+
+    @Query(value = "select new org.dreamer.examination.entity.QuestionVO(q.id,q.stem,q.answer) "+
+            "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true and " +
+            "q.id not in (select d.questionId from MustChooseQuestionDef d where d.template.id =:tempId)")
+    public Page<QuestionVO> findMustChooseQuestionNotChoosed(@Param("storeId")Long storeId, @Param("type")Class<?> type,
+                                                 @Param("tempId")Long tempId,Pageable pageable);
 
     @Modifying
     @Query("update Question q set q.stem = ?1,q.answer =?2,q.mustChoose = ?3,q.imgPath =?4 where q.id = ?5")

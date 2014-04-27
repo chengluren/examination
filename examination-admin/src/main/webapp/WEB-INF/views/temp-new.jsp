@@ -6,8 +6,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Dashboard
-            <small>控制台</small>
+            考试方案管理
+            <small>方案制定</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -58,95 +58,103 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="box-footer" style="text-align: center;margin: 0">
+                                <button class="btn btn-primary btn-flat"
+                                        onclick="$('#wizard').bootstrapWizard('next');">下一步</button>
+                            </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane">
                         <div class="box box-info">
-                            <form class="form-horizontal margin" role="form">
-                                <div class="form-group">
+                            <div class="box-body">
+                                <form class="form-horizontal margin" role="form">
+                                    <div class="form-group">
 
-                                    <label for="mcStoreId" class="col-sm-1 control-label">题 库:</label>
+                                        <label for="mcStoreId" class="col-sm-1 control-label">题 库:</label>
 
-                                    <div class="col-sm-3">
-                                        <select name="mcStoreId" id="mcStoreId" style="width: 300px;">
-                                            <c:forEach items="${stores}" var="s">
-                                                <option value="${s.id}">${s.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
+                                        <div class="col-sm-3">
+                                            <select name="mcStoreId" id="mcStoreId" style="width:300px;">
+                                                <c:forEach items="${stores}" var="s">
+                                                    <option value="${s.id}">${s.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
 
-                                    <label for="mcqt" class="col-sm-1 control-label">题 型:</label>
+                                        <label for="mcqt" class="col-sm-1 control-label">题 型:</label>
 
-                                    <div class="col-sm-2">
-                                        <select id="mcqt" name="mcqt" class="form-control">
-                                            <option value="CH" selected>选择题</option>
-                                            <option value="MC">多选题</option>
-                                            <option value="TF">判断题</option>
-                                        </select>
-                                    </div>
+                                        <div class="col-sm-2">
+                                            <select id="mcqt" name="mcqt" class="form-control">
+                                                <option value="CH" selected>选择题</option>
+                                                <option value="MC">多选题</option>
+                                                <option value="TF">判断题</option>
+                                            </select>
+                                        </div>
 
-                                    <div class="input-group col-sm-3">
-                                        <input type="text" class="form-control" id="mcSearch"/>
+                                        <div class="input-group col-sm-3">
+                                            <input type="text" class="form-control" id="mcSearch"/>
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary btn-flat" type="button">查询</button>
                                         </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                            <div class="col-sm-11">
+                                </form>
                                 <table id="mcQuesTable" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" name="idCheckbox"/></th>
+                                        <th><input type="checkbox" id="allCheckbox" name="allCheckbox"/></th>
                                         <th>题 号</th>
                                         <th style="width: 60%">试 题</th>
-                                        <th>答 案</th>
-                                        <th>分 值</th>
+                                        <th class="text-center">答 案</th>
+                                        <th class="text-center">分 值</th>
                                     </tr>
                                     </thead>
                                     <tbody id="mcTableBody">
                                     </tbody>
                                 </table>
-                                <
+                                <div class="margin" style="height: 30px;">
+                                    <ul id="paginator" class="pagination pagination-sm no-margin pull-right">
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="box-footer clearfix">
-                            <ul id="paginator" class="pagination pagination-sm no-margin pull-right">
-                            </ul>
+                            <div class="box-footer" style="text-align: center;margin: 0">
+                                <button class="btn btn-primary btn-flat"
+                                        onclick="$('#wizard').bootstrapWizard('previous');">上一步</button>
+                                <button class="btn btn-primary btn-flat"
+                                        onclick="$('#wizard').bootstrapWizard('next');">下一步</button>
+                            </div>
                         </div>
                     </div>
                     <div id="tab3" class="tab-pane">
                         <div class="box box-info">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <p class="lead">选择题: <a class="conf" tname="选择题设定" tid="chTable"><i
+                                    <p class="text-info">选择题: <a class="conf" tname="选择题设定" tid="chContainer"><i
                                             class="fa fa-plus-square"></i></a></p>
                                 </div>
-                                <table class="table table-striped" id="chTable">
-                                    <tbody></tbody>
-                                </table>
+                                <div id="chContainer" class="container">
+                                </div>
                                 <hr/>
                                 <div class="form-group">
-                                    <p class="lead">多选题: <a class="conf" tname="多选题设定" tid="mcTable"><i
+                                    <p class="text-info">多选题: <a class="conf" tname="多选题设定" tid="mcContainer"><i
                                             class="fa fa-plus-square"></i></a></p>
                                 </div>
-                                <table id="mcTable" class="table">
-                                    <tbody></tbody>
-                                </table>
+                                <div id="mcContainer" class="container">
+                                </div>
                                 <hr/>
                                 <div class="form-group">
-                                    <p class="lead"> 判断题: <a class="conf" tname="判断题设定" tid="tfTable"><i
+                                    <p class="text-info"> 判断题: <a class="conf" tname="判断题设定" tid="tfContainer"><i
                                             class="fa fa-plus-square"></i></a></p>
                                 </div>
-                                <table id="tfTable" class="table">
-                                    <tbody></tbody>
-                                </table>
+                                <div id="tfContainer" class="container">
+                                </div>
                             </div>
-                            <div class="box-footer">
-                                <h4>考试方案名称：</h4><input type="text"/>
-                                <button class="btn btn-sm btn-primary" onclick="collectData();"><i
-                                        class="fa fa-save"></i></button>
-                            </div>
+
+                        </div>
+                        <div class="box-footer" style="text-align: center;margin: 0">
+                            <button class="btn btn-primary btn-flat"
+                                    onclick="$('#wizard').bootstrapWizard('previous');">上一步</button>
+                            <button class="btn btn-primary btn-flat"
+                                    onclick="save();">保 存</button>
                         </div>
                     </div>
 

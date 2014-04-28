@@ -20,7 +20,7 @@
                     quesType = $("#quesType").val();
                 window.location.href = toUrl+"?storeId="+storeId+"&quesType="+quesType+"&page="+p+"&size=10";
             },
-            elementCls:"pagination pagination-sm no-margin pull-right",
+            elementCls:"pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
                 switch (type) {
                     case "first":

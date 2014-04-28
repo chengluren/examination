@@ -50,6 +50,10 @@ public class ExaminationService {
        return examDao.findStaffExamRecords(straffId,page);
     }
 
+    public List<ExamRecordVO> getExamRecords(String straffId,Long scheduleId){
+        return examDao.findStaffExamRecords(straffId,scheduleId);
+    }
+
     public int getExamPaperQuestionCount(long examId,long paperId){
         return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);
     }

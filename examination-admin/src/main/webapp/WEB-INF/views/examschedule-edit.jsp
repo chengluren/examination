@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <label for="tempid" class="col-sm-2 control-label">考试模板</label>
                                 <div class="col-sm-5">
-                                    <select name="tempid" id="tempid"  style="width: 350px;" class="form-control"  data-placeholder="请选择考试模板">
+                                    <select name="tempid" id="tempid" class="form-control"  data-placeholder="请选择考试模板">
                                         <option value="">选择考试模板</option>
                                         <c:forEach items="${templatelist}" var="template">
                                             <option value=${template.id} <c:if test="${schedule.tempid == template.id}">selected</c:if> >${template.name}</option>
@@ -52,14 +52,14 @@
 
                             <div class="form-group">
                                 <label for="major" class="col-sm-2 control-label">所属专业</label>
-
-                                <select name="major" id="major"  style="width: 350px;" class="form-control"  data-placeholder="请选择考试模板">
+                                <div class="col-sm-5">
+                                <select name="major" id="major" class="form-control"  data-placeholder="请选择考试模板">
                                     <option value="">选择专业</option>
                                     <c:forEach items="${majors}" var="major">
                                         <option value=${major} <c:if test="${schedule.major == major}">selected</c:if>> ${major}</option>
                                     </c:forEach>
                                 </select>
-
+                                </div>
                             </div>
 
 

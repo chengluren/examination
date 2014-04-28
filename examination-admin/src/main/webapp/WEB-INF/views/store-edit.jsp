@@ -11,7 +11,7 @@
                     <div class="box-header">
                         <h3 class="box-title">编辑题库</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post">
+                    <form role="form" class="form-horizontal" method="post" action="${ctx}/store/edit">
                         <div class="box-body">
                             <input type="hidden" id="id" name="id" value="${store.id}"/>
                             <div class="form-group">

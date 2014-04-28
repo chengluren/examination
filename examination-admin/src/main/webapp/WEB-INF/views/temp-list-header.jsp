@@ -25,7 +25,7 @@
                     window.location.href = "${ctx}/template/list?page="+p+"&size=10&name="+name;
                 }
             },
-            elementCls:"pagination pagination-sm no-margin pull-right",
+            elementCls:"pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
                 switch (type) {
                     case "first":

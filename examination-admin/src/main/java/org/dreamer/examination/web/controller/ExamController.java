@@ -103,6 +103,13 @@ public class ExamController {
         return new JSONPObject(callback, examRecordVOs);
     }
 
+    @RequestMapping(value = "/scheduleExamRecords")
+    @ResponseBody
+    public JSONPObject examRecords(String staffId,Long scheduleId, String callback) {
+        List<ExamRecordVO> examRecordVOs = examService.getExamRecords(staffId, scheduleId);
+        return new JSONPObject(callback, examRecordVOs);
+    }
+
     @RequestMapping(value = "/examSchedule")
     @ResponseBody
     public JSONPObject examSchedule(String major, String callback) {

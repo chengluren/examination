@@ -8,7 +8,8 @@
         $("#storeMajor").chosen({
             no_results_text:"没有找到",
             max_selected_options: 5,
-            disable_search_threshold: 10
+            disable_search_threshold: 10,
+            width:"323px"
         });
     });
 </script>

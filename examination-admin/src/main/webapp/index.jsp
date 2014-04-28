@@ -9,7 +9,7 @@
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=M001&scheduleId=1&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=M001&scheduleId=50&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
@@ -36,13 +36,13 @@
             var answers = [
                 {
                     examId: 1,
-                    quesId: 2397,
+                    quesId: 2342,
                     answer: "A"
                 },
                 {
                     examId: 1,
-                    quesId: 2404,
-                    answer: "C"
+                    quesId: 2402,
+                    answer: "B"
                 }
             ];
             $.ajax({
@@ -80,15 +80,22 @@
                 console.log(data);
             });
         }
+
+        function getExamRecord2() {
+            $.getJSON("http://localhost:8080/exam/scheduleExamRecords?staffId=001&scheduleId=1&callback=?", function (data) {
+                console.log(data);
+            });
+        }
                 takeExam();
 //        getExamQuestions();
 //                        sequenceLoadQuestion();
         //                randomLoadQuestion();
 //                commitAnswer();
-        //        commitPaper();
+//                commitPaper();
         //        getMajorStore();
 //                getExamSchedule();
 //                getExamRecord();
+//        getExamRecord2();
     </script>
 </head>
 <body>

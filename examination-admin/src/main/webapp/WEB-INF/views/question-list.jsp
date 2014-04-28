@@ -103,8 +103,8 @@
 
                             </tbody>
                         </table>
-                        <div class="box-footer clearfix">
-                            <ul id="paginator" class="pagination pagination-sm no-margin pull-right">
+                        <div class="box-footer" style="text-align: center;margin: 0">
+                            <ul id="paginator" class="pagination">
                             </ul>
                         </div>
                     </div>

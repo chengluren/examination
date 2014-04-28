@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <header class="header">
     <a href="index.html" class="logo">
         考试管理系统后台
@@ -24,7 +26,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header bg-light-blue">
-                            <img src="static/img/avatar3.png" class="img-circle" alt="User Image"/>
+                            <img src="${ctx}/asset/img/avatar3.png" class="img-circle" alt="User Image"/>
 
                             <p>
                                 王 刚 - 系统管理员

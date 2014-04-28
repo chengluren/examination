@@ -17,7 +17,7 @@
                var p = page -1;
                window.location.href = toUrl+"?page="+p+"&size=10";
            },
-           elementCls:"pagination pagination-sm no-margin pull-right",
+           elementCls:"pagination pagination-sm no-margin",
            itemTexts: function (type, page) {
                switch (type) {
                    case "first":

@@ -1,6 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Main content -->
     <section class="content">
@@ -10,7 +11,7 @@
                     <div class="box-header">
                         <h3 class="box-title">修改考试计划</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post" action="/examschedule/edit" >
+                    <form role="form" class="form-horizontal" method="post" action="${ctx}/examschedule/edit" >
                         <div class="box-body">
                             <input type="hidden" id="id" name="id" value="${schedule.id}"/>
                             <div class="form-group">

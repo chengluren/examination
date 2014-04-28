@@ -4,10 +4,9 @@ import org.dreamer.examination.entity.ExamRecordVO;
 import org.dreamer.examination.entity.Examination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 /**
  * @author lcheng
@@ -30,4 +29,8 @@ public interface ExaminationDao extends CommonRepository<Examination,Long>{
             "e.examStaffId,e.schedule.name,e.finalScore,e.examStartTime)  " +
             "from Examination e ")
     public Page<ExamRecordVO> findAllExamRecords(Pageable page);
+
+    @Modifying
+    @Query("update Examination set finalScore =:finalScore where id =:examId")
+    public void updateExamFinalScore(@Param("examId")Long examId,@Param("finalScore")float finalScore);
 }

@@ -5,6 +5,7 @@ import org.dreamer.examination.entity.AnswerJudgeVO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
             "from Answer a,Question q,PaperQuestion pq " +
             "where a.quesId = q.id and q.id = pq.quesId and a.examId =?1 ")
     public List<AnswerJudgeVO> findCommitAndRealAnswer(long examId);
+
+    @Modifying
+    @Query("update Answer set answer=:answer where examId=:examId and quesId=:quesId")
+    public void updateAnswer(@Param("examId")Long examId,@Param("quesId")Long quesId,@Param("answer")String answer);
 }

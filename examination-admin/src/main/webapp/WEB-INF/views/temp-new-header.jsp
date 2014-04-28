@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
 <link type="text/css" href="${ctx}/asset/js/plugins/wizard/bwstep.css" rel="stylesheet"/>
 <style>
@@ -250,23 +252,27 @@
         });
         result.mustChooseDefs = mcdef;
         result.tempQuesDefs = collectAllTempQues();
-        console.log(JSON.stringify(result));
+        //console.log(JSON.stringify(result));
         return result;
     }
 
     function save(){
         var result = collectAllData();
         if(result.tempQuesDefs && result.tempQuesDefs.length>0){
-            $.post("/template/new",{
+            $.post("${ctx}/template/new",{
                 "template":JSON.stringify(result)
             },function(data){
-
+                 if(data.success){
+                    window.location.href = "${ctx}/template/list";
+                 }else{
+                     alert(data.message);
+                 }
             });
         }
     }
 
     function loadMustChooseData(page, size) {
-        $.ajax("/question/mclist", {
+        $.ajax("${ctx}/question/mclist", {
             dataType: "json",
             data: {
                 storeId: $("#mcStoreId").val(),

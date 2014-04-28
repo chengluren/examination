@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Main content -->
     <section class="content">
@@ -9,7 +10,7 @@
                     <div class="box-header">
                         <h3 class="box-title">编辑试题</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post" action="/store/edit">
+                    <form role="form" class="form-horizontal" method="post" action="${ctx}/store/edit">
                         <div class="box-body" id="form-container">
                             <input type="hidden" id="id" name="id" value="${q.id}"/>
 

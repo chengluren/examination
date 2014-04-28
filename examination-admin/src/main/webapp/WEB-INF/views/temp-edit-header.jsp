@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <link href="${ctx}/asset/js/plugins/xeditable/css/bootstrap-editable.css" rel="stylesheet">
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
 <style>
@@ -75,7 +77,7 @@
                 var name = $("#name").val(),
                         passScore = $("#passScore").val(),
                         mixedIn = $("#multiChoiceMixedInChoice").parent().attr("aria-checked") == "true" ? false : true;
-                $.post("/template/update", {
+                $.post("${ctx}/template/update", {
                     tempId: tempId,
                     name: name,
                     passScore: passScore,
@@ -187,7 +189,7 @@
     function deleteMustChoose(id) {
         if (window.confirm("您确定要删除该必考题吗？")) {
             $.ajax({
-                url: "/template/mc/delete",
+                url: "${ctx}/template/mc/delete",
                 data: {
                     id: id
                 },
@@ -212,7 +214,7 @@
             if (target.nodeType == 3)
                 target = targ.parentNode;
             $.ajax({
-                url: "/template/quesDef/delete",
+                url: "${ctx}/template/quesDef/delete",
                 data: {
                     id: id
                 },
@@ -231,7 +233,7 @@
     }
 
     function addTempQuesDef(tempId,sid,sname,quesType,count,scorePer,cId){
-        $.post("/template/quesDef/add",{
+        $.post("${ctx}/template/quesDef/add",{
             storeId:sid,
             quesType:quesType,
             count:count,
@@ -254,7 +256,7 @@
     function addMustChooseDef(){
         var data = collectMustChooseData();
         if(data.mcs.length>0){
-            $.post("/template//mc/add",{
+            $.post("${ctx}/template//mc/add",{
                 mcs:JSON.stringify(data)
             },function(data){
                 if(data.success){
@@ -293,7 +295,7 @@
 
     //load data
     function loadTemplateMustChooseData(tempId, page) {
-        $.get("/template/mc/list", {
+        $.get("${ctx}/template/mc/list", {
             tempId: tempId,
             page: page,
             size: 10
@@ -317,7 +319,7 @@
     }
 
     function loadMustChooseData(page, size) {
-        $.ajax("/question/mcNotChoosedlist", {
+        $.ajax("${ctx}/question/mcNotChoosedlist", {
             dataType: "json",
             data: {
                 storeId: $("#mcStoreId").val(),
@@ -409,8 +411,8 @@
 
     $(document).ready(function () {
         createValidator();
-        createChosen("#confStoreId", 165);
-        createChosen("#mcStoreId",150);
+        createChosen("#confStoreId", "165px");
+        createChosen("#mcStoreId","200px");
         if(mcDefsTotalPage>0){
             createPaginator("#paginator",1,mcDefsTotalPage);
             $("#paginator").bootstrapPaginator({

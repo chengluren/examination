@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <style>
     .box .box-tools a{
         color: #ffffff;
@@ -35,10 +37,10 @@
    }
    function deleteStore(id){
        if(window.confirm("您确定要删除题库及其相关的试题吗?")){
-           window.location.href = "/store/delete/"+id;
+           window.location.href = "${ctx}/store/delete/"+id;
        }
    }
    $(document).ready(function(){
-       createPaginator("paginator",${page},${totalPage},"/store/list")
+       createPaginator("paginator",${page},${totalPage},"${ctx}/store/list")
    });
 </script>

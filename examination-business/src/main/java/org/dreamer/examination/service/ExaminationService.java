@@ -56,8 +56,8 @@ public class ExaminationService {
 
     public float scoreExam(long examId){
         List<AnswerJudgeVO> ajvos =  answerDao.findCommitAndRealAnswer(examId);
+        float score = 0;
         if (ajvos!=null && ajvos.size()>0){
-            float score = 0;
             Types.QuestionType type = null;
             for (AnswerJudgeVO vo : ajvos){
                 type = vo.getQuestionType();
@@ -77,8 +77,8 @@ public class ExaminationService {
                     }
                 }
             }
-            return score;
         }
-        return 0;
+        examDao.updateExamFinalScore(examId,score);
+        return score;
     }
 }

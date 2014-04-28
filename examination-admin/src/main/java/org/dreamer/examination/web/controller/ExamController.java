@@ -74,15 +74,17 @@ public class ExamController {
     @RequestMapping(value = "/commitAnswer", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Result commitAnswer(String answers) {
+        Result r = null;
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<Answer> answerList = mapper.readValue(answers,
                     TypeFactory.defaultInstance().constructCollectionType(List.class, Answer.class));
             examManager.commitAnswers(answerList);
+            r = new Result(true, "提交成功！");
         } catch (IOException e) {
+            r = new Result(false, "提交失败！");
             e.printStackTrace();
         }
-        Result r = new Result(true, "提交成功！");
         return r;
     }
 

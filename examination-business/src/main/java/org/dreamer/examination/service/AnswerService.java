@@ -20,10 +20,13 @@ public class AnswerService {
         for (Answer a:answers){
             int count = answerDao.countByExamIdAndQuesId(a.getExamId(),a.getQuesId());
             if (count>0){
-                answerDao.deleteByExamIdAndQuesId(a.getExamId(),a.getQuesId());
+                //answerDao.deleteByExamIdAndQuesId(a.getExamId(),a.getQuesId());
+                answerDao.updateAnswer(a.getExamId(),a.getQuesId(),a.getAnswer());
+            }else{
+                answerDao.save(a);
             }
         }
-        answerDao.save(answers);
+       // answerDao.save(answers);
     }
 
     public void addAnswer(Answer a){

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -44,7 +45,8 @@
                                                     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="margin-left:180px;">确 定</button>
+                            <button type="submit" class="btn btn-primary ladda-button" data-style="expand-right"
+                                    style="margin-left:180px;"><span class="ladda-label">确 定</span></button>
                         </form>
                     </div>
                 </div>

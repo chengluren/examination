@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="left-side sidebar-offcanvas">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -27,7 +29,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="active">
-                <a href="/index">
+                <a href="${ctx}/index">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
@@ -38,9 +40,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
-                    <li><a href="/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
-                    <li><a href="/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
+                    <li><a href="${ctx}/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
+                    <li><a href="${ctx}/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    <li><a href="${ctx}/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
                 </ul>
             </li>
             <li class="treeview active">
@@ -50,9 +52,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/template/new"><i class="fa fa-angle-double-right"></i> 方案制定</a></li>
-                    <li><a href="/template/list"><i class="fa fa-angle-double-right"></i> 方案管理</a></li>
-                    <li><a href="paper.jsp"><i class="fa fa-angle-double-right"></i> 试卷生成</a></li>
+                    <li><a href="${ctx}/template/new"><i class="fa fa-angle-double-right"></i> 方案制定</a></li>
+                    <li><a href="${ctx}/template/list"><i class="fa fa-angle-double-right"></i> 方案管理</a></li>
+                    <%--<li><a href="paper.jsp"><i class="fa fa-angle-double-right"></i> 试卷生成</a></li>--%>
                 </ul>
             </li>
             <li class="treeview active">
@@ -61,10 +63,10 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/examschedule/list"><i class="fa fa-angle-double-right"></i>考试计划管理</a></li>
-                    <li><a href="/examquery/list"><i class="fa fa-angle-double-right"></i> 考试记录查询</a></li>
-                    <li><a href="/examquery/notpasslist"><i class="fa fa-angle-double-right"></i> 未通过查询</a></li>
-                    <li><a href="/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>
+                    <li><a href="${ctx}/examschedule/list"><i class="fa fa-angle-double-right"></i>考试计划管理</a></li>
+                    <li><a href="${ctx}/examquery/list"><i class="fa fa-angle-double-right"></i> 考试记录查询</a></li>
+                    <li><a href="${ctx}/examquery/notpasslist"><i class="fa fa-angle-double-right"></i> 未通过查询</a></li>
+                    <li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>
                 </ul>
             </li>
 
@@ -74,8 +76,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="index.jsp"><i class="fa fa-angle-double-right"></i> 用户管理</a></li>
-                    <li><a href="index.jsp"><i class="fa fa-angle-double-right"></i> 系统配置</a></li>
+                    <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 用户管理</a></li>
+                    <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 系统配置</a></li>
                 </ul>
             </li>
 

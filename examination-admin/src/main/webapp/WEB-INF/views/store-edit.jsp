@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Main content -->
     <section class="content">
@@ -10,7 +11,7 @@
                     <div class="box-header">
                         <h3 class="box-title">编辑题库</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post" action="/store/edit">
+                    <form role="form" class="form-horizontal" method="post">
                         <div class="box-body">
                             <input type="hidden" id="id" name="id" value="${store.id}"/>
                             <div class="form-group">

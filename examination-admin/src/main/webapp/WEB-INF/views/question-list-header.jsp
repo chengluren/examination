@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
@@ -41,7 +43,7 @@
            var storeId = $("#stores").val(),
                quesType = $("#quesType").val(),
                page = $("#paginator").bootstrapPaginator("getPages").current;
-           window.location.href = "/question/delete/"+id+
+           window.location.href = "${ctx}/question/delete/"+id+
                    "?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1)+"&size=10";
        }
     }
@@ -66,25 +68,25 @@
         var storeId = $("#stores").val(),
                 quesType = $("#quesType").val(),
                 page = $("#paginator").bootstrapPaginator("getPages").current;
-       window.location.href="/question/edit/"+id+"?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1);
+       window.location.href="${ctx}/question/edit/"+id+"?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1);
     }
 
     function refresh(){
         var storeId = $("#stores").val(),
                 quesType = $("#quesType").val(),
                 page = 0;
-        window.location.href = "/question/list/"+
+        window.location.href = "${ctx}/question/list/"+
                 "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"&size=10";
     }
 
     function toQuestionImport(){
         var storeId = $("#stores").val();
-        window.location.href = "/question/import?storeId="+storeId;
+        window.location.href = "${ctx}/question/import?storeId="+storeId;
     }
 
     $(document).ready(function(){
         createChosen("#stores");
-        createPaginator("#paginator",${page},${totalPage},"/question/list");
+        createPaginator("#paginator",${page},${totalPage},"${ctx}/question/list");
         quesTypeChange();
     });
 </script>

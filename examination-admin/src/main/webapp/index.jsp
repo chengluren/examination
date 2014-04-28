@@ -21,7 +21,7 @@
             });
         }
         function sequenceLoadQuestion() {
-            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=10&type=CH&page=1&spage.ize=20&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=10&type=CH&page=1&page.size=20&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -37,12 +37,12 @@
                 {
                     examId: 1,
                     quesId: 2397,
-                    answer: 'A'
+                    answer: "A"
                 },
                 {
                     examId: 1,
                     quesId: 2404,
-                    answer: 'D'
+                    answer: "C"
                 }
             ];
             $.ajax({
@@ -66,7 +66,7 @@
         }
 
         function getMajorStore() {
-            $.getJSON("http://localhost:8080/store/M001?callback=?", function (data) {
+            $.getJSON("http://localhost:8080/store/major?major=M001&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -80,11 +80,11 @@
                 console.log(data);
             });
         }
-//                takeExam();
+                takeExam();
 //        getExamQuestions();
-                        sequenceLoadQuestion();
+//                        sequenceLoadQuestion();
         //                randomLoadQuestion();
-        //        commitAnswer();
+//                commitAnswer();
         //        commitPaper();
         //        getMajorStore();
 //                getExamSchedule();

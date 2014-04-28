@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
 <script type="text/javascript">
 
     function addNewTemplate(){
-        window.location.href = "/template/new";
+        window.location.href = "${ctx}/template/new";
     }
 
     function createPaginator(el,curPage,totalPage){
@@ -18,9 +20,9 @@
                 var p = page - 1,
                 name = $("#name").val();
                 if(name==null || name ==""){
-                    window.location.href = "/template/list?page="+p+"&size=10";
+                    window.location.href = "${ctx}/template/list?page="+p+"&size=10";
                 }else{
-                    window.location.href = "/template/list?page="+p+"&size=10&name="+name;
+                    window.location.href = "${ctx}/template/list?page="+p+"&size=10&name="+name;
                 }
             },
             elementCls:"pagination pagination-sm no-margin pull-right",
@@ -53,7 +55,7 @@
                 dataType:"JSON",
                 success:function(data){
                     if(data.success){
-                        window.location.href = "/template/list";
+                        window.location.href = "${ctx}/template/list";
                     }else{
                         alert(data.message);
                     }
@@ -63,7 +65,7 @@
     }
 
     function editTemplate(id){
-        window.location.href = "/template/edit?tempId="+id;
+        window.location.href = "${ctx}/template/edit?tempId="+id;
     }
 
     $(document).ready(function(){

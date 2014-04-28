@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -8,7 +9,7 @@
             <small>--考试记录列表</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/home"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="${ctx}/home"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">考试记录列表</li>
         </ol>
     </section>
@@ -23,7 +24,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form class="form-horizontal" role="form"  method="post" action="/examquery/list">
+                        <form class="form-horizontal" role="form"  method="post" action="${ctx}/examquery/list">
                             <div class="form-group">
                                 <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">

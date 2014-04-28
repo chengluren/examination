@@ -1,6 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -9,7 +10,7 @@
             <small>--考试计划列表</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/home"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="${ctx}/home"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">考试计划列表</li>
         </ol>
     </section>
@@ -22,12 +23,12 @@
                     <div class="box-header">
                         <h3 class="box-title">考试计划列表</h3>
                         <div class="box-tools pull-right" style="margin-right: 80px;">
-                            <a href="/examschedule/add" class="btn btn-primary btn-flat" role="button">增加计划</a>
+                            <a href="${ctx}/examschedule/add" class="btn btn-primary btn-flat" role="button">增加计划</a>
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form class="form-horizontal" role="form"  method="post" action="/examschedule/list">
+                        <form class="form-horizontal" role="form"  method="post" action="${ctx}/examschedule/list">
                             <div class="form-group">
 
                                 <label for="name-li" class="col-sm-1 control-label">名称:</label>
@@ -81,7 +82,7 @@
                                     <td>${s.tempname}</td>
                                     <td>${s.passScore}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs" href="/examschedule/edit/${s.id}">
+                                        <a class="btn btn-primary btn-xs" href="${ctx}/examschedule/edit/${s.id}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-primary btn-xs" onclick="deleteSchedule(${s.id});">

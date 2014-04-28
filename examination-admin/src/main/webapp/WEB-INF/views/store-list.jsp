@@ -1,5 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -21,7 +23,7 @@
                     <div class="box-header">
                         <h3 class="box-title">题库列表</h3>
                         <div class="box-tools pull-right">
-                            <a href="/store/add" class="btn btn-primary btn-flat" role="button">新增题库</a>
+                            <a href="${ctx}/store/add" class="btn btn-primary btn-flat" role="button">新增题库</a>
                         </div>
                     </div>
                     <!-- /.box-header -->
@@ -41,7 +43,7 @@
                                     <td><span class="badge bg-red">${s.quesCount}</span></td>
                                     <td>${s.comment}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-xs" href="/store/edit/${s.id}">
+                                        <a class="btn btn-primary btn-xs" href="${ctx}/store/edit/${s.id}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-primary btn-xs" onclick="deleteStore(${s.id});">

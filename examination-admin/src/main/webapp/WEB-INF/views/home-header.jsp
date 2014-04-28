@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+
 <link href="${ctx}/asset/css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
 <script src="${ctx}/asset/js/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 <script type="text/javascript">

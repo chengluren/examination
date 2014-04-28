@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <style>
     .box .box-tools a{
         color: #ffffff;
@@ -38,11 +39,11 @@
 
    function deleteSchedule(id){
        if(window.confirm("您确定要删除考试计划吗?")){
-           window.location.href = "/examschedule/delete/"+id;
+           window.location.href = "${ctx}/examschedule/delete/"+id;
        }
    }
 
      $(document).ready(function(){
-          createPaginator("paginator",${page},${totalPage},"/examquery/list")
+          createPaginator("paginator",${page},${totalPage},"${ctx}/examquery/list")
    });
 </script>

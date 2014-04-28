@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script>
     var startIndex = 1000;
     var storeId = ${storeId};
@@ -6,7 +8,7 @@
     var page = ${page};
     function deleteOption(id, groupId) {
         if (id && id != "") {
-            var url = "/question/option/delete/" + id;
+            var url = "${ctx}/question/option/delete/" + id;
             $.post(url, function (data) {
                 if (data.success) {
                     $(groupId).remove();
@@ -49,12 +51,12 @@
             }
             seq +=1;
         });
-        $.post("/question/edit", {"question": JSON.stringify({ "id": id, "stem": stem, "answer": answer,
+        $.post("${ctx}/question/edit", {"question": JSON.stringify({ "id": id, "stem": stem, "answer": answer,
                             "mustChoose": mustChoose, "imgPath": imgPath, "options": opArr }
                 )},
                 function (data) {
                     if(data.success){
-                        window.location.href = "/question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
+                        window.location.href = "${ctx}/question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
                     }
                 });
     }

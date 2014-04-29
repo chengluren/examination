@@ -17,6 +17,16 @@ public class ScheduleDateVO {
     private String backgroundColor;
     private String borderColor;
 
+    public Boolean getAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(Boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    private Boolean allDay = false ;
+
     public ScheduleDateVO(Long _id , String _title , Date _start , Date _end )
     {
         this.setId( _id );

@@ -1,9 +1,6 @@
 package org.dreamer.examination.service;
 
-import org.dreamer.examination.entity.ExamSchedule;
-import org.dreamer.examination.entity.ExamScheduleVO;
-import org.dreamer.examination.entity.ExamScheduleViewVO;
-import org.dreamer.examination.entity.ExaminationViewVO;
+import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.ExamScheduleDao;
 import org.dreamer.examination.repository.ExamScheduleViewDao;
 import org.dreamer.examination.sql.model.SqlQueryItem;
@@ -14,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -76,5 +74,11 @@ public class ExamScheduleService {
 
     public void delete(Long id ) {
         scheduleDao.delete( id );
+    }
+
+    public List<ScheduleDateVO> getScheduleDataByData( Date begin , Date end )
+    {
+       List<ScheduleDateVO> scheduleList =  scheduleDao.findScheduleByDateFilter( begin , end );
+      return scheduleList;
     }
 }

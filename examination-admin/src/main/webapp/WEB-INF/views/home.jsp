@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Right side column. Contains the navbar and content of the page -->
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -23,7 +24,7 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>
-                            3500
+                            ${question_count}
                         </h3>
 
                         <p>
@@ -33,7 +34,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="${ctx}/question/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -44,17 +45,17 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>
-                            93<sup style="font-size: 20px">%</sup>
+                            ${average_passrate}%
                         </h3>
 
                         <p>
-                            考试通过率
+                            考试平均通过率
                         </p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="${ctx}/examquery/passratelist" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -65,7 +66,7 @@
                 <div class="small-box bg-yellow">
                     <div class="inner">
                         <h3>
-                            45
+                            ${template_count}
                         </h3>
 
                         <p>
@@ -75,7 +76,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="${ctx}/template/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -86,7 +87,7 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>
-                            3000
+                            ${papter_count}
                         </h3>
 
                         <p>
@@ -96,7 +97,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="${ctx}/examschedule/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -126,10 +127,8 @@
                             <div class="btn-group">
                                 <button class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i></button>
                                 <ul class="dropdown-menu pull-right" role="menu">
-                                    <li><a href="#">添加考试计划</a></li>
-                                    <li><a href="#">清除考试日历</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">查看日历</a></li>
+                                    <li><a href="${ctx}/examschedule/add">添加考试计划</a></li>
+                                    <li><a href="${ctx}/examschedule/list">查看考试计划</a></li>
                                 </ul>
                             </div>
                         </div><!-- /. tools -->

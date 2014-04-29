@@ -70,4 +70,11 @@ public class ExaminationViewService {
         return examPage;
     }
 
+
+    public Double getAveragePassRate()
+
+    {
+        return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0:examinationViewPassRateDao.getAveragePassRate() ;
+    }
+
 }

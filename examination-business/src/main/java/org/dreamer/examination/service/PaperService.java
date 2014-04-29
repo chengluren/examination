@@ -2,8 +2,6 @@ package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.Paper;
 import org.dreamer.examination.entity.PaperQuestion;
-import org.dreamer.examination.entity.PaperQuestionVO;
-import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.repository.PaperDao;
 import org.dreamer.examination.repository.PaperQuestionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lcheng
@@ -85,4 +81,8 @@ public class PaperService {
     }
 
 
+    public Long getPaperCount()
+    {
+       return  paperDao.getPaperCount() == null ? 0L :paperDao.getPaperCount() ;
+    }
 }

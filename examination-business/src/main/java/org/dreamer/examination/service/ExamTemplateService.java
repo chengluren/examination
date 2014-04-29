@@ -135,4 +135,9 @@ public class ExamTemplateService {
     public List<ExamTemplate> findAllTemplate() {
         return templateDao.findAll();
     }
+
+    public Long getTemplateCount()
+    {
+        return templateDao.getTemplateCount() == null ? 0L :templateDao.getTemplateCount();
+    }
 }

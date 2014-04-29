@@ -189,4 +189,8 @@ public class QuestionService {
         optionDao.delete(opId);
     }
 
+    public Long getQuestionCount()
+    {
+       return  questionDao.getQuestionCount() == null ? 0L :questionDao.getQuestionCount();
+    }
 }

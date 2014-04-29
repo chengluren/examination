@@ -34,4 +34,6 @@ public interface ExamTemplateDao extends JpaRepository<ExamTemplate,Long> {
     public void updateTemplate(@Param("tempId")Long tempId,@Param("name")String name,
                                @Param("passScore")float passScore,@Param("mixedIn")boolean mixedIn);
 
+    @Query(value = "select count(t.id) from ExamTemplate t")
+    public Long getTemplateCount();
 }

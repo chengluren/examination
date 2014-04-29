@@ -1,7 +1,8 @@
 package org.dreamer.examination.repository;
 
-import org.dreamer.examination.entity.ExaminationViewNotPassVO;
+
 import org.dreamer.examination.entity.ExaminationViewPassRateVO;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author xwang
@@ -10,4 +11,6 @@ import org.dreamer.examination.entity.ExaminationViewPassRateVO;
  */
 public interface ExaminationViewPassRateDao extends CommonRepository<ExaminationViewPassRateVO,Long>{
 
+    @Query(value = "select sum(ev.passrate)/count(ev.id) from ExaminationViewPassRateVO ev")
+    public Double getAveragePassRate();
 }

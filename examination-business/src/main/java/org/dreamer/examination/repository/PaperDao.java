@@ -4,6 +4,7 @@ import org.dreamer.examination.entity.Paper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface PaperDao extends JpaRepository<Paper, Long> {
 
     public Page<Paper> findByTemplateId(Long templateId, Pageable pageable);
 
+    @Query(value = "select count(p.id) from Paper p")
+    public Long getPaperCount();
 }

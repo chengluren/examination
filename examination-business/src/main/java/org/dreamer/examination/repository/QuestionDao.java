@@ -115,5 +115,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
     @Query("delete from Question where storeId = ?1")
     public void deleteStoreQuestions(long storeId);
 
+    @Query(value = "select count(q.id) from Question q")
+    public Long getQuestionCount();
 
 }

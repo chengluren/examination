@@ -26,45 +26,11 @@
 
         //Calendar
         $('#calendar').fullCalendar({
-            editable: true, //Enable drag and drop
-            events: [
-                {
-                    title: '新生安全知识考试',
-                    start: new Date(y, m, 1),
-                    backgroundColor: "#3c8dbc", //light-blue
-                    borderColor: "#3c8dbc" //light-blue
-                },
-                {
-                    title: '研究生入学实验室常识考试',
-                    start: new Date(y, m, d - 5),
-                    end: new Date(y, m, d - 2),
-                    backgroundColor: "#f39c12", //yellow
-                    borderColor: "#f39c12" //yellow
-                },
-                {
-                    title: '交通运输专业考试',
-                    start: new Date(y, m, d, 10, 30),
-                    allDay: false,
-                    backgroundColor: "#0073b7", //Blue
-                    borderColor: "#0073b7" //Blue
-                },
-                {
-                    title: '全校期中考试',
-                    start: new Date(y, m, d, 12, 0),
-                    end: new Date(y, m, d, 14, 0),
-                    allDay: false,
-                    backgroundColor: "#00c0ef", //Info (aqua)
-                    borderColor: "#00c0ef" //Info (aqua)
-                },
-                {
-                    title: '期末专业技能知识考试',
-                    start: new Date(y, m, d + 1, 19, 0),
-                    end: new Date(y, m, d + 1, 22, 30),
-                    allDay: false,
-                    backgroundColor: "#00a65a", //Success (green)
-                    borderColor: "#00a65a" //Success (green)
-                }
-            ],
+            editable: false, //Enable drag and drop
+            events: '${ctx}/getCalendarDate',
+            eventClick: function(event) {
+                window.location.href = "${ctx}/examschedule/edit/"+event.id;
+            },
             buttonText: {//This is to add icons to the visible buttons
                 prev: "<span class='fa fa-caret-left'></span>",
                 next: "<span class='fa fa-caret-right'></span>",
@@ -76,7 +42,7 @@
             header: {
                 left: 'title',
                 center: '',
-                right: 'prev,next'
+                right: 'prev,next,month,agendaWeek,agendaDay'
             }
         });
     });

@@ -65,8 +65,8 @@
                                     <td>${st.index+1}</td>
                                     <td>${s.schedulename}</td>
                                     <td>${s.major}</td>
-                                    <td><span class="badge bg-green">${s.passrate}</span></td>
-                                    <td><span class="badge bg-blue">${s.excellentrate}</span></td>
+                                    <td><span class="badge bg-green">${s.passrate}%</span></td>
+                                    <td><span class="badge bg-blue">${s.excellentrate}%</span></td>
                                     <td>${s.maxscore}</td>
                                     <td><span class="badge bg-red">${s.minscore}</span></td>
                                     <td>${s.avgscore}</td>

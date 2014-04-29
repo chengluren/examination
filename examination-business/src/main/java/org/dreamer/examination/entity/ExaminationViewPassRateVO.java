@@ -28,7 +28,7 @@ public class ExaminationViewPassRateVO implements Serializable{
     private String major;
 
     @Column(name = "passrate")
-    private String passrate;
+    private Double passrate;
 
     @Column(name = "avgscore")
     private Double avgscore;
@@ -40,7 +40,7 @@ public class ExaminationViewPassRateVO implements Serializable{
     private Double minscore;
 
     @Column(name = "excellentrate")
-    private String excellentrate;
+    private Double excellentrate;
 
     @Column(name = "studentcount")
     private Long studentcount;
@@ -89,11 +89,11 @@ public class ExaminationViewPassRateVO implements Serializable{
         this.major = major;
     }
 
-    public String getPassrate() {
+    public Double getPassrate() {
         return passrate;
     }
 
-    public void setPassrate(String passrate) {
+    public void setPassrate(Double passrate) {
         this.passrate = passrate;
     }
 
@@ -113,11 +113,11 @@ public class ExaminationViewPassRateVO implements Serializable{
         this.minscore = minscore;
     }
 
-    public String getExcellentrate() {
+    public Double getExcellentrate() {
         return excellentrate;
     }
 
-    public void setExcellentrate(String excellentrate) {
+    public void setExcellentrate(Double excellentrate) {
         this.excellentrate = excellentrate;
     }
 

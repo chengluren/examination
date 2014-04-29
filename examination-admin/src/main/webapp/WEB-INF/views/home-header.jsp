@@ -48,7 +48,12 @@
             monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月月','十一','十二月'],
             dayNames: ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'],
             dayNamesShort: ['周一','周二','周三','周四','周五','周六','周日'],
-            allDayText:'全天'
+            allDayText:'全天',
+            titleFormat: {
+                month: 'yyyy 年 MMMM ',
+                week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+                day: 'yyyy,MMM d,dddd '
+            }
         });
     });
 </script>

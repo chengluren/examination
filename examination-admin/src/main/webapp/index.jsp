@@ -86,7 +86,13 @@
                 console.log(data);
             });
         }
-                takeExam();
+
+        function getExamAnswer() {
+            $.getJSON("http://localhost:8080/exam/examAnswers?examId=1&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+//                takeExam();
 //        getExamQuestions();
 //                        sequenceLoadQuestion();
         //                randomLoadQuestion();
@@ -95,7 +101,8 @@
         //        getMajorStore();
 //                getExamSchedule();
 //                getExamRecord();
-//        getExamRecord2();
+        getExamRecord2();
+//        getExamAnswer();
     </script>
 </head>
 <body>

@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class ExamRecordVO implements Serializable {
     private String staffId;
+    private Long examId;
     private Long scheduleId;
     private String examName;
     private float finalScore;
@@ -18,9 +19,10 @@ public class ExamRecordVO implements Serializable {
     public ExamRecordVO() {
     }
 
-    public ExamRecordVO(String staffId, Long scheduleId,String examName,
+    public ExamRecordVO(String staffId,Long examId, Long scheduleId,String examName,
                         float finalScore, Date examDate) {
         this.staffId = staffId;
+        this.examId = examId;
         this.scheduleId = scheduleId;
         this.examName = examName;
         this.finalScore = finalScore;
@@ -65,5 +67,13 @@ public class ExamRecordVO implements Serializable {
 
     public void setScheduleId(Long scheduleId) {
         this.scheduleId = scheduleId;
+    }
+
+    public Long getExamId() {
+        return examId;
+    }
+
+    public void setExamId(Long examId) {
+        this.examId = examId;
     }
 }

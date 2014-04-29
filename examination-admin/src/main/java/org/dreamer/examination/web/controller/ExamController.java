@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
 import org.dreamer.examination.entity.*;
+import org.dreamer.examination.service.AnswerService;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class ExamController {
     private ExaminationService examService;
     @Autowired
     private ExamScheduleService scheduleService;
+    @Autowired
+    private AnswerService answerService;
 
     /**
      * <p>学生参加考试。根据学生专业到后台匹配考试模板，
@@ -115,5 +118,11 @@ public class ExamController {
     public JSONPObject examSchedule(String major, String callback) {
         List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major);
         return new JSONPObject(callback, scheduleVOs);
+    }
+    @RequestMapping(value = "/examAnswers")
+    @ResponseBody
+    public JSONPObject examAnswers(Long examId,String callback){
+        List<Answer> answers = answerService.getExamAnswers(examId);
+        return new JSONPObject(callback, answers);
     }
 }

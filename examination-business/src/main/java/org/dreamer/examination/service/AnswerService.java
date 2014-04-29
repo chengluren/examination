@@ -38,4 +38,8 @@ public class AnswerService {
            answerDao.save(a);
        }
     }
+
+    public List<Answer> getExamAnswers(Long examId){
+        return answerDao.findByExamId(examId);
+    }
 }

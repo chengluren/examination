@@ -31,4 +31,6 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
     @Modifying
     @Query("update Answer set answer=:answer where examId=:examId and quesId=:quesId")
     public void updateAnswer(@Param("examId")Long examId,@Param("quesId")Long quesId,@Param("answer")String answer);
+
+    public List<Answer> findByExamId(Long examId);
 }

@@ -11,13 +11,13 @@
                     <div class="box-header">
                         <h3 class="box-title">修改考试计划</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post" action="${ctx}/examschedule/edit" >
+                    <form id="scheduleform" name="scheduleform" role="form" class="form-horizontal" method="post" action="${ctx}/examschedule/edit" >
                         <div class="box-body">
                             <input type="hidden" id="id" name="id" value="${schedule.id}"/>
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">计划名称</label>
                                 <div class="col-sm-5">
-                                    <input type="text" value="${schedule.name}" class="form-control" name="name" id="name" placeholder="考试计划名称">
+                                    <input type="text" value="${schedule.name}" class="form-control required" name="name" id="name" placeholder="考试计划名称">
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
 
 
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">保存</button>
+                                <button type="submit" class="btn btn-primary" onclick="submitForm();">保存</button>
                             </div>
                         </div>
                     </form>

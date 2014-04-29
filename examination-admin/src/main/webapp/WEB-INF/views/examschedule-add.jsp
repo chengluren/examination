@@ -11,7 +11,7 @@
                     <div class="box-header">
                         <h3 class="box-title">添加考试计划</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post" >
+                    <form name="scheduleform" id="scheduleform" role="form" class="form-horizontal" method="post" >
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">计划名称</label>

@@ -8,24 +8,36 @@
 
 <script type="text/javascript" src="${ctx}/asset/js/plugins/datetimepicke/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/datetimepicke/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/messages_zh.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss',language:'zh-CN'});
        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss',language:'zh-CN'});
+       initValidator();
     });
 
 
-    function check()
+    function initValidator()
     {
-
+        return $("#scheduleform").validate({
+            rules: {
+                "name": {required: true},
+                "tempid": {required: true},
+                "startDate": {required: true},
+                "endDate": {required: true},
+                "major": {required: true}
+            }
+        });
     }
 
     function submitForm()
     {
-        if( check() )
+        var valid = $("#scheduleform").valid();
+        if( valid )
         {
-
+            $("#scheduleform").submit();
         }
     }
 </script>

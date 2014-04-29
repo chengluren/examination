@@ -34,16 +34,21 @@
             buttonText: {//This is to add icons to the visible buttons
                 prev: "<span class='fa fa-caret-left'></span>",
                 next: "<span class='fa fa-caret-right'></span>",
-                today: 'today',
-                month: 'month',
-                week: 'week',
-                day: 'day'
+                today: '今天',
+                month: '月历视图',
+                week: '周历视图',
+                day: '日历试图'
             },
             header: {
                 left: 'title',
                 center: '',
                 right: 'prev,next,month,agendaWeek,agendaDay'
-            }
+            },
+            monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月月','十一','十二月'],
+            monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月月','十一','十二月'],
+            dayNames: ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'],
+            dayNamesShort: ['周一','周二','周三','周四','周五','周六','周日'],
+            allDayText:'全天'
         });
     });
 </script>

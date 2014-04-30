@@ -90,6 +90,9 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
     public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
 
+    @Query(value = "select q.id,q.stem,q.mustChoose,q.answer from Question q")
+    public Page<Object[]> findQuestionBaseInfo(Pageable page);
+
     /**
      * 分页获取必选题基本信息
      * @param storeId

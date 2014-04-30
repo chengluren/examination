@@ -5,6 +5,7 @@
        xmlns:tx = "http://www.springframework.org/schema/tx"
        xmlns:jpa = "http://www.springframework.org/schema/data/jpa"
        xmlns:aop = "http://www.springframework.org/schema/aop"
+       xmlns:util = "http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -14,10 +15,14 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
-    <context:component-scan base-package="org.dreamer.examination.service,org.dreamer.examination.business"/>
+    <context:component-scan base-package="org.dreamer.examination.service,org.dreamer.examination.business,org.dreamer.examination.utils"/>
+
+    <util:properties id="appConfig" location="classpath:appConfig.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"/>

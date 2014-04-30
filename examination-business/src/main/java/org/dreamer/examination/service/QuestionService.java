@@ -177,6 +177,15 @@ public class QuestionService {
         return questionDao.findQuestions(storeId, clazz, p);
     }
 
+    /**
+     * 查出试题的基本信息，用来批量做索引
+     * @param page
+     * @return
+     */
+    public Page<Object[]> getQuestionBaseInfo(Pageable page){
+        return questionDao.findQuestionBaseInfo(page);
+    }
+
     public void deleteQuestion(Question question) {
         questionDao.delete(question);
     }

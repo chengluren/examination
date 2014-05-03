@@ -43,6 +43,7 @@
         <version.poi>3.10-FINAL</version.poi>
         <version.tiles>3.0.3</version.tiles>
         <version.lucene>4.7.2</version.lucene>
+        <version.shiro>1.2.3</version.shiro>
 
     </properties>
 

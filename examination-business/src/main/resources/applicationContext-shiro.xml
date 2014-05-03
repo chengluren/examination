@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <description>Shiro安全配置</description>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shiroDbrealm"/>
+    </bean>
+
+    <bean id="shiroDbrealm" class="org.dreamer.examination.rbac.ShiroDatabaseRealm"/>
+
+    <!--Shiro Filter -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /asset/** = anon
+
+                /** = user
+            </value>
+        </property>
+    </bean>
+
+    <!--&lt;!&ndash; 用户授权信息Cache, 采用EhCache &ndash;&gt;-->
+    <!--<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+    <!--<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>-->
+    <!--</bean>-->
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!--支持 Shiro对Controller的方法级AOP安全控制-->
+    <!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>

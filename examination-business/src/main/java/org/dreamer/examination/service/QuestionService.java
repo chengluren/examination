@@ -179,11 +179,23 @@ public class QuestionService {
 
     /**
      * 查出试题的基本信息，用来批量做索引
+     * @param type
      * @param page
      * @return
      */
-    public Page<Object[]> getQuestionBaseInfo(Pageable page){
-        return questionDao.findQuestionBaseInfo(page);
+    public Page<Object[]> getQuestionBaseInfo(Class<? extends Question> type, Pageable page){
+        return questionDao.findQuestionBaseInfo(type,page);
+    }
+
+    /**
+     * 按题库查出试题基本信息，用来做批量索引
+     * @param type
+     * @param storeId
+     * @param page
+     * @return
+     */
+    public Page<Object[]> getQuestionBaseInfo(Class<? extends Question> type,Long storeId, Pageable page){
+        return questionDao.findQuestionBaseInfo(type,storeId,page);
     }
 
     public void deleteQuestion(Question question) {

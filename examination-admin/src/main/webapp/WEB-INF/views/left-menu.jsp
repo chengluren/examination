@@ -42,6 +42,7 @@
                 <ul class="treeview-menu">
                     <li><a href="${ctx}/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
                     <li><a href="${ctx}/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    <li><a href="${ctx}/question/indexedList"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
                     <li><a href="${ctx}/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
                 </ul>
             </li>
@@ -76,7 +77,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 用户管理</a></li>
+                    <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
                     <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 系统配置</a></li>
                 </ul>
             </li>

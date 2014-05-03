@@ -1,9 +1,19 @@
 package org.dreamer.examination.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.importer.DefaultExcelImporter;
 import org.dreamer.examination.importer.Importer;
+import org.dreamer.examination.search.NRTLuceneFacade;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.service.QuestionStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lcheng on 2014/4/22.
@@ -61,19 +70,42 @@ public class QuestionController {
         return mv;
     }
 
+    @RequestMapping(value = "/indexedList",method = {RequestMethod.POST,RequestMethod.GET})
+    public ModelAndView indexedQuestionList(String storeId, String quesType, String queryText,
+                                            @PageableDefault Pageable page) {
+        ModelAndView mv = new ModelAndView("exam.question-indexed");
+
+        List<QuestionStore> stores = storeService.getAll();
+        int offset = page.getOffset();
+        int pageSize = page.getPageSize();
+        Query query = createQuery(storeId,quesType,queryText);
+        long totalCount = NRTLuceneFacade.instance().count(query);
+        long totalPage = (totalCount%pageSize ==0) ? (totalCount/pageSize) : ((totalCount/pageSize)+1);
+        List<Document> queryResult = NRTLuceneFacade.instance().search(query,null,offset,pageSize);
+        List<QuestionVO> vos = toQuestions(queryResult);
+        mv.addObject("questions", vos);
+        mv.addObject("storeId", storeId);
+        mv.addObject("quesType", quesType);
+        mv.addObject("queryText",queryText);
+        mv.addObject("page", page.getPageNumber() + 1);
+        mv.addObject("totalPage", totalPage);
+        mv.addObject("stores", stores);
+        return mv;
+    }
+
     @RequestMapping(value = "/mclist")
     @ResponseBody
-    public Page<QuestionVO> mustChooseList(Long storeId, String quesType, @PageableDefault Pageable page){
+    public Page<QuestionVO> mustChooseList(Long storeId, String quesType, @PageableDefault Pageable page) {
         return quesService.getMustChooseQuestion(storeId,
-                Types.QuestionType.getTypeFromShortName(quesType),page);
+                Types.QuestionType.getTypeFromShortName(quesType), page);
     }
 
     @RequestMapping(value = "/mcNotChoosedlist")
     @ResponseBody
-    public Page<QuestionVO> mustChooseNotChoosedList(Long storeId, String quesType,Long tempId,
-                                                     @PageableDefault Pageable page){
+    public Page<QuestionVO> mustChooseNotChoosedList(Long storeId, String quesType, Long tempId,
+                                                     @PageableDefault Pageable page) {
         return quesService.getMustChooseQuestionNotChoosed(storeId,
-                Types.QuestionType.getTypeFromShortName(quesType),tempId,page);
+                Types.QuestionType.getTypeFromShortName(quesType), tempId, page);
     }
 
     @RequestMapping("/edit/{id}")
@@ -102,7 +134,7 @@ public class QuestionController {
 
             if (vo.getOptions() != null && vo.getOptions().length > 0) {
                 List<QuestionOption> options = Arrays.asList(vo.getOptions());
-                ((ChoiceQuestion)q).setQuestionOptions(options);
+                ((ChoiceQuestion) q).setQuestionOptions(options);
             }
             quesService.addQuestion(q);
         } catch (IOException e) {
@@ -156,6 +188,58 @@ public class QuestionController {
             }
         }
         return "redirect:/question/list?storeId=" + storeId + "&quesType=CH&page=0";
+    }
+
+    private Query createQuery(String storeId, String quesType, String queryTxt) {
+        boolean storeEmpty = StringUtils.isEmpty(storeId);
+        boolean quesTypeEmpty = StringUtils.isEmpty(quesType);
+        boolean queryTxtEmpty = StringUtils.isEmpty(queryTxt);
+        Query query = null;
+        if (storeEmpty && quesTypeEmpty && queryTxtEmpty) {
+            QueryParser qp = NRTLuceneFacade.instance().newQueryParser("stem");
+            try {
+                query = qp.parse("*:*");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            BooleanQuery bq = new BooleanQuery();
+            if (!storeEmpty) {
+                TermQuery sidq = new TermQuery(new Term("sid", storeId));
+                bq.add(sidq, BooleanClause.Occur.MUST);
+            }
+            if (!quesTypeEmpty) {
+                TermQuery qtq = new TermQuery(new Term("qt", quesType));
+                bq.add(qtq, BooleanClause.Occur.MUST);
+            }
+            if (!queryTxtEmpty) {
+                QueryParser qp = NRTLuceneFacade.instance().newQueryParser("stem");
+                try {
+                    Query sq = qp.parse(queryTxt);
+                    bq.add(sq, BooleanClause.Occur.MUST);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            query = bq;
+        }
+        return query;
+    }
+
+    private List<QuestionVO> toQuestions(List<Document> docs){
+        List<QuestionVO> vos = new ArrayList<>();
+        if (docs!=null&& docs.size()>0){
+            for (Document doc :docs){
+                Long id =Long.valueOf(doc.get("id"));
+                String stem = doc.get("stem");
+                String answer = doc.get("ans");
+                boolean isMC = doc.get("mc").equals("1") ? true :false;
+                QuestionVO vo = new QuestionVO(id,stem,answer);
+                vo.setMustChoose(isMC);
+                vos.add(vo);
+            }
+        }
+        return vos;
     }
 
 }

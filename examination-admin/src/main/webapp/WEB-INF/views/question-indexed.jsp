@@ -25,11 +25,11 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive">
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" id="searchForm" method="post">
                             <div class="form-group">
-                                <label for="stores" class="col-sm-1 control-label">题 库:</label>
+                                <label for="storeId" class="col-sm-1 control-label">题 库:</label>
                                 <div class="col-sm-3">
-                                    <select name="stores" id="stores" style="width: 250px;">
+                                    <select name="storeId" id="storeId" style="width: 250px;" data-placeholder="请选择题库...">
                                         <option value=""></option>
                                         <c:forEach items="${stores}" var="s">
                                             <option value="${s.id}"
@@ -42,19 +42,20 @@
 
                                 <div class="col-sm-2">
                                     <select id="quesType" name="quesType" class="form-control">
+                                        <option value=""></option>
                                         <option value="CH" <c:if test="${quesType=='CH'}">selected</c:if>>选择题
                                         </option>
                                         <option value="MC" <c:if test="${quesType=='MC'}">selected</c:if>>多选题
                                         </option>
                                         <option value="TF" <c:if test="${quesType=='TF'}">selected</c:if>>判断题
-                                         </option>
+                                        </option>
                                     </select>
                                 </div>
 
                                 <div class="input-group col-sm-3">
-                                    <input type="text" class="form-control" id="search"/>
+                                    <input type="text" class="form-control" name="queryText" id="queryText" value="${queryText}"/>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary btn-flat" type="button">查询</button>
+                                            <button class="btn btn-primary btn-flat" type="button" onclick="refresh();">查询</button>
                                         </span>
                                 </div>
                             </div>

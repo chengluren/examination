@@ -139,10 +139,28 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${version.shiro}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${version.shiro}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.wltea</groupId>
             <artifactId>analyzer</artifactId>
             <version>1.0.0</version>
         </dependency>
 
-	</dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.chenlb.mmseg4j</groupId>-->
+            <!--<artifactId>mmseg4j-solr</artifactId>-->
+            <!--<version>2.0.0</version>-->
+        <!--</dependency>-->
+
+    </dependencies>
 </project>

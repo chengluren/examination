@@ -20,7 +20,8 @@
         http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath:application.properties"/>
-    <context:component-scan base-package="org.dreamer.examination.service,org.dreamer.examination.business,org.dreamer.examination.utils"/>
+    <context:component-scan base-package="org.dreamer.examination.service,org.dreamer.examination.business,
+    org.dreamer.examination.search,org.dreamer.examination.utils"/>
 
     <util:properties id="appConfig" location="classpath:appConfig.properties"/>
 

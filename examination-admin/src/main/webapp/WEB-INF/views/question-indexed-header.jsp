@@ -53,7 +53,8 @@
         $(el).chosen({
             no_results_text:"没有找到",
             max_selected_options: 5,
-            disable_search_threshold: 10
+            disable_search_threshold: 10,
+            allow_single_deselect:true
         });
         $(el).on("change",function(){
             refresh();
@@ -74,21 +75,20 @@
     }
 
     function refresh(){
-//        var storeId = $("#storeId").val(),
-//            quesType = $("#quesType").val(),
-//            queryText = $("#queryText").val(),
-//            page = 0;
-//        var param = {
-//            storeId:storeId,
-//            queryType:quesType,
-//            queryText:queryText,
-//            page:0,
-//            size:10
-//        };
-        $("#searchForm").attr("action","${ctx}/question/indexedList?page=0&size=10");
+        var storeId = $("#storeId").val(),
+            quesType = $("#quesType").val(),
+            queryText = $("#queryText").val(),
+            page = 0;
+        var url = "${ctx}/question/indexedList?storeId="+storeId+"&quesType="+quesType+"&queryText="+queryText+
+                "&page=0&size=10",
+            url = encodeURI(url);
+        window.location.href = url;
+
+        <%--$("#searchForm").attr("action","${ctx}/question/indexedList?page=0&size=10");--%>
+        <%--$("#searchForm").submit();--%>
         <%--window.location.href = "${ctx}/question/indexedList/"+--%>
                 <%--"?"+$.param(param);--%>
-        $("#searchForm").submit();
+
     }
 
     function toQuestionImport(){

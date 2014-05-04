@@ -54,8 +54,10 @@ public class QuestionStoreService {
             Long sid = store.getId();
             majorStoreRelDao.deleteByStoreId(sid);
             questionStoreDao.save(store);
-            List<MajorStoreRelation> rels = parseRelation(majors, sid);
-            majorStoreRelDao.save(rels);
+            if (!store.isGeneric()){
+                List<MajorStoreRelation> rels = parseRelation(majors, sid);
+                majorStoreRelDao.save(rels);
+            }
         }
     }
 
@@ -75,8 +77,15 @@ public class QuestionStoreService {
         return questionStoreDao.findStoreBaseAndQuesCountInfo(page);
     }
 
+    /**
+     * 获得专业可以访问的题库（通识类题库所有专业可以访问）
+     * @param major
+     * @return
+     */
     public List<QuestionStore> getStoreForMajor(String major) {
-        return questionStoreDao.findStoreForMajor(major);
+        List<QuestionStore> stores = questionStoreDao.findByGeneric(true);
+        stores.addAll(questionStoreDao.findStoreForMajor(major));
+        return stores;
     }
 
     public void deleteStore(long storeId) {

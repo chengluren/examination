@@ -17,8 +17,11 @@
             onPageClicked: function(e,originalEvent,type,page){
                 var p = page - 1,
                     storeId = $("#stores").val(),
-                    quesType = $("#quesType").val();
-                window.location.href = toUrl+"?storeId="+storeId+"&quesType="+quesType+"&page="+p+"&size=10";
+                    quesType = $("#quesType").val(),
+                    queryText =$("#queryText").val();
+                var url = toUrl+"?storeId="+storeId+"&quesType="+quesType+"&queryText="+queryText+"&page="+p+"&size=10",
+                    url = encodeURI(url);
+                window.location.href = url;
             },
             elementCls:"pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
@@ -73,10 +76,13 @@
 
     function refresh(){
         var storeId = $("#stores").val(),
-                quesType = $("#quesType").val(),
-                page = 0;
-        window.location.href = "${ctx}/question/list/"+
-                "?storeId="+storeId+"&quesType="+quesType+"&page="+page+"&size=10";
+            quesType = $("#quesType").val(),
+            queryText = $("#queryText").val(),
+            page = 0;
+        var url = "${ctx}/question/list/" +"?storeId=" + storeId
+                + "&quesType=" + quesType +"&queryText="+queryText+ "&page=" + page + "&size=10",
+             url = encodeURI(url);
+        window.location.href = url;
     }
 
     function toQuestionImport(){
@@ -84,9 +90,19 @@
         window.location.href = "${ctx}/question/import?storeId="+storeId;
     }
 
+    function bindEnterEvent(){
+        $("#queryText").keypress(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+                refresh();
+            }
+        });
+    }
+
     $(document).ready(function(){
         createChosen("#stores");
         createPaginator("#paginator",${page},${totalPage},"${ctx}/question/list");
         quesTypeChange();
+        bindEnterEvent();
     });
 </script>

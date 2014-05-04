@@ -23,8 +23,10 @@ public interface QuestionStoreDao extends JpaRepository<QuestionStore, Long> {
     @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and r.major = :major")
     public List<QuestionStore> findStoreForMajor(@Param("major") String major);
 
+    public List<QuestionStore> findByGeneric(boolean generic);
+
     @Query(value = "select new org.dreamer.examination.entity.QuestionStoreVO(s.id,s.name,(" +
-            "select count(q.id) from Question q where q.storeId= s.id) as quesCount,s.comment) " +
+            "select count(q.id) from Question q where q.storeId= s.id) as quesCount,s.generic,s.comment) " +
             "from QuestionStore s order by quesCount desc",
             countQuery = "select count(s.id) from QuestionStore s")
     public Page<QuestionStoreVO> findStoreBaseAndQuesCountInfo(Pageable page);

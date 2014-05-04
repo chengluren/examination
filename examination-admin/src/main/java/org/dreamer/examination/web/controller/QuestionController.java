@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class QuestionController {
     private QuestionStoreService storeService;
 
     @RequestMapping("/list")
-    public ModelAndView questionList(Long storeId, String quesType, @PageableDefault Pageable page) {
+    public ModelAndView questionList(Long storeId, String quesType, String queryText, @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.question-list");
         List<QuestionStore> stores = storeService.getAll();
         if (storeId == null && (stores != null && stores.size() > 0)) {
@@ -58,11 +59,23 @@ public class QuestionController {
             quesType = "CH";
         }
         if (storeId != null) {
-            Page<Question> questions = quesService.getQuestions(storeId,
-                    Types.QuestionType.getTypeFromShortName(quesType), page);
+            Page<Question> questions = null;
+            if (StringUtils.isNotEmpty(queryText)) {
+                try {
+                    queryText = new String(queryText.getBytes("ISO8859-1"), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                questions = quesService.getQuestions(storeId,
+                        Types.QuestionType.getTypeFromShortName(quesType), "%" + queryText + "%", page);
+            } else {
+                questions = quesService.getQuestions(storeId,
+                        Types.QuestionType.getTypeFromShortName(quesType), page);
+            }
             mv.addObject("questions", questions.getContent());
             mv.addObject("storeId", storeId);
             mv.addObject("quesType", quesType);
+            mv.addObject("queryText", queryText);
             mv.addObject("page", questions.getNumber() + 1);
             mv.addObject("totalPage", questions.getTotalPages());
         }
@@ -70,23 +83,29 @@ public class QuestionController {
         return mv;
     }
 
-    @RequestMapping(value = "/indexedList",method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/indexedList")
     public ModelAndView indexedQuestionList(String storeId, String quesType, String queryText,
                                             @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.question-indexed");
-
+        if (StringUtils.isNotEmpty(queryText)) {
+            try {
+                queryText = new String(queryText.getBytes("ISO8859-1"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
         List<QuestionStore> stores = storeService.getAll();
         int offset = page.getOffset();
         int pageSize = page.getPageSize();
-        Query query = createQuery(storeId,quesType,queryText);
+        Query query = createQuery(storeId, quesType, queryText);
         long totalCount = NRTLuceneFacade.instance().count(query);
-        long totalPage = (totalCount%pageSize ==0) ? (totalCount/pageSize) : ((totalCount/pageSize)+1);
-        List<Document> queryResult = NRTLuceneFacade.instance().search(query,null,offset,pageSize);
+        long totalPage = (totalCount % pageSize == 0) ? (totalCount / pageSize) : ((totalCount / pageSize) + 1);
+        List<Document> queryResult = NRTLuceneFacade.instance().search(query, null, offset, pageSize);
         List<QuestionVO> vos = toQuestions(queryResult);
         mv.addObject("questions", vos);
         mv.addObject("storeId", storeId);
         mv.addObject("quesType", quesType);
-        mv.addObject("queryText",queryText);
+        mv.addObject("queryText", queryText);
         mv.addObject("page", page.getPageNumber() + 1);
         mv.addObject("totalPage", totalPage);
         mv.addObject("stores", stores);
@@ -226,15 +245,15 @@ public class QuestionController {
         return query;
     }
 
-    private List<QuestionVO> toQuestions(List<Document> docs){
+    private List<QuestionVO> toQuestions(List<Document> docs) {
         List<QuestionVO> vos = new ArrayList<>();
-        if (docs!=null&& docs.size()>0){
-            for (Document doc :docs){
-                Long id =Long.valueOf(doc.get("id"));
+        if (docs != null && docs.size() > 0) {
+            for (Document doc : docs) {
+                Long id = Long.valueOf(doc.get("id"));
                 String stem = doc.get("stem");
                 String answer = doc.get("ans");
-                boolean isMC = doc.get("mc").equals("1") ? true :false;
-                QuestionVO vo = new QuestionVO(id,stem,answer);
+                boolean isMC = doc.get("mc").equals("1") ? true : false;
+                QuestionVO vo = new QuestionVO(id, stem, answer);
                 vo.setMustChoose(isMC);
                 vos.add(vo);
             }

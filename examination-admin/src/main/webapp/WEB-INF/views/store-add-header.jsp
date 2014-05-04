@@ -4,11 +4,27 @@
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
+    function goback(){
+        window.history.go(-1);
+    }
+
+    function createChosen(){
+        $("#storeMajor").chosen({
+            no_results_text:"没有找到",
+            max_selected_options: 5,
+            disable_search_threshold: 10
+        });
+    }
+
+    function bindCheckboxEvent(){
+        $("#generic").on("ifChecked ifUnchecked ",function(event){
+            $("#storeMajor").val('').trigger("chosen:updated");
+            $("#majorGroup").toggle();
+        });
+    }
+
     $(document).ready(function(){
-         $("#storeMajor").chosen({
-             no_results_text:"没有找到",
-             max_selected_options: 5,
-             disable_search_threshold: 10
-         });
+        createChosen();
+        bindCheckboxEvent();
     });
 </script>

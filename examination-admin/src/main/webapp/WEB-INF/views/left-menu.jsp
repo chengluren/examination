@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<fmt:setBundle basename="appConfig" var="appConfig" />
+<fmt:message key="question.list.type" bundle="${appConfig}" var="questionListType"/>
 <aside class="left-side sidebar-offcanvas">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -41,8 +44,12 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="${ctx}/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
-                    <li><a href="${ctx}/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
-                    <li><a href="${ctx}/question/indexedList"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    <c:if test="${questionListType=='db'}">
+                        <li><a href="${ctx}/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    </c:if>
+                    <c:if test="${questionListType=='index'}">
+                        <li><a href="${ctx}/question/indexedList"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
+                    </c:if>
                     <li><a href="${ctx}/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
                 </ul>
             </li>

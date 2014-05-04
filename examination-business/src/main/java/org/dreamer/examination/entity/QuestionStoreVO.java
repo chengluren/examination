@@ -13,13 +13,16 @@ public class QuestionStoreVO implements Serializable {
     private String name;
     private long quesCount;
     private String comment;
+    private boolean generic;
 
     public QuestionStoreVO(){}
 
-    public QuestionStoreVO(long id,String name,long quesCount,String comment){
+    public QuestionStoreVO(long id,String name,long quesCount,
+                           boolean generic,String comment){
         this.id = id;
         this.name = name;
         this.quesCount = quesCount;
+        this.generic = generic;
         this.comment = comment;
     }
 
@@ -54,5 +57,13 @@ public class QuestionStoreVO implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(boolean generic) {
+        this.generic = generic;
     }
 }

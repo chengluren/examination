@@ -21,12 +21,21 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="generic" class="col-sm-2 control-label" style="margin-right: 15px;">是否通识库</label>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="generic" id="generic" value="true" <c:if test="${store.generic==true}">checked="true" </c:if> >
+                                        通识
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="comment" class="col-sm-2 control-label">题库描述</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="comment" id="comment" placeholder="题库描述" value="${store.comment}"/>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group <c:if test="${store.generic==true}">hidden</c:if>" id="majorGroup">
                                 <label for="storeMajor" class="col-sm-2 control-label">所属专业</label>
                                 <div class="col-sm-5">
                                     <select name="storeMajor" id="storeMajor" style="width: 350px;" multiple data-placeholder="请选择专业">
@@ -38,8 +47,9 @@
                                 </div>
                             </div>
 
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">保存</button>
+                            <div class="box-footer" style="text-align: center;margin: 0">
+                                <button type="button" class="btn btn-success btn-flat" style="margin-right: 20px" onclick="goback();">返回</button>
+                                <button type="submit" class="btn btn-primary btn-flat">保存</button>
                             </div>
                         </div>
                     </form>

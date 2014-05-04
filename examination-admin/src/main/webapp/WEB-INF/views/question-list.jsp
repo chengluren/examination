@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive">
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" method="post">
                             <div class="form-group">
                                 <label for="stores" class="col-sm-1 control-label">题 库:</label>
                                 <div class="col-sm-3">
@@ -52,9 +52,9 @@
                                 </div>
 
                                 <div class="input-group col-sm-3">
-                                    <input type="text" class="form-control" id="search"/>
+                                    <input type="text" class="form-control" name="queryText" id="queryText" value="${queryText}"/>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary btn-flat" type="button">查询</button>
+                                            <button class="btn btn-primary btn-flat" type="button" onclick="refresh();">查询</button>
                                         </span>
                                 </div>
                             </div>

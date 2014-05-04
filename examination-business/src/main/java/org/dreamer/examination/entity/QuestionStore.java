@@ -33,6 +33,8 @@ public class QuestionStore implements Serializable {
     private String comment;
     //序号
     private int sno;
+    //标识是否是通识库
+    private boolean generic;
 
     public Long getId() {
         return id;
@@ -72,5 +74,13 @@ public class QuestionStore implements Serializable {
 
     public void setSno(int sno) {
         this.sno = sno;
+    }
+
+    public boolean isGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(boolean generic) {
+        this.generic = generic;
     }
 }

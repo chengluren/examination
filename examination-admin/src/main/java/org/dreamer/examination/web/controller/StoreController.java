@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,8 +51,13 @@ public class StoreController {
         return "exam.store-add";
     }
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String addStore(String name,String comment,String storeMajor){
+    public String addStore(String name,String comment,Boolean generic,String storeMajor){
         QuestionStore store = new QuestionStore(name,comment);
+        if (generic!=null){
+            store.setGeneric(generic);
+        }else {
+            store.setGeneric(false);
+        }
         String[] majors = {};
         if (storeMajor!=null){
             majors = storeMajor.split(",");

@@ -32,7 +32,8 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>题库名称</th>
-                                <th>题库数</th>
+                                <th class="text-center">题库数</th>
+                                <th class="text-center">是否通识库</th>
                                 <th>描述</th>
                                 <th>操作</th>
                             </tr>
@@ -40,9 +41,15 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.name}</td>
-                                    <td><span class="badge bg-red">${s.quesCount}</span></td>
+                                    <td class="text-center"><span class="badge bg-red">${s.quesCount}</span></td>
+                                    <td class="text-center">
+                                        <c:choose>
+                                            <c:when test="${s.generic==true}">是</c:when>
+                                            <c:otherwise>否</c:otherwise>
+                                        </c:choose>
+                                    </td>
                                     <td>${s.comment}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a class="btn btn-primary btn-xs" href="${ctx}/store/edit/${s.id}">
                                             <i class="fa fa-edit"></i>
                                         </a>

@@ -154,6 +154,11 @@ public class QuestionService {
         return questionDao.findQuestions(storeId, clazz, p);
     }
 
+    public Page<Question> getQuestions(long storeId, Types.QuestionType type, String stemLike, Pageable p) {
+        Class<?> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findQuestions(storeId, clazz, stemLike,p);
+    }
+
     /**
      * 分页获得必考题的基本信息
      * @param storeId

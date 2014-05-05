@@ -54,4 +54,12 @@ public class Types {
              }
         }
     }
+
+    public enum DegreeType{
+        Bachelor("Bachelor"),Master("Master");
+        private String name;
+        private DegreeType(String name){
+            this.name = name;
+        }
+    }
 }

@@ -1,27 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <description>Shiro安全配置</description>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="shiroDbrealm"/>
+        <property name="realm" ref="jdbcRealm"/>
     </bean>
 
-    <bean id="shiroDbrealm" class="org.dreamer.examination.rbac.ShiroDatabaseRealm"/>
+    <bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="saltStyle" value="NO_SALT"/>
+        <property name="permissionsLookupEnabled" value="true"/>
+        <property name="authenticationQuery" value="select password from ea_users where username=?"/>
+        <property name="userRolesQuery" value="select role_name from ea_user_roles where username =?"/>
+        <property name="permissionsQuery" value="select permission from ea_roles_permissions where role_name=?"/>
+    </bean>
+
+    <bean id="authc" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/index" />
+    </bean>
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/login"/>
+    </bean>
 
     <!--Shiro Filter -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/"/>
-        <property name="unauthorizedUrl" value="/"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/login"/>
         <property name="filterChainDefinitions">
             <value>
                 /asset/** = anon
-
+                /exam/new =anon
+                /exam/fetch = anon
+                /exam/commitAnswer = anon
+                /exam/commit = anon
+                /exam/examSchedule = anon
+                /exam/scheduleExamRecords = anon
+                /exam/examRecords = anon
+                /exam/examAnswers = anon
+                /train/sequenceLoad = anon
+                /train/randomLoad = anon
+                /store/major = anon
+                /login = authc
+                /logout = logout
                 /** = user
             </value>
         </property>
@@ -35,18 +63,14 @@
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-
     <!--支持 Shiro对Controller的方法级AOP安全控制-->
     <!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor">
-        <property name="proxyTargetClass" value="true"/>
-    </bean>
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"-->
+          <!--depends-on="lifecycleBeanPostProcessor">-->
+        <!--<property name="proxyTargetClass" value="true"/>-->
+    <!--</bean>-->
 
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
+    <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+    <!--</bean>-->
 </beans>

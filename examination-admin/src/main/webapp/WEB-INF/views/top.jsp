@@ -39,7 +39,7 @@
                                 <a href="#" class="btn btn-default btn-flat">用户信息</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">退 出</a>
+                                <a href="/logout" class="btn btn-default btn-flat">退 出</a>
                             </div>
                         </li>
                     </ul>

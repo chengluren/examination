@@ -19,9 +19,13 @@ public class ExamSchedule implements Serializable {
     @TableGenerator(name = "ID_EXAM_SCHEDULES", table = "gen_ids", pkColumnName = "id_name",
             valueColumnName = "id_value", initialValue = 1)
     private long id;
+    //本次考试针对的考生入学年份，也即多少界
+    private int admissionYear;
+    //本次考试针对的考生学历，是本科生还是研究生
+    @Enumerated
+    private Types.DegreeType degree;
 
     private Date startDate;
-
     private Date endDate;
 
     @ManyToOne
@@ -79,5 +83,21 @@ public class ExamSchedule implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAdmissionYear() {
+        return admissionYear;
+    }
+
+    public void setAdmissionYear(int admissionYear) {
+        this.admissionYear = admissionYear;
+    }
+
+    public Types.DegreeType getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Types.DegreeType degree) {
+        this.degree = degree;
     }
 }

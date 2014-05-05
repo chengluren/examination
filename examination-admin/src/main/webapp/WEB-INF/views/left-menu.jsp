@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <fmt:setBundle basename="appConfig" var="appConfig" />
 <fmt:message key="question.list.type" bundle="${appConfig}" var="questionListType"/>
@@ -77,18 +79,20 @@
                     <li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>
                 </ul>
             </li>
-
+            <shiro:hasRole name="admin">
             <li class="treeview active">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>系统管理</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
+                    <c:if test="${questionListType=='index'}">
+                        <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
+                    </c:if>
                     <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 系统配置</a></li>
                 </ul>
             </li>
-
+            </shiro:hasRole>
         </ul>
     </section>
     <!-- /.sidebar -->

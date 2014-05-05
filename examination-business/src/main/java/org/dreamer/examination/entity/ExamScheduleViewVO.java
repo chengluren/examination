@@ -14,7 +14,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="v_schedules")
+@Table(name = "v_schedules")
 public class ExamScheduleViewVO implements Serializable {
 
     @Id
@@ -28,10 +28,11 @@ public class ExamScheduleViewVO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
-
     private String major;
-
-
+    //年级
+    private int admissionYear;
+    //学历
+    private int degree;
 
     @Column(name = "temp_id")
     private Long tempid;
@@ -103,4 +104,20 @@ public class ExamScheduleViewVO implements Serializable {
     }
 
     private Double passScore;
+
+    public int getAdmissionYear() {
+        return admissionYear;
+    }
+
+    public void setAdmissionYear(int admissionYear) {
+        this.admissionYear = admissionYear;
+    }
+
+    public int getDegree() {
+        return degree;
+    }
+
+    public void setDegree(int degree) {
+        this.degree = degree;
+    }
 }

@@ -59,10 +59,10 @@
                     </form>
                     <div class="box-footer">
                         <c:if test="${quesType=='CH' or quesType=='MC'}">
-                            <button id="btnAddOpt" class="btn btn-primary" style="margin-left:250px;" onclick="createNewOption();">新增选项</button>
+                            <button id="btnAddOpt" class="btn btn-primary btn-flat" style="margin-left:250px;" onclick="createNewOption();">新增选项</button>
                         </c:if>
 
-                        <button id="btnSave" class="btn btn-primary" style="margin-left:30px;" onclick="save();">保存</button>
+                        <button id="btnSave" class="btn btn-primary btn-flat" style="margin-left:30px;" onclick="save();">保存</button>
                     </div>
                 </div>
                 <!-- /.box -->

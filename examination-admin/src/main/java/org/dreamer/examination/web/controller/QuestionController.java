@@ -10,6 +10,8 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.importer.DefaultExcelImporter;
 import org.dreamer.examination.importer.Importer;
@@ -127,6 +129,7 @@ public class QuestionController {
                 Types.QuestionType.getTypeFromShortName(quesType), tempId, page);
     }
 
+    @RequiresPermissions(value = {"question:edit"})
     @RequestMapping("/edit/{id}")
     public ModelAndView editQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page) {
         Question question = quesService.getQuestion(id);
@@ -138,6 +141,7 @@ public class QuestionController {
         return mv;
     }
 
+    @RequiresPermissions(value = {"question:edit"})
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public Result editQuestion(String question) {
@@ -161,7 +165,7 @@ public class QuestionController {
         }
         return result;
     }
-
+    @RequiresPermissions(value = {"question:delete"})
     @RequestMapping(value = "/delete/{id}")
     public String deleteQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page, int size) {
         quesService.deleteQuestion(id);

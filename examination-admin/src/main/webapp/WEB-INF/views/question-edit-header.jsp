@@ -56,7 +56,10 @@
                 )},
                 function (data) {
                     if(data.success){
-                        window.location.href = "${ctx}/question/list?storeId="+storeId+"&quesType="+quesType+"&page="+page;
+                        var urlPrefix = data.message;
+                        window.location.href = "${ctx}"+urlPrefix+"?storeId="+storeId+"&quesType="+quesType+"&page="+page;
+                    }else {
+                        alert("保存试题数据出现错误!");
                     }
                 });
     }

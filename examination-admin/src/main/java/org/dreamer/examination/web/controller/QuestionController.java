@@ -18,6 +18,7 @@ import org.dreamer.examination.importer.Importer;
 import org.dreamer.examination.search.NRTLuceneFacade;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.service.QuestionStoreService;
+import org.dreamer.examination.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -145,7 +146,7 @@ public class QuestionController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public Result editQuestion(String question) {
-        Result result = new Result(true, "");
+        Result result = new Result(true, getQuestionListURLPrefix());
         ObjectMapper mapper = new ObjectMapper();
         try {
             QuestionVO vo = mapper.readValue(question, QuestionVO.class);
@@ -161,15 +162,18 @@ public class QuestionController {
             }
             quesService.addQuestion(q);
         } catch (IOException e) {
+            result = new Result(false,"");
             e.printStackTrace();
         }
         return result;
     }
+
     @RequiresPermissions(value = {"question:delete"})
     @RequestMapping(value = "/delete/{id}")
     public String deleteQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page, int size) {
         quesService.deleteQuestion(id);
-        String redUrl = "/question/list?storeId=" + storeId + "&quesType=" + quesType + "&page=" + page + "&size=" + size;
+        String urlPrefix = getQuestionListURLPrefix();
+        String redUrl = urlPrefix+"?storeId=" + storeId + "&quesType=" + quesType + "&page=" + page + "&size=" + size;
         return "redirect:" + redUrl;
     }
 
@@ -197,7 +201,6 @@ public class QuestionController {
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     public String importQuestions(Long storeId, MultipartFile file) {
-
         if (!file.isEmpty()) {
             String name = file.getOriginalFilename();
             File local = new File(System.getProperty("java.io.tmpdir") + name);
@@ -210,7 +213,8 @@ public class QuestionController {
                 e.printStackTrace();
             }
         }
-        return "redirect:/question/list?storeId=" + storeId + "&quesType=CH&page=0";
+        String urlPrefix = getQuestionListURLPrefix();
+        return "redirect:"+urlPrefix+"?storeId=" + storeId + "&quesType=CH&page=0";
     }
 
     private Query createQuery(String storeId, String quesType, String queryTxt) {
@@ -263,6 +267,15 @@ public class QuestionController {
             }
         }
         return vos;
+    }
+
+    /**
+     * 根据配置文件，动态获得试题列表的URL
+     * @return
+     */
+    private String getQuestionListURLPrefix(){
+        String listType = SpringUtils.getConfigValue("question.list.type","db");
+        return listType.equals("db") ? "/question/list" :"/question/indexedList";
     }
 
 }

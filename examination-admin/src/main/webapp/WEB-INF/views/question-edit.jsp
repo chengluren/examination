@@ -23,11 +23,21 @@
                             <div class="form-group">
                                 <label for="answer" class="col-sm-2 control-label">答案</label>
                                 <div class="col-sm-4">
-                                    <input type="text" id="answer" name="answer" class="form-control" value="${q.answer}" />
+                                    <c:choose>
+                                        <c:when test="${quesType=='TF'}">
+                                            <select id="answer" name="answer" class="form-control">
+                                                <option value="1" <c:if test="${q.answer==1 || q.answer=='1'}">selected</c:if> > 正确</option>
+                                                <option value="0" <c:if test="${q.answer==0 || q.answer=='0'}">selected</c:if> > 错误</option>
+                                            </select>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="text" id="answer" name="answer" class="form-control" value="${q.answer}" />
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mustChoose" class="col-sm-2 control-label">是否必考</label>
+                                <label for="mustChoose" class="col-sm-2 control-label" style="margin-right: 15px;">是否必考</label>
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="mustChoose" id="mustChoose" value="1" <c:if test="${q.mustChoose==true}"> checked</c:if> >

@@ -173,7 +173,16 @@ public class QuestionController {
     public String deleteQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page, int size) {
         quesService.deleteQuestion(id);
         String urlPrefix = getQuestionListURLPrefix();
-        String redUrl = urlPrefix+"?storeId=" + storeId + "&quesType=" + quesType + "&page=" + page + "&size=" + size;
+        StringBuilder sb = new StringBuilder();
+        if (storeId!=null){
+            sb.append("storeId="+storeId+"&");
+        }
+        if (quesType!=null){
+            sb.append("quesType="+quesType+"&");
+        }
+        sb.append("page=" + page + "&size=" + size);
+//        String redUrl = urlPrefix+"?storeId=" + storeId + "&quesType=" + quesType + "&page=" + page + "&size=" + size;
+        String redUrl = urlPrefix+"?"+sb.toString();
         return "redirect:" + redUrl;
     }
 

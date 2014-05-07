@@ -6,16 +6,14 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.importer.DefaultExcelImporter;
 import org.dreamer.examination.importer.Importer;
 import org.dreamer.examination.search.NRTLuceneFacade;
+import org.dreamer.examination.search.QuestionIndexer;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.service.QuestionStoreService;
 import org.dreamer.examination.utils.SpringUtils;
@@ -50,6 +48,8 @@ public class QuestionController {
     private QuestionService quesService;
     @Autowired
     private QuestionStoreService storeService;
+    @Autowired
+    private QuestionIndexer indexer;
 
     @RequestMapping("/list")
     public ModelAndView questionList(Long storeId, String quesType, String queryText, @PageableDefault Pageable page) {
@@ -103,7 +103,7 @@ public class QuestionController {
         Query query = createQuery(storeId, quesType, queryText);
         long totalCount = NRTLuceneFacade.instance().count(query);
         long totalPage = (totalCount % pageSize == 0) ? (totalCount / pageSize) : ((totalCount / pageSize) + 1);
-        List<Document> queryResult = NRTLuceneFacade.instance().search(query, null, offset, pageSize);
+        List<Document> queryResult = NRTLuceneFacade.instance().search(query, new SortField[]{new SortField("id", SortField.Type.LONG)}, offset, pageSize);
         List<QuestionVO> vos = toQuestions(queryResult);
         mv.addObject("questions", vos);
         mv.addObject("storeId", storeId);
@@ -134,10 +134,12 @@ public class QuestionController {
     @RequestMapping("/edit/{id}")
     public ModelAndView editQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page) {
         Question question = quesService.getQuestion(id);
+        String type = getQuestionTypeFromClass(question);
         ModelAndView mv = new ModelAndView("exam.question-edit");
         mv.addObject("q", question);
         mv.addObject("storeId", storeId);
         mv.addObject("quesType", quesType);
+        mv.addObject("qType", type);
         mv.addObject("page", page);
         return mv;
     }
@@ -161,8 +163,9 @@ public class QuestionController {
                 ((ChoiceQuestion) q).setQuestionOptions(options);
             }
             quesService.addQuestion(q);
+            checkAndUpdateIndex(vo);
         } catch (IOException e) {
-            result = new Result(false,"");
+            result = new Result(false, "");
             e.printStackTrace();
         }
         return result;
@@ -172,17 +175,17 @@ public class QuestionController {
     @RequestMapping(value = "/delete/{id}")
     public String deleteQuestion(@PathVariable("id") Long id, Long storeId, String quesType, int page, int size) {
         quesService.deleteQuestion(id);
+        checkAndDeleteIndex(id);
         String urlPrefix = getQuestionListURLPrefix();
         StringBuilder sb = new StringBuilder();
-        if (storeId!=null){
-            sb.append("storeId="+storeId+"&");
+        if (storeId != null) {
+            sb.append("storeId=" + storeId + "&");
         }
-        if (quesType!=null){
-            sb.append("quesType="+quesType+"&");
+        if (quesType != null) {
+            sb.append("quesType=" + quesType + "&");
         }
         sb.append("page=" + page + "&size=" + size);
-//        String redUrl = urlPrefix+"?storeId=" + storeId + "&quesType=" + quesType + "&page=" + page + "&size=" + size;
-        String redUrl = urlPrefix+"?"+sb.toString();
+        String redUrl = urlPrefix + "?" + sb.toString();
         return "redirect:" + redUrl;
     }
 
@@ -223,7 +226,7 @@ public class QuestionController {
             }
         }
         String urlPrefix = getQuestionListURLPrefix();
-        return "redirect:"+urlPrefix+"?storeId=" + storeId + "&quesType=CH&page=0";
+        return "redirect:" + urlPrefix + "?storeId=" + storeId + "&quesType=CH&page=0";
     }
 
     private Query createQuery(String storeId, String quesType, String queryTxt) {
@@ -280,11 +283,33 @@ public class QuestionController {
 
     /**
      * 根据配置文件，动态获得试题列表的URL
+     *
      * @return
      */
-    private String getQuestionListURLPrefix(){
-        String listType = SpringUtils.getConfigValue("question.list.type","db");
-        return listType.equals("db") ? "/question/list" :"/question/indexedList";
+    private String getQuestionListURLPrefix() {
+        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        return listType.equals("db") ? "/question/list" : "/question/indexedList";
+    }
+
+    private void checkAndDeleteIndex(Long quesId) {
+        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        if (listType.equals("index")) {
+            indexer.deleteQuestionIndex(quesId);
+        }
+    }
+
+    private void checkAndUpdateIndex(QuestionVO vo) {
+        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        if (listType.equals("index")) {
+            indexer.updateQuestionIndex(vo
+            );
+        }
+    }
+
+    private String getQuestionTypeFromClass(Question q) {
+        String type = (q instanceof TrueOrFalseQuestion) ? "TF" :
+                ((q instanceof MultipleChoiceQuestion) ? "MC" : "CH");
+        return type;
     }
 
 }

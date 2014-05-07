@@ -13,6 +13,8 @@ public class QuestionVO {
     private String imgPath;
     private boolean mustChoose;
     private QuestionOption[] options;
+    private Long storeId;
+    private String quesType;
 
     public QuestionVO(){}
 
@@ -68,5 +70,21 @@ public class QuestionVO {
 
     public void setOptions(QuestionOption[] options) {
         this.options = options;
+    }
+
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getQuesType() {
+        return quesType;
+    }
+
+    public void setQuesType(String quesType) {
+        this.quesType = quesType;
     }
 }

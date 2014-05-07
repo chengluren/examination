@@ -13,7 +13,8 @@
                     <form role="form" class="form-horizontal" method="post" action="${ctx}/store/edit">
                         <div class="box-body" id="form-container">
                             <input type="hidden" id="id" name="id" value="${q.id}"/>
-
+                            <input type="hidden" id="storeId" name="storeId" value="${q.storeId}"/>
+                            <input type="hidden" id="quesType" name="quesType" value="${qType}"/>
                             <div class="form-group">
                                 <label for="stem" class="col-sm-2 control-label">题干</label>
                                 <div class="col-sm-4">
@@ -51,7 +52,7 @@
                                     <input type="text" id="imgPath" name="imgPath" class="form-control" value="${q.imgPath}" />
                                 </div>
                             </div>
-                            <c:if test="${quesType!='TF' and not empty q.questionOptions}">
+                            <c:if test="${qType!='TF' and not empty q.questionOptions}">
                                 <hr/>
                                  <c:forEach items="${q.questionOptions}" var="option" varStatus="st">
                                      <div class="form-group" id="opg-${st.index}">
@@ -67,12 +68,12 @@
                             </c:if>
                         </div>
                     </form>
-                    <div class="box-footer">
-                        <c:if test="${quesType=='CH' or quesType=='MC'}">
-                            <button id="btnAddOpt" class="btn btn-primary btn-flat" style="margin-left:250px;" onclick="createNewOption();">新增选项</button>
+                    <div class="box-footer text-center">
+                        <c:if test="${qType=='CH' or qType=='MC'}">
+                            <button id="btnAddOpt" class="btn btn-primary btn-flat" onclick="createNewOption();">新增选项</button>
                         </c:if>
-
-                        <button id="btnSave" class="btn btn-primary btn-flat" style="margin-left:30px;" onclick="save();">保存</button>
+                        <button id="btnSave" class="btn btn-primary btn-flat" style="margin-left:10px;" onclick="save();">保存</button>
+                        <button id="btnReturn" class="btn btn-success btn-flat" style="margin-left:30px;" onclick="window.history.go(-1);">返回</button>
                     </div>
                 </div>
                 <!-- /.box -->

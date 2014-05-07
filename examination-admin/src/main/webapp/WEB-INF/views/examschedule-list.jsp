@@ -41,7 +41,7 @@
                                     <input type="text" value="${major}" class="form-control" id="major-li" name="major-li" placeholder="请输入专业">
                                 </div>
 
-                                <label for="tempid" class="col-sm-2 control-label">方案名称:</label>
+                                <label for="tempid" class="col-sm-1 control-label">方案名称:</label>
                                 <div class="col-sm-3">
 
                                     <select name="tempid" id="tempid" class="form-control" >
@@ -53,7 +53,7 @@
                                 </div>
 
 
-                                <button type="submit" class="btn btn-primary">查询</button>
+                                <button type="submit" class="btn btn-primary btn-flat">查询</button>
 
                             </div>
 

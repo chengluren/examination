@@ -1,10 +1,8 @@
 package org.dreamer.examination.search;
 
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.Term;
-import org.dreamer.examination.entity.ChoiceQuestion;
-import org.dreamer.examination.entity.MultipleChoiceQuestion;
-import org.dreamer.examination.entity.Question;
-import org.dreamer.examination.entity.TrueOrFalseQuestion;
+import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -64,7 +62,29 @@ public class QuestionIndexer {
         NRTLuceneFacade.instance().deleteIndex(new Term("sid", storeId.toString()));
     }
 
-    public void optimize(){
+    public void updateQuestionIndex(QuestionVO vo){
+        Document doc = new Document();
+        StringField idf = new StringField("id", vo.getId().toString(), Field.Store.YES);
+        TextField stemf = new TextField("stem", vo.getStem(), Field.Store.YES);
+        String mc = vo.isMustChoose() ? "1" : "0";
+        StoredField mcf = new StoredField("mc", mc);
+        StoredField answerf = new StoredField("ans", vo.getAnswer());
+        StringField storeIdf = new StringField("sid", vo.getStoreId().toString(), Field.Store.YES);
+        StringField quesTypef = new StringField("qt", vo.getQuesType(), Field.Store.NO);
+        doc.add(idf);
+        doc.add(stemf);
+        doc.add(mcf);
+        doc.add(answerf);
+        doc.add(storeIdf);
+        doc.add(quesTypef);
+        NRTLuceneFacade.instance().reIndex(new Term("id",vo.getId().toString()),doc);
+    }
+
+    public void deleteQuestionIndex(Long quesId) {
+        NRTLuceneFacade.instance().deleteIndex(new Term("id", quesId.toString()));
+    }
+
+    public void optimize() {
         NRTLuceneFacade.instance().optimize();
     }
 

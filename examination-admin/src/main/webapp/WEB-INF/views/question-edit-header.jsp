@@ -3,7 +3,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <script>
     var startIndex = 1000;
-    var storeId = ${storeId};
+    var storeId = '${storeId}';
     var quesType = '${quesType}';
     var page = ${page};
     function deleteOption(id, groupId) {
@@ -37,6 +37,8 @@
                 stem = $("#stem").val(),
                 answer = $("#answer").val(),
                 imgPath = $("#imgPath").val(),
+                sid = $("#storeId").val(),
+                qType = $("#quesType").val(),
                 mustChoose = $("#mustChoose").parent().attr("aria-checked") == "true" ? 1 : 0;
 
         var options = $("input[name^=option]");
@@ -52,7 +54,8 @@
             seq +=1;
         });
         $.post("${ctx}/question/edit", {"question": JSON.stringify({ "id": id, "stem": stem, "answer": answer,
-                            "mustChoose": mustChoose, "imgPath": imgPath, "options": opArr }
+                            "mustChoose": mustChoose, "imgPath": imgPath,"storeId":sid,
+                            "quesType":qType, "options": opArr }
                 )},
                 function (data) {
                     if(data.success){

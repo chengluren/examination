@@ -95,7 +95,7 @@
         if (e.target) target = e.target;
         else if (e.srcElement) target = e.srcElement;
         if (target.nodeType == 3)
-            target = targ.parentNode;
+            target = target.parentNode;
         if (target) {
             $(target).parent().remove();
         }

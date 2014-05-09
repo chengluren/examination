@@ -45,8 +45,9 @@
                                                     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary ladda-button" data-style="expand-right"
-                                    style="margin-left:180px;"><span class="ladda-label">确 定</span></button>
+                            <button type="button" class="btn btn-success btn-flat" style="margin-left: 180px;" onclick="window.history.go(-1);">返 回</button>
+                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-flat ladda-button" data-style="expand-right"
+                                    style="margin-left:20px;"><span class="ladda-label">确 定</span></button>
                         </form>
                     </div>
                 </div>

@@ -89,8 +89,9 @@
                                 </div>
                             </div>
 
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary btn-flat">保存</button>
+                            <div class="box-footer text-center">
+                                <button type="button" class="btn btn-success btn-flat" onclick="window.history.go(-1);">返 回</button>
+                                <button type="submit" class="btn btn-primary btn-flat" style="margin-left: 20px;">保存</button>
                             </div>
                         </div>
                     </form>

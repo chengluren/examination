@@ -8,7 +8,6 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.importer.DefaultExcelImporter;
 import org.dreamer.examination.importer.Importer;
@@ -16,7 +15,7 @@ import org.dreamer.examination.search.NRTLuceneFacade;
 import org.dreamer.examination.search.QuestionIndexer;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.service.QuestionStoreService;
-import org.dreamer.examination.utils.SpringUtils;
+import org.dreamer.examination.utils.SysUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -287,19 +286,19 @@ public class QuestionController {
      * @return
      */
     private String getQuestionListURLPrefix() {
-        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        String listType = SysUtils.getConfigValue("question.list.type", "db");
         return listType.equals("db") ? "/question/list" : "/question/indexedList";
     }
 
     private void checkAndDeleteIndex(Long quesId) {
-        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        String listType = SysUtils.getConfigValue("question.list.type", "db");
         if (listType.equals("index")) {
             indexer.deleteQuestionIndex(quesId);
         }
     }
 
     private void checkAndUpdateIndex(QuestionVO vo) {
-        String listType = SpringUtils.getConfigValue("question.list.type", "db");
+        String listType = SysUtils.getConfigValue("question.list.type", "db");
         if (listType.equals("index")) {
             indexer.updateQuestionIndex(vo
             );

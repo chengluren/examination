@@ -13,7 +13,7 @@ import java.util.Properties;
  *          ${tags}
  */
 @Component
-public class SpringUtils implements ApplicationContextAware {
+public class SysUtils implements ApplicationContextAware {
 
     private static String APP_CONFIG_PROP = "appConfig";
     private static ApplicationContext context;
@@ -32,7 +32,17 @@ public class SpringUtils implements ApplicationContextAware {
      * @return
      */
     public static <T> T getBean(String name, Class<T> clazz) {
-        return SpringUtils.context.getBean(name, clazz);
+        return SysUtils.context.getBean(name, clazz);
+    }
+
+    /**
+     * 按类型获得Bean
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBean(Class<T> clazz){
+        return SysUtils.context.getBean(clazz);
     }
 
     /**
@@ -51,7 +61,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return
      */
     public static String getConfigValue(String propName) {
-        return SpringUtils.getAppConfigProp().getProperty(propName);
+        return SysUtils.getAppConfigProp().getProperty(propName);
     }
 
     /**
@@ -62,6 +72,6 @@ public class SpringUtils implements ApplicationContextAware {
      * @return
      */
     public static String getConfigValue(String propName, String defaultValue) {
-        return SpringUtils.getAppConfigProp().getProperty(propName, defaultValue);
+        return SysUtils.getAppConfigProp().getProperty(propName, defaultValue);
     }
 }

@@ -75,24 +75,29 @@
 
                             <div class="form-group">
                                 <label for="degree" class="col-sm-2 control-label">考试年级</label>
-                                <select name="degree" id="degree" class="form-control">
-                                    <option value="0" <c:if test="${schedule.degree==0}">selected="true" </c:if> >本科生</option>
-                                    <option value="1" <c:if test="${schedule.degree==1}">selected="true" </c:if>>研究生</option>
-                                </select>
+                                <div class="col-sm-5">
+                                    <select name="degree" id="degree" class="form-control">
+                                        <option value="0" <c:if test="${schedule.degree==0}">selected="true" </c:if> >本科生</option>
+                                        <option value="1" <c:if test="${schedule.degree==1}">selected="true" </c:if>>研究生</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="admissionYear" class="col-sm-2 control-label">考试年级</label>
-                                <select name="admissionYear" id="admissionYear" class="form-control">
-                                    <option value="2010" <c:if test="${schedule.admissionYear==2010}">selected="true" </c:if> >2010界</option>
-                                    <option value="2011" <c:if test="${schedule.admissionYear==2011}">selected="true" </c:if>>2011界</option>
-                                    <option value="2012" <c:if test="${schedule.admissionYear==2012}">selected="true" </c:if>>2012界</option>
-                                    <option value="2013" <c:if test="${schedule.admissionYear==2013}">selected="true" </c:if>>2013界</option>
-                                </select>
+                                <div class="col-sm-5">
+                                    <select name="admissionYear" id="admissionYear" class="form-control">
+                                        <option value="2010" <c:if test="${schedule.admissionYear==2010}">selected="true" </c:if> >2010界</option>
+                                        <option value="2011" <c:if test="${schedule.admissionYear==2011}">selected="true" </c:if>>2011界</option>
+                                        <option value="2012" <c:if test="${schedule.admissionYear==2012}">selected="true" </c:if>>2012界</option>
+                                        <option value="2013" <c:if test="${schedule.admissionYear==2013}">selected="true" </c:if>>2013界</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary" onclick="submitForm();">保存</button>
+                            <div class="box-footer text-center">
+                                <button type="button" class="btn btn-success btn-flat" onclick="window.history.go(-1);">返 回</button>
+                                <button type="submit" class="btn btn-primary btn-flat" style="margin-left: 20px;" onclick="submitForm();">保 存</button>
                             </div>
                         </div>
                     </form>

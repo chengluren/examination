@@ -15,7 +15,8 @@
         });
     }
 
-    $(document).ready(function(){
-        createChosen("#storeId")
+    $(document).ready(function () {
+        createChosen("#storeId");
+        Ladda.bind("#btnSubmit");
     });
 </script>

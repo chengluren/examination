@@ -6,7 +6,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.search.QuestionIndexer;
 import org.dreamer.examination.service.QuestionService;
+import org.dreamer.examination.utils.SysUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,5 +54,11 @@ public class DefaultExcelImporter implements Importer {
             }
         }
         questionService.addQuestion(list);
+        String type = SysUtils.getConfigValue("question.list.type","db");
+        boolean index = type.equals("index") ? true: false;
+        if (index){
+            QuestionIndexer indexer = SysUtils.getBean(QuestionIndexer.class);
+            indexer.indexQuestions(list);
+        }
     }
 }

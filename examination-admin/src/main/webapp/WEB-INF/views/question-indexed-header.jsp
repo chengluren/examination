@@ -15,12 +15,13 @@
             currentPage: curPage,
             totalPages: totalPage,
             onPageClicked: function(e,originalEvent,type,page){
-                var p = page - 1,
-                        storeId = $("#storeId").val(),
-                        quesType = $("#quesType").val();
+                var p = page - 1;
+//                        storeId = $("#storeId").val(),
+//                        quesType = $("#quesType").val();
                 //window.location.href = toUrl+"?storeId="+storeId+"&quesType="+quesType+"&page="+p+"&size=10";
-                $("#searchForm").attr("action","${ctx}/question/indexedList?page="+p+"&size=10");
-                $("#searchForm").submit();
+                //$("#searchForm").attr("action","${ctx}/question/indexedList?page="+p+"&size=10");
+                //$("#searchForm").submit();
+                refresh(p);
             },
             elementCls:"pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
@@ -74,13 +75,13 @@
         window.location.href="${ctx}/question/edit/"+id+"?storeId="+storeId+"&quesType="+quesType+"&page="+(page-1);
     }
 
-    function refresh(){
+    function refresh(p){
         var storeId = $("#storeId").val(),
             quesType = $("#quesType").val(),
             queryText = $("#queryText").val(),
-            page = 0;
+            page = (p) ? p : 0;
         var url = "${ctx}/question/indexedList?storeId="+storeId+"&quesType="+quesType+"&queryText="+queryText+
-                "&page=0&size=10",
+                "&page="+page+"&size=10",
             url = encodeURI(url);
         window.location.href = url;
 

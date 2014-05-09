@@ -48,6 +48,7 @@
                 /train/sequenceLoad = anon
                 /train/randomLoad = anon
                 /store/major = anon
+                /favicon.ico = anon
                 /login = authc
                 /logout = logout
                 /** = user

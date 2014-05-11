@@ -1,16 +1,14 @@
 package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.MajorStoreRelation;
-import org.dreamer.examination.entity.QuestionOption;
 import org.dreamer.examination.entity.QuestionStore;
-import org.dreamer.examination.entity.QuestionStoreVO;
+import org.dreamer.examination.vo.QuestionStoreVO;
 import org.dreamer.examination.repository.MajorStoreRelationDao;
 import org.dreamer.examination.repository.QuestionDao;
 import org.dreamer.examination.repository.QuestionOptionDao;
 import org.dreamer.examination.repository.QuestionStoreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +55,8 @@ public class QuestionStoreService {
             if (!store.isGeneric()){
                 List<MajorStoreRelation> rels = parseRelation(majors, sid);
                 majorStoreRelDao.save(rels);
+            }else{
+                majorStoreRelDao.deleteByStoreId(sid);
             }
         }
     }

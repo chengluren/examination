@@ -6,15 +6,13 @@ import org.dreamer.examination.repository.AnswerDao;
 import org.dreamer.examination.repository.ExaminationDao;
 import org.dreamer.examination.repository.PaperDao;
 import org.dreamer.examination.repository.PaperQuestionDao;
-import org.dreamer.examination.sql.model.SqlQueryItem;
-import org.dreamer.examination.sql.model.SqlSortItem;
+import org.dreamer.examination.vo.AnswerJudgeVO;
+import org.dreamer.examination.vo.ExamRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

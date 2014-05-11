@@ -1,4 +1,6 @@
-package org.dreamer.examination.entity;
+package org.dreamer.examination.vo;
+
+import org.dreamer.examination.entity.Types;
 
 /**
  * Created by lcheng on 2014/4/17.

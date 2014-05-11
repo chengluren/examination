@@ -1,4 +1,4 @@
-package org.dreamer.examination.entity;
+package org.dreamer.examination.vo;
 
 import java.util.Date;
 import java.util.List;

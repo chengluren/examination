@@ -2,7 +2,7 @@ package org.dreamer.examination.business;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.dreamer.examination.entity.PaperQuestionVO;
+import org.dreamer.examination.vo.PaperQuestionVO;
 import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.service.QuestionService;

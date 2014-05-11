@@ -16,6 +16,7 @@ import org.dreamer.examination.search.QuestionIndexer;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.service.QuestionStoreService;
 import org.dreamer.examination.utils.SysUtils;
+import org.dreamer.examination.vo.QuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

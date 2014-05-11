@@ -4,10 +4,10 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.index.Term;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.QuestionService;
+import org.dreamer.examination.vo.QuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 

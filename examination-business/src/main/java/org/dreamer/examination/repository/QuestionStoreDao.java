@@ -1,7 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.QuestionStore;
-import org.dreamer.examination.entity.QuestionStoreVO;
+import org.dreamer.examination.vo.QuestionStoreVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,7 +25,7 @@ public interface QuestionStoreDao extends JpaRepository<QuestionStore, Long> {
 
     public List<QuestionStore> findByGeneric(boolean generic);
 
-    @Query(value = "select new org.dreamer.examination.entity.QuestionStoreVO(s.id,s.name,(" +
+    @Query(value = "select new org.dreamer.examination.vo.QuestionStoreVO(s.id,s.name,(" +
             "select count(q.id) from Question q where q.storeId= s.id) as quesCount,s.generic,s.comment) " +
             "from QuestionStore s order by quesCount desc",
             countQuery = "select count(s.id) from QuestionStore s")

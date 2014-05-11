@@ -8,15 +8,17 @@ import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.AnswerService;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExaminationService;
+import org.dreamer.examination.vo.ExamAndQuestionVO;
+import org.dreamer.examination.vo.ExamQuestionVO;
+import org.dreamer.examination.vo.ExamRecordVO;
+import org.dreamer.examination.vo.ExamScheduleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**

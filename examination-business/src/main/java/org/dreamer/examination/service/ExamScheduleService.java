@@ -5,6 +5,8 @@ import org.dreamer.examination.repository.ExamScheduleDao;
 import org.dreamer.examination.repository.ExamScheduleViewDao;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
+import org.dreamer.examination.vo.ExamScheduleVO;
+import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,31 +1,113 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
-<script type="text/javascript" src="${ctx}/asset/js/plugins/chosen/chosen.jquery.js"></script>
+<link type="text/css" href="${ctx}/asset/js/plugins/zTree/css/zTreeStyle.css" rel="stylesheet"/>
+<style>
+    ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
+</style>
+<link type="text/css" href="${ctx}/asset/js/plugins/easyui/themes/icon.css" rel="stylesheet"/>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.core-3.5.min.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.excheck-3.5.min.js"></script>
+
 <script type="text/javascript">
+    var relStr = "${rels}",
+        relArr = relStr.split(",");
+
+    var setting = {
+        check: {
+            enable: true,
+            chkboxType: {"Y":"", "N":""}
+        },
+        view: {
+            dblClickExpand: false
+        },
+//        data: {
+//            simpleData: {
+//                enable: false
+//            }
+//        },
+        callback: {
+            beforeClick: beforeClick,
+            onCheck: onCheck
+        }
+    };
+    function beforeClick(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("majorTree");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+    }
+
+    function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("majorTree"),
+                nodes = zTree.getCheckedNodes(true),
+                v = "",
+                vid = "";
+        for (var i=0, l=nodes.length; i<l; i++) {
+            v += nodes[i].name + ",";
+            vid += nodes[i].id + ",";
+        }
+        if (v.length > 0 ) {
+            v = v.substring(0, v.length-1);
+            vid = vid.substring(0, vid.length-1);
+        }
+        var majorObj = $("#storeMajorName");
+        majorObj.attr("value", v);
+        $("#storeMajor").val(vid);
+    }
+
+    function showMenu() {
+        var majorObj = $("#storeMajorName");
+        var majorOffset = $("#storeMajorName").offset();
+        $("#majorContent").css({left:majorOffset.left + "px", top:majorOffset.top + majorObj.outerHeight() + "px"}).slideDown("fast");
+
+        $("body").bind("mousedown", onBodyDown);
+    }
+    function hideMenu() {
+        $("#majorContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function onBodyDown(event) {
+        if (!( event.target.id == "storeMajorName" || event.target.id == "majorContent"
+                || $(event.target).parents("#majorContent").length>0)) {
+            hideMenu();
+        }
+    }
+
     function goback(){
         window.history.go(-1);
     }
-    function createChosen(){
-        $("#storeMajor").chosen({
-            no_results_text:"没有找到",
-            max_selected_options: 5,
-            disable_search_threshold: 10,
-            width:"323px"
-        });
-    }
+//    function createChosen(){
+//        $("#storeMajor").chosen({
+//            no_results_text:"没有找到",
+//            max_selected_options: 5,
+//            disable_search_threshold: 10,
+//            width:"323px"
+//        });
+//    }
     function bindCheckboxEvent(){
         $("#generic").on("ifChecked",function(){
             $("#majorGroup").addClass("hidden");
-            $("#storeMajor").val('').trigger("chosen:updated");
+            $("#storeMajor").combotree('setValues', relArr);
         });
         $("#generic").on("ifUnchecked",function(){
             $("#majorGroup").removeClass("hidden");
         });
     }
+    function createDropdownTree(){
+        $.getJSON("${ctx}/major/tree",function(data){
+            $.fn.zTree.init($("#majorTree"),setting,data);
+            if(relArr && relArr.length>0){
+               var tree = $.fn.zTree.getZTreeObj("majorTree");
+               for(var i=0;i<relArr.length;i++){
+                   var node = tree.getNodeByParam("id",relArr[i],null);
+                   tree.checkNode(node,true,null,true);
+               }
+            }
+        });
+    }
     $(document).ready(function(){
-         createChosen();
+         //createChosen();
+        createDropdownTree();
         bindCheckboxEvent();
     });
 </script>

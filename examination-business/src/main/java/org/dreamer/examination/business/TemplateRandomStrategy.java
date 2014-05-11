@@ -1,13 +1,11 @@
 package org.dreamer.examination.business;
 
-import org.dreamer.examination.entity.MustChooseQuestionDef;
-import org.dreamer.examination.entity.PaperQuestionVO;
+import org.dreamer.examination.vo.PaperQuestionVO;
 import org.dreamer.examination.entity.TemplateQuestionDef;
 import org.dreamer.examination.entity.Types;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *随机抽取试题的策略

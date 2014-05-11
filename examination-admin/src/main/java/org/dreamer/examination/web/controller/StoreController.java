@@ -3,7 +3,7 @@ package org.dreamer.examination.web.controller;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.dreamer.examination.entity.MajorStoreRelation;
 import org.dreamer.examination.entity.QuestionStore;
-import org.dreamer.examination.entity.QuestionStoreVO;
+import org.dreamer.examination.vo.QuestionStoreVO;
 import org.dreamer.examination.search.QuestionIndexer;
 import org.dreamer.examination.service.MajorStoreRelationService;
 import org.dreamer.examination.service.QuestionStoreService;
@@ -79,6 +79,9 @@ public class StoreController {
         for (MajorStoreRelation rel : rels) {
             sb.append(rel.getMajor() + ",");
         }
+        if(sb.charAt(sb.length()-1)==','){
+           sb.deleteCharAt(sb.length()-1);
+        }
         mv.addObject("store", store);
         mv.addObject("rels", sb.toString());
         mv.addObject("majors", majors);
@@ -88,7 +91,7 @@ public class StoreController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editStore(QuestionStore store, String storeMajor) {
         String[] majors = {};
-        if (storeMajor != null) {
+        if (storeMajor != null&& storeMajor.length()>0) {
             majors = storeMajor.split(",");
         }
         storeService.updateQuestionStore(store, majors);

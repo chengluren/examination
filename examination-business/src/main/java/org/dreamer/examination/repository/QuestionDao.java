@@ -1,7 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.Question;
-import org.dreamer.examination.entity.QuestionVO;
+import org.dreamer.examination.vo.QuestionVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.print.attribute.standard.PageRanges;
 import java.util.List;
 
 /**
@@ -108,11 +107,11 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      * @param pageable
      * @return
      */
-    @Query(value = "select new org.dreamer.examination.entity.QuestionVO(q.id,q.stem,q.answer) " +
+    @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) " +
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true")
     public Page<QuestionVO> findMustChooseQuestion(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
 
-    @Query(value = "select new org.dreamer.examination.entity.QuestionVO(q.id,q.stem,q.answer) "+
+    @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) "+
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true and " +
             "q.id not in (select d.questionId from MustChooseQuestionDef d where d.template.id =:tempId)")
     public Page<QuestionVO> findMustChooseQuestionNotChoosed(@Param("storeId")Long storeId, @Param("type")Class<?> type,

@@ -1,5 +1,7 @@
 package org.dreamer.examination.entity;
 
+import org.dreamer.examination.vo.PaperQuestionVO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;

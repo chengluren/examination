@@ -1,4 +1,6 @@
-package org.dreamer.examination.entity;
+package org.dreamer.examination.vo;
+
+import org.dreamer.examination.entity.QuestionOption;
 
 import java.util.List;
 

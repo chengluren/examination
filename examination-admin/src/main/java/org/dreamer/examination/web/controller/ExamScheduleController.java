@@ -57,7 +57,6 @@ public class ExamScheduleController {
      */
     @RequestMapping(value = "/list")
     public ModelAndView getScheduleList(@RequestParam(value = "name-li", required = false) String name,
-                                        @RequestParam(value = "major-li", required = false, defaultValue = "") String major,
                                         @RequestParam(value = "tempid", required = false, defaultValue = "") Long tempid,
                                         @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examschedule-list");
@@ -66,9 +65,6 @@ public class ExamScheduleController {
         Map<String, Object> map = new HashMap<String, Object>();
         if (name != null) {
             map.put("name-li", name);
-        }
-        if (!StringUtils.isEmpty(major)) {
-            map.put("major-li", major);
         }
         if (tempid != null) {
             map.put("tempid", tempid);
@@ -86,7 +82,6 @@ public class ExamScheduleController {
         mv.addObject("templatelist", templateService.findAllTemplate());
         //搜索参数
         mv.addObject("name", name);
-        mv.addObject("major", major);
         mv.addObject("tempid", tempid);
         return mv;
     }
@@ -117,7 +112,6 @@ public class ExamScheduleController {
             scheduleViewVO = new ExamScheduleViewVO();
         }
         map.addAttribute("templatelist", templateService.findAllTemplate());
-        map.addAttribute("majors", majors);
         map.addAttribute("schedule", scheduleViewVO);
         return "exam.examschedule-edit";
     }

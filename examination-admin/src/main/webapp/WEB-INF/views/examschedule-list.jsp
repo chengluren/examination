@@ -36,14 +36,8 @@
                                     <input type="text" value="${name}" class="form-control" id="name-li" name="name-li" placeholder="请输入名称">
                                 </div>
 
-                                <label for="major-li" class="col-sm-1 control-label">专业:</label>
-                                <div class="col-sm-2">
-                                    <input type="text" value="${major}" class="form-control" id="major-li" name="major-li" placeholder="请输入专业">
-                                </div>
-
                                 <label for="tempid" class="col-sm-1 control-label">方案名称:</label>
                                 <div class="col-sm-3">
-
                                     <select name="tempid" id="tempid" class="form-control" >
                                         <option value="">选择考试模板</option>
                                         <c:forEach items="${templatelist}" var="template">
@@ -51,10 +45,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-
-
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
-
                             </div>
 
 
@@ -74,7 +65,7 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.name}</td>
-                                    <td>${s.major}</td>
+                                    <td>${s.majorName}</td>
 
                                     <td><fmt:formatDate value="${s.startDate}"  pattern="yyyy-MM-dd HH:mm:ss"/></td>
 
@@ -88,8 +79,6 @@
                                         <a class="btn btn-primary btn-xs" onclick="deleteSchedule(${s.id});">
                                             <i class="fa fa-times"></i>
                                         </a>
-
-
                                     </td>
                                 </tr>
                             </c:forEach>

@@ -9,14 +9,14 @@
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=M001&scheduleId=50&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=8&scheduleId=150&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
                     });
         }
         function getExamQuestions() {
-            $.getJSON("http://localhost:8080/exam/fetch?examId=1&quesType=CH&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/fetch?examId=101&quesType=MC&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -93,7 +93,7 @@
             });
         }
 //                takeExam();
-//        getExamQuestions();
+        getExamQuestions();
 //                        sequenceLoadQuestion();
         //                randomLoadQuestion();
 //                commitAnswer();
@@ -101,7 +101,7 @@
         //        getMajorStore();
 //                getExamSchedule();
 //                getExamRecord();
-        getExamRecord2();
+//        getExamRecord2();
 //        getExamAnswer();
     </script>
 </head>

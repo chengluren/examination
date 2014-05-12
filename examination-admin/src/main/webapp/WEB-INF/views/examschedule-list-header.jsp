@@ -3,12 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <style>
-    .box .box-tools a{
-        color: #ffffff;
-    }
+    .box .box-tools a{ color: #ffffff; }
 </style>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
 <script type="text/javascript">
+
    function createPaginator(ulId,curPage,totalPage,toUrl){
        var pgOptions = {
            bootstrapMajorVersion : 3,
@@ -43,7 +42,10 @@
        }
    }
 
-     $(document).ready(function(){
-          createPaginator("paginator",${page},${totalPage},"${ctx}/examschedule/list")
+   $(document).ready(function () {
+       var hasData = ${totalPage} >0;
+       if(hasData){
+           createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examschedule/list");
+       }
    });
 </script>

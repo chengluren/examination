@@ -5,10 +5,8 @@
 <style>
     ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
 </style>
-<link type="text/css" href="${ctx}/asset/js/plugins/easyui/themes/icon.css" rel="stylesheet"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.excheck-3.5.min.js"></script>
-
 <script type="text/javascript">
     var relStr = "${rels}",
         relArr = relStr.split(",");
@@ -21,11 +19,6 @@
         view: {
             dblClickExpand: false
         },
-//        data: {
-//            simpleData: {
-//                enable: false
-//            }
-//        },
         callback: {
             beforeClick: beforeClick,
             onCheck: onCheck

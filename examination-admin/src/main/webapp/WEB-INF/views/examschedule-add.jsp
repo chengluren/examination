@@ -53,15 +53,17 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="major" class="col-sm-2 control-label">考试专业</label>
+                                <label for="majorName" class="col-sm-2 control-label">考试专业</label>
 
                                 <div class="col-sm-5">
-                                    <select name="major" id="major" class="form-control" data-placeholder="请选择考试专业">
-                                        <option value="">选择专业</option>
-                                        <c:forEach items="${majors}" var="major">
-                                            <option value=${major}> ${major}</option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="major" id="major" class="form-control" data-placeholder="请选择考试专业">--%>
+                                        <%--<option value="">选择专业</option>--%>
+                                        <%--<c:forEach items="${majors}" var="major">--%>
+                                            <%--<option value=${major}> ${major}</option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                    <input type="hidden" id="major" name="major"/>
+                                    <input id="majorName" name="majorName" type="text" readonly style="width:354px;height: 33px;" onclick="showMenu();"/>
                                 </div>
                             </div>
 
@@ -103,3 +105,6 @@
     </section>
     <!-- /.content -->
 </aside>
+<div id="majorContent" class="menuContent" style="display:none; position: absolute;">
+    <ul id="majorTree" class="ztree" style="margin-top:0; width:324px; height: 300px;"></ul>
+</div>

@@ -36,7 +36,7 @@ public class StoreController {
     @Autowired
     private MajorStoreRelationService storeRelService;
 
-    private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
+   // private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
 
     @RequestMapping(value = "/list")
     public ModelAndView getStoreInfoList(@PageableDefault Pageable page) {
@@ -50,7 +50,7 @@ public class StoreController {
 
     @RequestMapping(value = "/add")
     public String addStore(ModelMap map) {
-        map.addAttribute("majors", majors);
+       // map.addAttribute("majors", majors);
         return "exam.store-add";
     }
 
@@ -84,7 +84,7 @@ public class StoreController {
         }
         mv.addObject("store", store);
         mv.addObject("rels", sb.toString());
-        mv.addObject("majors", majors);
+      //  mv.addObject("majors", majors);
         return mv;
     }
 

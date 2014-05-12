@@ -41,13 +41,13 @@
                                                  </div>
                                                  <div class="form-group">
                                                      <label for="multiChoiceMixedInChoice"
-                                                            class="col-sm-2 control-label">多选单独成题</label>
+                                                            class="col-sm-2 control-label" style="margin-right: 15px;">多选不单独成题</label>
 
                                                      <div class="checkbox">
                                                          <label>
                                                              <input type="checkbox" name="multiChoiceMixedInChoice"
                                                                     id="multiChoiceMixedInChoice" <c:if test="${baseInfo[3]}">checked</c:if> >
-                                                             是否将多选题单独成题型
+                                                             是否将多选题混入单选题中
                                                          </label>
                                                      </div>
                                                  </div>
@@ -204,7 +204,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="confScore" class="col-sm-2 control-label">分值</label>
+                        <label for="confScore" class="col-sm-2 control-label">每题分值</label>
 
                         <div class="col-sm-4">
                             <input type="text" id="confScore" name="confScore" class="form-control"/>

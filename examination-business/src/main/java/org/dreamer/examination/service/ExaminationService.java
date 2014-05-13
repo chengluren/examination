@@ -52,10 +52,10 @@ public class ExaminationService {
     public List<ExamRecordVO> getExamRecords(String straffId,Long scheduleId){
         return examDao.findStaffExamRecords(straffId,scheduleId);
     }
-    @Deprecated
-    public int getExamPaperQuestionCount(long examId,long paperId){
-        return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);
-    }
+//    @Deprecated
+//    public int getExamPaperQuestionCount(long examId,long paperId){
+//        return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);
+//    }
 
     public Set<Types.QuestionType> getExamQuestionDistinctType(Long examId){
          return examDao.findExamQuestionDistinctType(examId);

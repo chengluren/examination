@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -165,15 +166,24 @@ public class ExamQueryController {
         return mv;
     }
 
+    @RequestMapping(value = "/paper/questions")
+    @ResponseBody
+    public List<Question> examPaperQuestions(Long examId,String quesType){
+         return questionService.getExamQuestion(examId,
+                 Types.QuestionType.getTypeFromShortName(quesType));
+    }
+
     private List<String[]> getQuestionTypeList(Set<Types.QuestionType> types) {
         List<String[]> result = new ArrayList<>();
         if (types.contains(Types.QuestionType.Choice)) {
             String[] a = new String[]{"CH", "单选题"};
             result.add(a);
-        } else if (types.contains(Types.QuestionType.MultipleChoice)) {
+        }
+        if (types.contains(Types.QuestionType.MultipleChoice)) {
             String[] a = new String[]{"MC", "多选题"};
             result.add(a);
-        } else if (types.contains(Types.QuestionType.TrueFalse)){
+        }
+        if (types.contains(Types.QuestionType.TrueFalse)){
             String[] a = new String[]{"TF", "判断题"};
             result.add(a);
         }

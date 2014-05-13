@@ -38,20 +38,20 @@ public interface ExaminationDao extends CommonRepository<Examination,Long>{
             "from Examination e where e.schedule.id = ?1 ")
     public Page<ExamRecordVO> findScheduleExamRecords(Long scheduleID ,Pageable page);
 
-    @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
+    @Query(value = "select new org.dreamer.examination.vo.ExamRecordVO(" +
             "e.examStaffId,e.id,e.schedule.id,e.schedule.name,e.finalScore,e.examStartTime)  " +
             "from Examination e ")
     public Page<ExamRecordVO> findAllExamRecords(Pageable page);
 
-    @Query("select distinct(pq.quesType) from Examination e,PaperQuestion pq where e.paper.id = pq.paper.id and e.examId =:examId")
+    @Query("select distinct(pq.quesType) from Examination e,PaperQuestion pq where e.paper.id = pq.paper.id and e.id =:examId")
     public Set<Types.QuestionType> findExamQuestionDistinctType(@Param("examId")Long examId);
 
     @Query("select pq.quesId,pq.score from Examination e,PaperQuestion pq where e.paper.id = pq.paper.id " +
-            "and e.examId =:examId and pq.quesType =:quesType")
+            "and e.id =:examId and pq.quesType =:quesType")
     public List<Object[]> findExamQuestionScores(@Param("examId")Long examId,@Param("quesType")Types.QuestionType quesType);
 
     @Query("select a.quesId,a.answer from Examination e,PaperQuestion pq,Answer a where e.id =:examId and e.paper.id = pq.paper.id " +
-            "and pq.quesType=:quesType amd pq.quesId = a.quesId")
+            "and pq.quesType=:quesType and pq.quesId = a.quesId")
     public List<Object[]> findExamQuestionAnswer(@Param("examId")Long examId,@Param("quesType")Types.QuestionType quesType);
 
     @Modifying

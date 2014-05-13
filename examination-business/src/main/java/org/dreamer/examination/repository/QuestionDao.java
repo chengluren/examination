@@ -109,15 +109,15 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
                                                @Param("storeId") Long storeId, Pageable page);
 
 
-    @Query(value = "select q.* from Question q where TYPE(q)=(:clazz) and q.id in " +
+    @Query(value = "select q from Question q where TYPE(q)=(:clazz) and q.id in " +
             "(select pq.quesId from Examination e,PaperQuestion pq " +
             "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType))",
-            countQuery = "select from Examination e,PaperQuestion pq " +
+            countQuery = "select count(pq.id) from Examination e,PaperQuestion pq " +
                     "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType)")
     public Page<Question> findExamQuestions(@Param("clazz") Class<?> clazz, @Param("quesType") Types.QuestionType quesType,
                                             @Param("examId") Long examId, Pageable page);
 
-    @Query(value = "select q.* from Question q where TYPE(q)=(:clazz) and q.id in " +
+    @Query(value = "select q from Question q where TYPE(q)=(:clazz) and q.id in " +
             "(select pq.quesId from Examination e,PaperQuestion pq " +
             "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType))")
     public List<Question> findExamQuestions(@Param("clazz") Class<?> clazz, @Param("quesType") Types.QuestionType quesType,

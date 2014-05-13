@@ -183,6 +183,16 @@ public class QuestionService {
         return questionDao.findQuestions(storeId, clazz, p);
     }
 
+    public Page<Question> getExamQuestion(Long examId,Types.QuestionType type,Pageable page){
+        Class<? extends Question> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findExamQuestions(clazz,type,examId,page);
+    }
+
+    public List<Question> getExamQuestion(Long examId,Types.QuestionType type){
+        Class<? extends Question> clazz = QuestionTypeUtils.getClassType(type);
+        return questionDao.findExamQuestions(clazz,type,examId);
+    }
+
     /**
      * 查出试题的基本信息，用来批量做索引
      * @param type
@@ -216,8 +226,7 @@ public class QuestionService {
         optionDao.delete(opId);
     }
 
-    public Long getQuestionCount()
-    {
+    public Long getQuestionCount(){
        return  questionDao.getQuestionCount() == null ? 0L :questionDao.getQuestionCount();
     }
 }

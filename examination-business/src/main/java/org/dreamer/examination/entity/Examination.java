@@ -31,16 +31,16 @@ public class Examination implements Serializable{
     @JoinColumn(name = "schedule_id")
     private ExamSchedule schedule;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private String answers;
+//    @Lob
+//    @Basic(fetch = FetchType.LAZY)
+//    private String answers;
 
     @Column(scale = 1)
     private float finalScore;
 
     private Date examStartTime;
 
-    private Date answerCommitTime;
+    private Date commitTime;
 
     public long getId() {
         return id;
@@ -66,13 +66,13 @@ public class Examination implements Serializable{
         this.paper = paper;
     }
 
-    public String getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(String answers) {
-        this.answers = answers;
-    }
+//    public String getAnswers() {
+//        return answers;
+//    }
+//
+//    public void setAnswers(String answers) {
+//        this.answers = answers;
+//    }
 
     public float getFinalScore() {
         return finalScore;
@@ -90,12 +90,12 @@ public class Examination implements Serializable{
         this.examStartTime = examStartTime;
     }
 
-    public Date getAnswerCommitTime() {
-        return answerCommitTime;
+    public Date getCommitTime() {
+        return commitTime;
     }
 
-    public void setAnswerCommitTime(Date answerCommitTime) {
-        this.answerCommitTime = answerCommitTime;
+    public void setCommitTime(Date commitTime) {
+        this.commitTime = commitTime;
     }
 
     public ExamSchedule getSchedule() {

@@ -97,6 +97,7 @@ public class ExamController {
     @ResponseBody
     public JSONPObject commitExam(long examId, String callback) {
         float score = examService.scoreExam(examId);
+
         JSONPObject jsonp = new JSONPObject(callback, score);
         return jsonp;
     }

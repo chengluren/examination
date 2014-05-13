@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -51,9 +52,25 @@ public class ExaminationService {
     public List<ExamRecordVO> getExamRecords(String straffId,Long scheduleId){
         return examDao.findStaffExamRecords(straffId,scheduleId);
     }
-
+    @Deprecated
     public int getExamPaperQuestionCount(long examId,long paperId){
         return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);
+    }
+
+    public Set<Types.QuestionType> getExamQuestionDistinctType(Long examId){
+         return examDao.findExamQuestionDistinctType(examId);
+    }
+
+    public int getExamPaperQuestionCount(Long examId){
+        return  examDao.countExamPaperQuestion(examId);
+    }
+
+    public List<Object[]> getExamQuestionScores(Long examId,Types.QuestionType questionType){
+        return examDao.findExamQuestionScores(examId,questionType);
+    }
+
+    public List<Object[]> getExamQuestionAnswers(Long examId,Types.QuestionType questionType){
+        return examDao.findExamQuestionAnswer(examId,questionType);
     }
 
     public float scoreExam(long examId){
@@ -80,7 +97,7 @@ public class ExaminationService {
                 }
             }
         }
-        examDao.updateExamFinalScore(examId,score);
+        examDao.updateExamFinalScore(examId,score,new Date());
         return score;
     }
 }

@@ -15,7 +15,7 @@ public class PaperQuestion implements Serializable {
     @TableGenerator(name = "ID_PAPER_QUES", table = "gen_ids", pkColumnName = "id_name",
             valueColumnName = "id_value", initialValue = 1)
     private Long id;
-    private Long examId;
+    //private Long examId;
     @Enumerated(EnumType.STRING)
     private Types.QuestionType quesType;
     private Long quesId;
@@ -28,9 +28,9 @@ public class PaperQuestion implements Serializable {
     public PaperQuestion() {
     }
 
-    public PaperQuestion(Long examId, Types.QuestionType quesType,
+    public PaperQuestion(Types.QuestionType quesType,
                          Long quesId, float score) {
-        this.examId = examId;
+//        this.examId = examId;
         this.quesType = quesType;
         this.quesId = quesId;
         this.score = score;
@@ -44,13 +44,13 @@ public class PaperQuestion implements Serializable {
         this.id = id;
     }
 
-    public Long getExamId() {
-        return examId;
-    }
-
-    public void setExamId(Long examId) {
-        this.examId = examId;
-    }
+//    public Long getExamId() {
+//        return examId;
+//    }
+//
+//    public void setExamId(Long examId) {
+//        this.examId = examId;
+//    }
 
     public Types.QuestionType getQuesType() {
         return quesType;

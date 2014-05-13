@@ -131,7 +131,8 @@ public class ExaminationManager {
             cache.put(savedId[0],paper.getTypedQuestions());
             vo.setExamId(savedId[0]);
             vo.setPaperId(savedId[1]);
-            int totalCount = examService.getExamPaperQuestionCount(savedId[0],savedId[1]);
+            //int totalCount = examService.getExamPaperQuestionCount(savedId[0],savedId[1]);
+            int totalCount = examService.getExamPaperQuestionCount(savedId[0]);
             vo.setQuesTotalCount(totalCount);
         } catch (InterruptedException|ExecutionException e) {
             e.printStackTrace();

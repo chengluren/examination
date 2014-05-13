@@ -59,11 +59,13 @@ public class Paper implements Serializable {
                 List<PaperQuestionVO> vos = typedQuestions.get(type);
                 for (PaperQuestionVO vo : vos) {
                     if (vo.getId() != null) {
-                        PaperQuestion pq = new PaperQuestion(examId, type, vo.getId(), vo.getScore());
+                        //PaperQuestion pq = new PaperQuestion(examId, type, vo.getId(), vo.getScore());
+                        PaperQuestion pq = new PaperQuestion(type, vo.getId(), vo.getScore());
                         paperQuestions.add(pq);
                     } else if (vo.getIds() != null) {
                         for (Long id : vo.getIds()) {
-                            PaperQuestion pq = new PaperQuestion(examId, type, id, vo.getScore());
+                            //PaperQuestion pq = new PaperQuestion(examId, type, id, vo.getScore());
+                            PaperQuestion pq = new PaperQuestion(type, id, vo.getScore());
                             paperQuestions.add(pq);
                         }
                     }

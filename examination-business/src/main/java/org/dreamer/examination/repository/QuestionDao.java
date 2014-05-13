@@ -1,6 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.Question;
+import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.vo.QuestionVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * 按类型分组查询XX题库中每种题型的的数量。主要用于统计
+     *
      * @param storeId
      * @return
      */
@@ -32,6 +34,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * XX题库中非必选题 某个题型的数量。主要用于随机生成试题
+     *
      * @param storeId
      * @param type
      * @return
@@ -41,6 +44,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * 某题库下的某类型的题目数量
+     *
      * @param storeId
      * @param type
      * @return
@@ -50,15 +54,17 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * XX 题库中必选题 按题型分组的数量统计
+     *
      * @param storeId
      * @return
      */
     @Query(value = "select ques_type,count(*) from questions where storeId= :storeId and mustChoose=1 " +
-            "group by ques_type",  nativeQuery = true)
+            "group by ques_type", nativeQuery = true)
     public List<Object[]> countMustChooseForStore(@Param("storeId") Long storeId);
 
     /**
      * 分页获得某题库下某类型的试题（非必选）Id
+     *
      * @param storeId
      * @param type
      * @param pageable
@@ -70,6 +76,7 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * 分页获得某题库下某类型试题的Id
+     *
      * @param storeId
      * @param type
      * @param pageable
@@ -81,27 +88,44 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
     /**
      * 分页获取某题库中，某类型的题目
+     *
      * @param storeId
      * @param type
      * @param pageable
      * @return
      */
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type)")
-    public Page<Question> findQuestions(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
+    public Page<Question> findQuestions(@Param("storeId") Long storeId, @Param("type") Class<?> type, Pageable pageable);
 
     @Query(value = "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.stem like :stemLike")
-    public Page<Question> findQuestions(@Param("storeId")Long storeId,@Param("type")Class<?> type,
-                                        @Param("stemLike")String stemLike,Pageable pageable);
+    public Page<Question> findQuestions(@Param("storeId") Long storeId, @Param("type") Class<?> type,
+                                        @Param("stemLike") String stemLike, Pageable pageable);
 
     @Query(value = "select q.id,q.stem,q.mustChoose,q.answer,q.storeId from Question q where TYPE(q)= (:type)")
-    public Page<Object[]> findQuestionBaseInfo(@Param("type")Class<? extends Question> type,Pageable page);
+    public Page<Object[]> findQuestionBaseInfo(@Param("type") Class<? extends Question> type, Pageable page);
 
     @Query(value = "select q.id,q.stem,q.mustChoose,q.answer,q.storeId from Question q where TYPE(q)= (:type) and q.storeId = :storeId")
-    public Page<Object[]> findQuestionBaseInfo(@Param("type")Class<? extends Question> type,
-                                               @Param("storeId")Long storeId,Pageable page);
+    public Page<Object[]> findQuestionBaseInfo(@Param("type") Class<? extends Question> type,
+                                               @Param("storeId") Long storeId, Pageable page);
+
+
+    @Query(value = "select q.* from Question q where TYPE(q)=(:clazz) and q.id in " +
+            "(select pq.quesId from Examination e,PaperQuestion pq " +
+            "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType))",
+            countQuery = "select from Examination e,PaperQuestion pq " +
+                    "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType)")
+    public Page<Question> findExamQuestions(@Param("clazz") Class<?> clazz, @Param("quesType") Types.QuestionType quesType,
+                                            @Param("examId") Long examId, Pageable page);
+
+    @Query(value = "select q.* from Question q where TYPE(q)=(:clazz) and q.id in " +
+            "(select pq.quesId from Examination e,PaperQuestion pq " +
+            "where e.paper.id = pq.paper.id and e.id =(:examId) and pq.quesType=(:quesType))")
+    public List<Question> findExamQuestions(@Param("clazz") Class<?> clazz, @Param("quesType") Types.QuestionType quesType,
+                                            @Param("examId") Long examId);
 
     /**
      * 分页获取必选题基本信息
+     *
      * @param storeId
      * @param type
      * @param pageable
@@ -109,17 +133,17 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
      */
     @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) " +
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true")
-    public Page<QuestionVO> findMustChooseQuestion(@Param("storeId")Long storeId, @Param("type")Class<?> type,Pageable pageable);
+    public Page<QuestionVO> findMustChooseQuestion(@Param("storeId") Long storeId, @Param("type") Class<?> type, Pageable pageable);
 
-    @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) "+
+    @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) " +
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true and " +
             "q.id not in (select d.questionId from MustChooseQuestionDef d where d.template.id =:tempId)")
-    public Page<QuestionVO> findMustChooseQuestionNotChoosed(@Param("storeId")Long storeId, @Param("type")Class<?> type,
-                                                 @Param("tempId")Long tempId,Pageable pageable);
+    public Page<QuestionVO> findMustChooseQuestionNotChoosed(@Param("storeId") Long storeId, @Param("type") Class<?> type,
+                                                             @Param("tempId") Long tempId, Pageable pageable);
 
     @Modifying
     @Query("update Question q set q.stem = ?1,q.answer =?2,q.mustChoose = ?3,q.imgPath =?4 where q.id = ?5")
-    public void updateQuestion(String stem,String answer,boolean mustChoose,String imgPath,Long id);
+    public void updateQuestion(String stem, String answer, boolean mustChoose, String imgPath, Long id);
 
     @Modifying
     @Query("delete from Question where storeId = ?1")

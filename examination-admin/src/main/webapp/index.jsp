@@ -9,7 +9,7 @@
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=8&scheduleId=150&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=8&scheduleId=1&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
@@ -92,8 +92,8 @@
                 console.log(data);
             });
         }
-//                takeExam();
-        getExamQuestions();
+                takeExam();
+//        getExamQuestions();
 //                        sequenceLoadQuestion();
         //                randomLoadQuestion();
 //                commitAnswer();

@@ -50,8 +50,8 @@ public interface ExaminationDao extends CommonRepository<Examination,Long>{
             "and e.id =:examId and pq.quesType =:quesType")
     public List<Object[]> findExamQuestionScores(@Param("examId")Long examId,@Param("quesType")Types.QuestionType quesType);
 
-    @Query("select a.quesId,a.answer from Examination e,PaperQuestion pq,Answer a where e.id =:examId and e.paper.id = pq.paper.id " +
-            "and pq.quesType=:quesType and pq.quesId = a.quesId")
+    @Query("select a.quesId,a.answer from Examination e,PaperQuestion pq,Answer a where e.id =:examId and a.examId = e.id and pq.paper.id =e.paper.id " +
+            "and pq.quesType=:quesType and a.quesId = pq.quesId")
     public List<Object[]> findExamQuestionAnswer(@Param("examId")Long examId,@Param("quesType")Types.QuestionType quesType);
 
     @Modifying

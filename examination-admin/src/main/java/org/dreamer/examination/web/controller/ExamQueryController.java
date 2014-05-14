@@ -162,7 +162,14 @@ public class ExamQueryController {
         mv.addObject("quesTypes",quesTypes);
         List<Question> questions = questionService.getExamQuestion(examId,
                 Types.QuestionType.getTypeFromShortName(quesTypes.get(0)[0]));
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",examId);
+        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+        List<SqlQueryItem> itemList = builder.builder(map);
+        Page<ExaminationViewVO> data = examViewService.getExaminationByFilter(itemList,null,null);
         mv.addObject("questions",questions);
+        mv.addObject("examId",examId);
+        mv.addObject("examVO",data.getContent().get(0));
         return mv;
     }
 
@@ -171,6 +178,19 @@ public class ExamQueryController {
     public List<Question> examPaperQuestions(Long examId,String quesType){
          return questionService.getExamQuestion(examId,
                  Types.QuestionType.getTypeFromShortName(quesType));
+    }
+    @RequestMapping(value = "/paper/answers")
+    @ResponseBody
+    public List<Object[]> examPaperAnswers(Long examId,String quesType){
+         return examService.getExamQuestionAnswers(examId,
+                 Types.QuestionType.getTypeFromShortName(quesType));
+    }
+
+    @RequestMapping(value = "/paper/quesScores")
+    @ResponseBody
+    public List<Object[]> examPaperQuestionScore(Long examId,String quesType){
+        return examService.getExamQuestionScores(examId,
+                Types.QuestionType.getTypeFromShortName(quesType));
     }
 
     private List<String[]> getQuestionTypeList(Set<Types.QuestionType> types) {

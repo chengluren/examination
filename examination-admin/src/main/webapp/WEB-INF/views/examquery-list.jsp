@@ -56,6 +56,7 @@
                                 <th>考试人员</th>
                                 <th>考试分数</th>
                                 <th>考试时间</th>
+                                <th>操 作</th>
                             </tr>
                             <c:forEach items="${examrecord.content}" var="s" varStatus="st">
                                 <tr>
@@ -64,6 +65,11 @@
                                     <td><span class="badge bg-red">${s.examStaffId}</span></td>
                                     <td>${s.finalScore}</td>
                                     <td>${s.examStartTime}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-flat" title="查看试卷" onclick="window.location.href='${ctx}/examquery/paper?examId=${s.id}';">
+                                            <i class="fa fa-file-text"></i>查看试卷
+                                        </a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </table>

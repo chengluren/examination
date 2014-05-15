@@ -22,7 +22,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -42,8 +42,10 @@
                                 </ul>
                             </div>
                             <div class="col-md-6">
-                                <h5>选中用户，并在此为用户选择角色。</h5>
+
                                 <form role="form" class="form-horizontal">
+                                    <h5>选中用户，并在此为用户选择角色。</h5>
+                                    <input type="hidden" id="userRoleId" name="userRoleId"/>
                                     <div class="form-group">
                                         <label for="userRoleSelect" class="col-md-3 control-label">用户角色：</label>
                                         <div class="col-sm-4">
@@ -53,8 +55,10 @@
                                                   <option value="major-admin">专业管理员</option>
                                             </select>
                                         </div>
-
                                     </div>
+                                    <a class="btn btn-primary btn-flat" onclick="saveUserRole();">
+                                        <i class="fa fa-save"></i>  保存
+                                    </a>
                                 </form>
 
                             </div>

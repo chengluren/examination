@@ -47,6 +47,7 @@
                 /exam/examAnswers = anon
                 /train/sequenceLoad = anon
                 /train/randomLoad = anon
+                /index.jsp = anon
                 /store/major = anon
                 /favicon.ico = anon
                 /login = authc

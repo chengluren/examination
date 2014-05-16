@@ -20,18 +20,6 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
             </div>
         </div>
-        <!-- search form -->
-        <%--<form action="#" method="get" class="sidebar-form">--%>
-            <%--<div class="input-group">--%>
-                <%--<input type="text" name="q" class="form-control" placeholder="Search..."/>--%>
-                            <%--<span class="input-group-btn">--%>
-                                <%--<button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i--%>
-                                        <%--class="fa fa-search"></i></button>--%>
-                            <%--</span>--%>
-            <%--</div>--%>
-        <%--</form>--%>
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="active">
                 <a href="${ctx}/index">
@@ -73,7 +61,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="${ctx}/examschedule/list"><i class="fa fa-angle-double-right"></i>考试计划管理</a></li>
+                    <li><a href="${ctx}/examschedule/list"><i class="fa fa-angle-double-right"></i> 考试计划管理</a></li>
                     <li><a href="${ctx}/examquery/list"><i class="fa fa-angle-double-right"></i> 考试记录查询</a></li>
                     <li><a href="${ctx}/examquery/notpasslist"><i class="fa fa-angle-double-right"></i> 未通过查询</a></li>
                     <li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>
@@ -89,7 +77,8 @@
                     <c:if test="${questionListType=='index'}">
                         <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
                     </c:if>
-                    <li><a href="${ctx}/index.jsp"><i class="fa fa-angle-double-right"></i> 系统配置</a></li>
+                    <li><a href="${ctx}/rbac/userRolesList"><i class="fa fa-angle-double-right"></i> 用户角色管理</a></li>
+                    <li><a href="${ctx}/rbac/rolePermissionList"><i class="fa fa-angle-double-right"></i> 角色权限管理</a></li>
                 </ul>
             </li>
             </shiro:hasRole>

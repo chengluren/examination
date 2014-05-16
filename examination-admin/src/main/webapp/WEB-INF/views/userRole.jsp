@@ -22,6 +22,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
+                                <h5>用户列表</h5>
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -56,7 +57,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <a class="btn btn-primary btn-flat" onclick="saveUserRole();">
+                                    <a class="btn btn-primary btn-flat" style="margin-left: 150px;" onclick="saveUserRole();">
                                         <i class="fa fa-save"></i>  保存
                                     </a>
                                 </form>

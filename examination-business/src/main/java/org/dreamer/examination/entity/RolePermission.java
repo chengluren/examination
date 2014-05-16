@@ -20,6 +20,8 @@ public class RolePermission {
     private String roleName;
     @Column(length = 80)
     private String permission;
+    @Column(length = 80)
+    private String permissionName;
 
     public Long getId() {
         return id;
@@ -43,5 +45,13 @@ public class RolePermission {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public String getPermissionName() {
+        return permissionName;
+    }
+
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 }

@@ -1,6 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import org.dreamer.examination.entity.Result;
+import org.dreamer.examination.entity.RolePermission;
 import org.dreamer.examination.entity.User;
 import org.dreamer.examination.entity.UserRole;
 import org.dreamer.examination.service.RBACService;
@@ -61,7 +62,7 @@ public class RBACController {
 
     @RequestMapping(value = "/userRole/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Result addOrUpdateUserRole(Long id){
+    public Result addOrUpdateUserRole(Long id) {
         Result result = null;
         try {
             if (id != null) {
@@ -70,6 +71,45 @@ public class RBACController {
             }
         } catch (Exception e) {
             result = new Result(false, "删除用户角色失败!");
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/rolePermissionList")
+    public String rolePermission() {
+        return "exam.rolePermission";
+    }
+
+    @RequestMapping(value = "/rolePermission")
+    @ResponseBody
+    public List<RolePermission> getRolePermission(String roleName) {
+        return rbacService.getRolePermissions(roleName);
+    }
+
+    @RequestMapping(value = "/rolePermission", method = RequestMethod.POST)
+    @ResponseBody
+    public Result addRolePermission(RolePermission rolePermission) {
+        Result result = null;
+        try {
+            rbacService.addRolePermission(rolePermission);
+            result = new Result(true, "添加角色权限成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = new Result(false, "添加角色权限失败!");
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/rolePermission/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteRolePermission(Long id) {
+        Result result = null;
+        try {
+            rbacService.deleteRolePermission(id);
+            result = new Result(true, "删除角色权限成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = new Result(false, "删除角色权限失败!");
         }
         return result;
     }

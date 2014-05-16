@@ -40,8 +40,7 @@
         </div>
         <div class="footer">
             <button type="submit" class="btn bg-olive btn-block">登 录</button>
-
-            <p><a href="#">忘记密码?</a></p>
+            <%--<p><a href="#">忘记密码?</a></p>--%>
         </div>
     </form>
 

@@ -6,6 +6,11 @@
     var _userName = "";
 
     function saveUserRole() {
+        var selected = $("tbody tr.bg-teal");
+        if(!selected ||!selected.length>0){
+           alert("请选择左侧的用户进行操作！");
+           return;
+        }
         var id = $("#userRoleId").val(),
                 roleName = $("#userRoleSelect").val();
         if (_userName != "" && roleName != "") {

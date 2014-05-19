@@ -55,7 +55,7 @@ public abstract class AbstractExcelCreator<T> implements ExcelCreator<T> {
         Sheet sheet = workbook.createSheet();
         sheet.setColumnWidth(1, 20 * 256);
         sheet.setColumnWidth(2, 20 * 256);
-        createTitle(workbook, sheet, settings.getTitle(), (settings.getColumns().length + 1));
+        createTitle(workbook, sheet, settings.getTitle(), settings.getColumns().length-1);
         createColumn(workbook, sheet, settings.getColumns());
 
         Pageable page = new PageRequest(0, 50);

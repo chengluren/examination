@@ -1,6 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dreamer.examination.business.ExamNotPassExcelCreator;
 import org.dreamer.examination.business.ExamRecordExcelCreator;
 import org.dreamer.examination.business.ExcelCreator;
 import org.dreamer.examination.business.ExcelSettings;
@@ -11,6 +12,7 @@ import org.dreamer.examination.service.ExaminationViewService;
 import org.dreamer.examination.service.QuestionService;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
+import org.dreamer.examination.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -97,15 +99,17 @@ public class ExamQueryController {
         } else {
             title = "学生考试记录表";
         }
-        ExcelSettings settings = new ExcelSettings(title, new String[]{"序号", "考试名称", "考试时间", "班 级", "学 号", "姓 名", "成 绩"});
+        ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
-            response.setContentType("text/html; charset=UTF-8");
-            response.addHeader("Content-Disposition",
-                    "attachment; filename=\"" + title + ".xlsx" + "\"");
+            response.reset();
+            String fileName = title+".xlsx";
+            fileName = new String(fileName.getBytes(),"ISO8859-1");
+            response.addHeader("Content-Disposition","attachment; filename="+fileName );
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             creator.createExcel(settings, ((ExamRecordExcelCreator) creator).new ExamRecordDataProvider(), bos);
             bos.flush();
+            bos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +123,7 @@ public class ExamQueryController {
      * @return
      */
     @RequestMapping(value = "/notpasslist")
-    public ModelAndView getExamRecordNotPassList(ExaminationViewVO viewVO, @PageableDefault Pageable page) {
+    public ModelAndView getExamRecordNotPassList(ExaminationViewNotPassVO viewVO, @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examquerynotpass-list");
         Page<ExaminationViewNotPassVO> examViewRecordVOs = null;
 
@@ -146,10 +150,35 @@ public class ExamQueryController {
         mv.addObject("schedulelist", scheduleService.getAllSchedule());
         //搜索参数
         if (viewVO == null) {
-            viewVO = new ExaminationViewVO();
+            viewVO = new ExaminationViewNotPassVO();
         }
         mv.addObject("query", viewVO);
         return mv;
+    }
+
+    @RequestMapping(value = "/examNotPassDownload")
+    public void downloadExamNotPass(ExaminationViewNotPassVO vo, HttpServletResponse response) {
+        ExcelCreator creator = new ExamNotPassExcelCreator(examViewService, vo);
+        String title = "";
+        if (vo != null && StringUtils.isNotEmpty(vo.getSchedulename())) {
+            title = vo.getSchedulename() + "考试未通过记录表";
+        } else {
+            title = "考试未通过记录表";
+        }
+        ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
+        try {
+            response.reset();
+            String fileName = title+".xlsx";
+            fileName = new String(fileName.getBytes(),"ISO8859-1");
+            response.addHeader("Content-Disposition","attachment; filename="+fileName );
+            response.setContentType("application/octet-stream");
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            creator.createExcel(settings, ((ExamNotPassExcelCreator) creator).new ExamNotPassDataProvider(), bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

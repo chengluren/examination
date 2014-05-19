@@ -55,7 +55,7 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
-                                <button type="button" class="btn btn-primary btn-flat">下载</button>
+                                <button type="button" class="btn btn-primary btn-flat" onclick="examRecordDownload();">下载</button>
                             </div>
                         </form>
                         <table class="table table-bordered table-hover">

@@ -31,12 +31,12 @@
                         <form class="form-horizontal" role="form"  method="post" action="${ctx}/examschedule/list">
                             <div class="form-group">
 
-                                <label for="name-li" class="col-sm-1 control-label">名称:</label>
+                                <label for="name-li" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-2">
                                     <input type="text" value="${name}" class="form-control" id="name-li" name="name-li" placeholder="请输入名称">
                                 </div>
 
-                                <label for="tempid" class="col-sm-1 control-label">方案名称:</label>
+                                <label for="tempid" class="col-sm-2 control-label">方案名称:</label>
                                 <div class="col-sm-3">
                                     <select name="tempid" id="tempid" class="form-control" >
                                         <option value="">选择考试模板</option>

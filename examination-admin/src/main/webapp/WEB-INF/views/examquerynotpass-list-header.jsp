@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <style>
-    .box .box-tools a{
-        color: #ffffff;
-    }
+    .box .box-tools a{ color: #ffffff; }
 </style>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
 <script type="text/javascript">

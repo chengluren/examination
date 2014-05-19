@@ -20,7 +20,7 @@ public class Examination implements Serializable{
             valueColumnName = "id_value", initialValue = 1)
     private long id;
 
-    @Column(length = 40)
+    @Column(length = 10)
     private String examStaffId;
 
     @OneToOne

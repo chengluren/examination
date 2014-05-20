@@ -1,6 +1,7 @@
 package org.dreamer.examination.rbac;
 
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -56,8 +57,7 @@ public class ShiroDatabaseRealm extends AuthorizingRealm {
 
     @PostConstruct
     public void initCredentialsMatcher() {
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(HASH_ALGORITHM);
-        matcher.setHashIterations(HASH_ITERATION);
+        CredentialsMatcher matcher = new InternalCredentialMatcher();
         setCredentialsMatcher(matcher);
     }
 

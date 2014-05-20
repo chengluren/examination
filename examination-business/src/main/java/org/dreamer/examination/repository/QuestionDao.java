@@ -135,6 +135,19 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true")
     public Page<QuestionVO> findMustChooseQuestion(@Param("storeId") Long storeId, @Param("type") Class<?> type, Pageable pageable);
 
+    /**
+     * 分页获取必选题基本信息
+     * @param storeId
+     * @param type
+     * @param stemLike
+     * @param pageable
+     * @return
+     */
+    @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) " +
+            "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true and q.stem like :stemLike")
+    public Page<QuestionVO> findMustChooseQuestion(@Param("storeId") Long storeId, @Param("type") Class<?> type,
+                                                   @Param("stemLike") String stemLike, Pageable pageable);
+
     @Query(value = "select new org.dreamer.examination.vo.QuestionVO(q.id,q.stem,q.answer) " +
             "from Question q where q.storeId = (:storeId) and TYPE(q) = (:type) and q.mustChoose = true and " +
             "q.id not in (select d.questionId from MustChooseQuestionDef d where d.template.id =:tempId)")

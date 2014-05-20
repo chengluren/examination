@@ -4,12 +4,8 @@
 <link type="text/css" href="${ctx}/asset/js/plugins/chosen/chosen.bootstrap.css" rel="stylesheet"/>
 <link type="text/css" href="${ctx}/asset/js/plugins/wizard/bwstep.css" rel="stylesheet"/>
 <style>
-    .temp-ques-conf a{
-        text-decoration: none;border-bottom: solid 1px #0088cc;text-align: center
-    }
-    .temp-ques-conf a:hover{
-        text-decoration: none;
-    }
+    .temp-ques-conf a{ text-decoration: none;border-bottom: solid 1px #0088cc;text-align: center }
+    .temp-ques-conf a:hover{ text-decoration: none; }
     .margin15 {margin-left: 15px;margin-bottom: 15px;}
     .margin10 {margin-left: 10px;margin-bottom: 10px;}
 </style>
@@ -127,6 +123,16 @@
         });
         $("#mcqt").change(function () {
             loadMustChooseData(0, 10);
+        });
+        $("#queryBtn").on("click",function(){
+            loadMustChooseData(0, 10);
+        });
+
+        $("#queryText").keypress(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+                loadMustChooseData(0, 10);
+            }
         });
     }
 
@@ -277,6 +283,7 @@
             data: {
                 storeId: $("#mcStoreId").val(),
                 quesType: $("#mcqt").val(),
+                queryText: $("#queryText").val(),
                 page: page,
                 size: size
             },

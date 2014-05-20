@@ -15,7 +15,7 @@
                 <img src="${ctx}/asset/img/avatar3.png" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>你好, 王刚</p>
+                <p>你好, <shiro:principal property="realName"/></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
             </div>

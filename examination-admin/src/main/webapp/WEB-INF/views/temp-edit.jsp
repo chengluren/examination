@@ -230,7 +230,7 @@
                 <form class="form-horizontal margin" role="form">
                     <div class="form-group">
 
-                        <label for="mcStoreId" class="col-sm-1 control-label">题 库:</label>
+                        <label for="mcStoreId" class="col-sm-1 control-label">题库:</label>
 
                         <div class="col-sm-3">
                             <select name="mcStoreId" id="mcStoreId">
@@ -240,9 +240,9 @@
                             </select>
                         </div>
 
-                        <label for="mcqt" class="col-sm-1 control-label">题 型:</label>
+                        <label for="mcqt" class="col-sm-1 control-label">题型:</label>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <select id="mcqt" name="mcqt" class="form-control">
                                 <option value="CH" selected>选择题</option>
                                 <option value="MC">多选题</option>

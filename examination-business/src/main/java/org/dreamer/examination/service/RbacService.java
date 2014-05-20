@@ -19,8 +19,7 @@ import java.util.List;
  * @version 1.0
  *          ${tags}
  */
-@Service
-@Qualifier("rbacService")
+@Service("rbacService")
 public class RBACService {
 
     @Autowired

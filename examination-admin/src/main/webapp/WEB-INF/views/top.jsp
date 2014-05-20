@@ -1,5 +1,8 @@
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <header class="header">
     <a href="index.html" class="logo">
@@ -21,7 +24,8 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        <span>王 刚<i class="caret"></i></span>
+                        <%--<span>王 刚<i class="caret"></i></span>--%>
+                        <span><shiro:principal property="realName"/><i class="caret"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -29,8 +33,9 @@
                             <img src="${ctx}/asset/img/avatar3.png" class="img-circle" alt="User Image"/>
 
                             <p>
-                                王 刚 - 系统管理员
-                                <small>2014-03-11</small>
+                                <shiro:principal property="realName"/> - 管理员
+                                <c:set value="<%= new Date()%>" var="now"></c:set>
+                                <small><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></small>
                             </p>
                         </li>
                         <!-- Menu Footer-->

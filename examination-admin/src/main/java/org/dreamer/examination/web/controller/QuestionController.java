@@ -117,7 +117,17 @@ public class QuestionController {
 
     @RequestMapping(value = "/mclist")
     @ResponseBody
-    public Page<QuestionVO> mustChooseList(Long storeId, String quesType, @PageableDefault Pageable page) {
+    public Page<QuestionVO> mustChooseList(Long storeId, String quesType,String queryText, @PageableDefault Pageable page) {
+        if(StringUtils.isNotEmpty(queryText)){
+           try{
+               queryText = new String(queryText.getBytes("ISO8859-1"), "UTF-8");
+               queryText = "%"+queryText+"%";
+           }catch (UnsupportedEncodingException e){
+               e.printStackTrace();
+           }
+           return quesService.getMustChooseQuestion(storeId,
+                   Types.QuestionType.getTypeFromShortName(quesType),queryText,page);
+        }
         return quesService.getMustChooseQuestion(storeId,
                 Types.QuestionType.getTypeFromShortName(quesType), page);
     }

@@ -91,9 +91,9 @@
                                         </div>
 
                                         <div class="input-group col-sm-3">
-                                            <input type="text" class="form-control" id="mcSearch"/>
+                                            <input type="text" class="form-control" id="queryText" name="queryText"/>
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary btn-flat" type="button">查询</button>
+                                            <button class="btn btn-primary btn-flat" type="button" id="queryBtn">查询</button>
                                         </span>
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@
                                     </tbody>
                                 </table>
                                 <div class="margin" style="height: 30px;">
-                                    <ul id="paginator" class="pagination pagination-sm no-margin pull-right">
+                                    <ul id="paginator" class="pagination pagination-sm no-margin">
                                     </ul>
                                 </div>
                             </div>

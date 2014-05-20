@@ -25,6 +25,8 @@
         <property name="rbacService" ref="rbacService"/>
     </bean>
 
+    <bean id="v9Authc" class="org.dreamer.examination.rbac.ShiroV9Filter"></bean>
+
     <bean id="authc" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/index" />

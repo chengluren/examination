@@ -1,5 +1,6 @@
 package org.dreamer.examination.service;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.ImportDocument;
 import org.dreamer.examination.entity.QuestionStore;
 import org.dreamer.examination.importer.DefaultExcelImporter;
 import org.dreamer.examination.importer.Importer;
@@ -24,21 +25,28 @@ public class ExcelImporTest {
     @Autowired
     private QuestionStoreService storeService;
 
-    @Test
-    public void testImport() {
-        QuestionStore generic = new QuestionStore("通识题库","通识类题库");
-        generic.setSno(1);
-        QuestionStore special = new QuestionStore("专业题库","专业类题库");
-        special.setSno(2);
-        storeService.addQuestionStore(generic);
-        storeService.addQuestionStore(special);
-        Long gid = generic.getId();
-        Long sid = special.getId();
+//    @Test
+//    public void testImport() {
+//        QuestionStore generic = new QuestionStore("通识题库","通识类题库");
+//        generic.setSno(1);
+//        QuestionStore special = new QuestionStore("专业题库","专业类题库");
+//        special.setSno(2);
+//        storeService.addQuestionStore(generic);
+//        storeService.addQuestionStore(special);
+//        Long gid = generic.getId();
+//        Long sid = special.getId();
+//
+//        String gdir = "E:/题库/通识";
+//        String sdir = "E:/题库/专业";
+//        doImport(gdir,gid);
+//        doImport(sdir,sid);
+//    }
 
-        String gdir = "E:/题库/通识";
-        String sdir = "E:/题库/专业";
-        doImport(gdir,gid);
-        doImport(sdir,sid);
+    @Test
+    public void testNewImport(){
+        Importer importer = new DefaultExcelImporter(questionService);
+        File excel = new File("D:/项目/测试题.xlsx");
+        importer.doImport(excel,1);
     }
 
     private void doImport(String rootDir,long parentStoreId){

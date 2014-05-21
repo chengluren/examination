@@ -19,7 +19,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">试题导入</h3>
+                        <h3 class="box-title">试题导入<small> <a class="btn-link" href="${ctx}/question/tempFile"> (下载题库模板)</a></small></h3>
                     </div>
                     <div class="box-body table-responsive">
                         <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post">
@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <label for="file" class="col-sm-2 control-label">文 件</label>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <input type="file" id="file" name="file" accept="application/excel,
                                                     application/vnd.ms-excel,application/vnd.msexcel,
                                                     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>

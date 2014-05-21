@@ -10,7 +10,7 @@
                     <div class="box-header">
                         <h3 class="box-title">添加题库</h3>
                     </div>
-                    <form role="form" class="form-horizontal" method="post">
+                    <form role="form" class="form-horizontal" method="post" id="storeAddForm">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">题库名称</label>

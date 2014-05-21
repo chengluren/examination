@@ -24,31 +24,31 @@ public class ExcelImporTest {
     @Autowired
     private QuestionStoreService storeService;
 
-    @Test
-    public void testImport() {
-//        QuestionStore generic = new QuestionStore("通识题库","通识类题库");
-//        generic.setSno(1);
-//        QuestionStore special = new QuestionStore("专业题库","专业类题库");
-//        special.setSno(2);
-//        storeService.addQuestionStore(generic);
-//        storeService.addQuestionStore(special);
-//        Long gid = generic.getId();
-//        Long sid = special.getId();
-
-        String gdir = "E:/题库/通识";
-        String sdir = "E:/题库/专业";
-//        doImport(gdir,gid);
-//        doImport(sdir,sid);
-        doImport(gdir);
-        doImport(sdir);
-    }
-
 //    @Test
-//    public void testNewImport(){
-//        Importer importer = new DefaultExcelImporter(questionService);
-//        File excel = new File("D:/项目/测试题.xlsx");
-//        importer.doImport(excel,1);
+//    public void testImport() {
+////        QuestionStore generic = new QuestionStore("通识题库","通识类题库");
+////        generic.setSno(1);
+////        QuestionStore special = new QuestionStore("专业题库","专业类题库");
+////        special.setSno(2);
+////        storeService.addQuestionStore(generic);
+////        storeService.addQuestionStore(special);
+////        Long gid = generic.getId();
+////        Long sid = special.getId();
+//
+//        String gdir = "E:/题库/通识";
+//        String sdir = "E:/题库/专业";
+////        doImport(gdir,gid);
+////        doImport(sdir,sid);
+//        doImport(gdir);
+//        doImport(sdir);
 //    }
+
+    @Test
+    public void testNewImport(){
+        Importer importer = new DefaultExcelImporter(questionService);
+        File excel = new File("E:\\题库\\通识\\通识-化学安全-3.xlsx");
+        importer.doImport(excel,1);
+    }
 
     private void doImport(String rootDir){
         File dir = new File(rootDir);
@@ -64,7 +64,7 @@ public class ExcelImporTest {
             QuestionStore s = new QuestionStore(store,store);
             s.setSno(Integer.valueOf(fileMeta[2]));
             //s.setParentId(parentStoreId);
-            if(fileMeta[0].equals("通用")){
+            if(fileMeta[0].equals("通识")){
                 s.setGeneric(true);
             }
 

@@ -79,7 +79,7 @@ public class StoreController {
         for (MajorStoreRelation rel : rels) {
             sb.append(rel.getMajor() + ",");
         }
-        if(sb.charAt(sb.length()-1)==','){
+        if(sb.length()>0 && sb.charAt(sb.length()-1)==','){
            sb.deleteCharAt(sb.length()-1);
         }
         mv.addObject("store", store);

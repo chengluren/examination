@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -237,6 +237,30 @@ public class QuestionController {
         }
         String urlPrefix = getQuestionListURLPrefix();
         return "redirect:" + urlPrefix + "?storeId=" + storeId + "&quesType=CH&page=0";
+    }
+
+    @RequestMapping(value="/tempFile")
+    public void tempFileDownload(HttpServletRequest request,HttpServletResponse response){
+        String rootPath = request.getSession().getServletContext().getRealPath("/WEB-INF");
+        String tempFilePath = rootPath+"/doc/题库格式.xlsx";
+        try {
+            response.reset();
+            String fileName = new String("题库格式.xlsx".getBytes(),"ISO8859-1");
+            response.addHeader("Content-Disposition","attachment; filename="+fileName );
+            response.setContentType("application/octet-stream");
+            FileInputStream fis = new FileInputStream(new File(tempFilePath));
+            int fileSize = 1024;
+            byte[] buffer = new byte[fileSize];
+            int read = -1;
+            OutputStream os = response.getOutputStream();
+            while((read = fis.read(buffer))>0){
+                os.write(buffer,0,read);
+                os.flush();
+            }
+            fis.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private Query createQuery(String storeId, String quesType, String queryTxt) {

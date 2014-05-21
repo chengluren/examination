@@ -7,9 +7,19 @@
 </style>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.excheck-3.5.min.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/messages_zh.js"></script>
 
 <script type="text/javascript">
 
+    function initValidator() {
+        return $("#storeAddForm").validate({
+            rules: {
+                "name": {required: true}
+            }
+        });
+    }
+    //===============================================
     var setting = {
         check: {
             enable: true,
@@ -91,6 +101,7 @@
 
     $(document).ready(function(){
         //createChosen();
+        initValidator();
         createDropdownTree();
         bindCheckboxEvent();
     });

@@ -185,14 +185,12 @@ public class ExamQueryController {
      * 考试统计，通过率
      *
      * @param scheduleid 考试安排编号
-     * @param major      专业
+     * @param className   班级
      * @param page
      * @return
      */
     @RequestMapping(value = "/passratelist")
-    public ModelAndView getExamRecordPassrateList(@RequestParam(value = "scheduleid", required = false) Long scheduleid,
-                                                  @RequestParam(value = "major-li", required = false, defaultValue = "") String major,
-                                                  @PageableDefault Pageable page) {
+    public ModelAndView getExamRecordPassrateList(Long scheduleid, String className,@PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examquerypassrate-list");
         Page<ExaminationViewPassRateVO> examViewRecordVOs = null;
 
@@ -200,8 +198,8 @@ public class ExamQueryController {
         if (scheduleid != null) {
             map.put("scheduleid", scheduleid);
         }
-        if (!StringUtils.isEmpty(major)) {
-            map.put("major-li", major);
+        if (!StringUtils.isEmpty(className)) {
+            map.put("className-li", className);
         }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
@@ -212,7 +210,7 @@ public class ExamQueryController {
         mv.addObject("schedulelist", scheduleService.getAllSchedule());
         //搜索参数
         mv.addObject("scheduleid", scheduleid);
-        mv.addObject("major", major);
+        mv.addObject("className", className);
         return mv;
     }
 

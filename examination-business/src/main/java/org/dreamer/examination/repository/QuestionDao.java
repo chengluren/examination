@@ -22,6 +22,9 @@ public interface QuestionDao extends JpaRepository<Question, Long> {
 
 //    public Long countByStore(Long store;
 
+    @Query("select qs.name,count(q.id) as count from Question q,QuestionStore qs where q.storeId = qs.id group by q.storeId,qs.name")
+    public List<Object[]> countByStore();
+
     /**
      * 按类型分组查询XX题库中每种题型的的数量。主要用于统计
      *

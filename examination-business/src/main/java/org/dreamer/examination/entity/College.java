@@ -8,7 +8,7 @@ import java.util.List;
  * Created by lcheng on 2014/5/7.
  */
 @Entity
-@Table(name = "colleges")
+@Table(name = "jiaoda_colleges")
 public class College {
 
     @Id

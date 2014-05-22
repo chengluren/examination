@@ -77,11 +77,43 @@
             $.fn.zTree.init($("#majorTree"), setting, data);
         });
     }
-    //===================================================================================
+    //==================================================================================
+
+    function initDatePicker(){
+        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+
+        $("#startDate").datetimepicker().on("changeDate",function(ev){
+            var end = $("#endDate").val();
+            if(end && end.length>0){
+                var et = Date.parse(end.replace(/\-/ig, '/')),
+                    st = ev.date.valueOf();
+                if(st>et){
+                    alert("开始日期必须小于结束日期！");
+                    //$("#startDate").datetimepicker('hide');
+                    $("#startDate").val("");
+                }
+            }
+        });
+
+        $("#endDate").datetimepicker().on("changeDate",function(ev){
+            var start = $("#startDate").val();
+            if(start && start.length>0){
+                var st = Date.parse(start.replace(/\-/ig, '/')),
+                    et = ev.date.valueOf();
+                if(et<st){
+                    alert("结束日期必须大于开始日期！");
+                    //$("#endDate").datetimepicker('hide');
+                    $("#endDate").val("");
+                }
+            }
+        });
+    }
 
     $(document).ready(function () {
-        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss', language: 'zh-CN'});
-        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss', language: 'zh-CN'});
+//        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+//        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+        initDatePicker();
         initValidator();
         createDropdownTree();
     });

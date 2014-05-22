@@ -62,9 +62,10 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>考试名称</th>
-                                <th>专 业</th>
-                                <th>人员</th>
-                                <th>考试分数</th>
+                                <th>班 级</th>
+                                <th>学 号</th>
+                                <th>学 生</th>
+                                <th>分 数</th>
                                 <th>考试时间</th>
                                 <th>操 作</th>
                             </tr>
@@ -72,7 +73,8 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.schedulename}</td>
-                                    <td>${s.majorName}</td>
+                                    <td>${s.className}</td>
+                                    <td>${s.stuNo}</td>
                                     <td>${s.stuName}</td>
                                     <td><span class="badge bg-red">${s.finalScore}</span></td>
                                     <td><fmt:formatDate value="${s.examStartTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

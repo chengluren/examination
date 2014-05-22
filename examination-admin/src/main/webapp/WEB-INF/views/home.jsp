@@ -2,7 +2,6 @@
 <!-- Right side column. Contains the navbar and content of the page -->
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             Dashboard
@@ -14,10 +13,8 @@
         </ol>
     </section>
 
-    <!-- Main content -->
     <section class="content">
 
-        <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
@@ -104,17 +101,23 @@
             </div>
             <!-- ./col -->
         </div>
-        <!-- /.row -->
 
-        <!-- top row -->
         <div class="row">
             <div class="col-xs-12 connectedSortable">
 
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
         <div class="row">
+            <section class="col-lg-6 connectedSortable">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">题库试题数</h3>
+                    </div>
+                    <div class="box-body chart-responsive" style="overflow-x: auto">
+                        <div class="chart" id="storeQuesChart" style="height: 300px; width:800px;"></div>
+                    </div>
+                </div>
+            </section>
             <section class="col-lg-6 connectedSortable">
                 <div class="box box-warning">
                     <div class="box-header">

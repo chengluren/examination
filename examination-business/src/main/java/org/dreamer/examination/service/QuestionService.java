@@ -68,6 +68,10 @@ public class QuestionService {
         return trueFalseQuestionDao.findByStoreId(storeId, pr);
     }
 
+    public List<Object[]> countForStoreGroup(){
+        return questionDao.countByStore();
+    }
+
     /**
      * XX 题库中，某类型试题(非必选)的总数
      *

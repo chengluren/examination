@@ -57,6 +57,7 @@
                 /index.jsp = anon
                 /store/major = anon
                 /favicon.ico = anon
+                /v9login = v9Authc
                 /login = authc
                 /logout = logout
                 /** = user

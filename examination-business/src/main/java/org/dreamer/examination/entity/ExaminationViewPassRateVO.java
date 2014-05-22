@@ -8,13 +8,14 @@ import java.io.Serializable;
 
 /**
  * 记录参考人员的一次考试
+ *
  * @author xwang
  * @version 1.0
  *          ${tags}
  */
 @Entity
-@Table(name="v_examination_passrate")
-public class ExaminationViewPassRateVO implements Serializable{
+@Table(name = "v_examination_passrate")
+public class ExaminationViewPassRateVO implements Serializable {
     @Id
     private long id;
 
@@ -26,6 +27,12 @@ public class ExaminationViewPassRateVO implements Serializable{
 
     @Column(name = "major")
     private String major;
+
+    @Column(name = "majorName")
+    private String majorName;
+
+    @Column(name = "className")
+    private String className;
 
     @Column(name = "passrate")
     private Double passrate;
@@ -46,7 +53,6 @@ public class ExaminationViewPassRateVO implements Serializable{
     private Long studentcount;
 
 
-
     public Double getMaxscore() {
         return maxscore;
     }
@@ -54,7 +60,6 @@ public class ExaminationViewPassRateVO implements Serializable{
     public void setMaxscore(Double maxscore) {
         this.maxscore = maxscore;
     }
-
 
 
     public long getId() {
@@ -127,5 +132,21 @@ public class ExaminationViewPassRateVO implements Serializable{
 
     public void setStudentcount(Long studentcount) {
         this.studentcount = studentcount;
+    }
+
+    public String getMajorName() {
+        return majorName;
+    }
+
+    public void setMajorName(String majorName) {
+        this.majorName = majorName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

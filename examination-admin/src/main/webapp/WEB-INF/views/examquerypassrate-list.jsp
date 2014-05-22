@@ -17,7 +17,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">考试成绩统计记录列表</h3>
@@ -37,12 +37,12 @@
                                     </select>
                                 </div>
 
-                                <label for="major-li" class="col-sm-1 control-label">专业:</label>
+                                <label for="className" class="col-sm-1 control-label">班 级:</label>
                                 <div class="col-sm-2">
-                                    <input type="text" value="${major}" class="form-control" id="major-li" name="major-li" placeholder="请输入专业">
+                                    <input type="text" value="${className}" class="form-control" id="className" name="className" placeholder="请输入班级">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">查询</button>
+                                <button type="submit" class="btn btn-primary btn-flat">查询</button>
 
                             </div>
 
@@ -54,7 +54,6 @@
                                 <th>考试名称</th>
                                 <th>专业</th>
                                 <th>通过率</th>
-                                <th>优秀率</th>
                                 <th>最高分</th>
                                 <th>最低分</th>
                                 <th>平均分</th>
@@ -66,7 +65,6 @@
                                     <td>${s.schedulename}</td>
                                     <td>${s.major}</td>
                                     <td><span class="badge bg-green">${s.passrate}%</span></td>
-                                    <td><span class="badge bg-blue">${s.excellentrate}%</span></td>
                                     <td>${s.maxscore}</td>
                                     <td><span class="badge bg-red">${s.minscore}</span></td>
                                     <td>${s.avgscore}</td>

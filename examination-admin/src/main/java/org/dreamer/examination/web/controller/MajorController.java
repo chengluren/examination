@@ -58,7 +58,7 @@ public class MajorController {
     }
 
     private MajorVO toVO(Major major) {
-        MajorVO vo = new MajorVO(major.getId(),major.getAbbrName());
+        MajorVO vo = new MajorVO(major.getId(),major.getName());
         return vo;
     }
 }

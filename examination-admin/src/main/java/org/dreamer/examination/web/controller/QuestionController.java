@@ -263,6 +263,12 @@ public class QuestionController {
         }
     }
 
+    @RequestMapping("/countForStoreGroup")
+    @ResponseBody
+    public List<Object[]> countForStoreGroup(){
+        return quesService.countForStoreGroup();
+    }
+
     private Query createQuery(String storeId, String quesType, String queryTxt) {
         boolean storeEmpty = StringUtils.isEmpty(storeId);
         boolean quesTypeEmpty = StringUtils.isEmpty(quesType);

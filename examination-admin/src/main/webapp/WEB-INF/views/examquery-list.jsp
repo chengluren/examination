@@ -29,17 +29,21 @@
                             <div class="form-group">
                                 <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">
-                                    <select name="scheduleid" id="scheduleid" class="form-control" >
-                                        <option value="">请选择考试名称</option>
-                                        <c:forEach items="${schedulelist}" var="schedule">
-                                            <option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="scheduleid" id="scheduleid" class="form-control" >--%>
+                                        <%--<option value="">请选择考试名称</option>--%>
+                                        <%--<c:forEach items="${schedulelist}" var="schedule">--%>
+                                            <%--<option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                    <input type="hidden" name="scheduleid" id="scheduleid" class="form-control" />
+                                    <input id="scheduleName" class="form-control" />
                                 </div>
 
                                 <label for="majorName" class="col-sm-1 control-label">专业:</label>
                                 <div class="col-sm-3">
                                     <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
+                                        <%--<input type="hidden" id="major" name="major"/>--%>
+                                        <%--<input id="majorName" name="majorName" type="text" readonly style="width:226px;height: 33px;" onclick="showMenu();"/>--%>
                                 </div>
                             </div>
 
@@ -101,3 +105,6 @@
     </section>
     <!-- /.content -->
 </aside>
+<%--<div id="majorContent" class="menuContent" style="display:none; position: absolute;">--%>
+    <%--<ul id="majorTree" class="ztree" style="margin-top:0; width:324px; height: 300px;"></ul>--%>
+<%--</div>--%>

@@ -1,5 +1,8 @@
 package org.dreamer.examination.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,8 +27,9 @@ public class ExamSchedule implements Serializable {
     //本次考试针对的考生学历，是本科生还是研究生
     @Enumerated
     private Types.DegreeType degree;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date startDate;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     @ManyToOne

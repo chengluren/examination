@@ -3,6 +3,7 @@ package org.dreamer.examination.repository;
 import org.dreamer.examination.entity.ExamSchedule;
 import org.dreamer.examination.vo.ExamScheduleVO;
 import org.dreamer.examination.vo.ScheduleDateVO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ import java.util.List;
  *          ${tags}
  */
 public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
+
+    public Page<ExamSchedule> findByNameLike(String name,Pageable pageable);
 
     public int countByTemplateId(Long tempId);
 

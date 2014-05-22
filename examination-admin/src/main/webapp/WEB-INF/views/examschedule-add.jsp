@@ -63,7 +63,7 @@
                                         <%--</c:forEach>--%>
                                     <%--</select>--%>
                                     <input type="hidden" id="major" name="major"/>
-                                    <input id="majorName" name="majorName" type="text" readonly style="width:354px;height: 33px;" onclick="showMenu();"/>
+                                    <input id="majorName" name="majorName" type="text" readonly style="width:324px;height: 33px;" onclick="showMenu();"/>
                                 </div>
                             </div>
 

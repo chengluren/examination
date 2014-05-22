@@ -57,6 +57,15 @@ public class ExamScheduleService {
     }
 
     /**
+     * 分页获得所有的考试安排
+     * @param pageable
+     * @return
+     */
+    public Page<ExamSchedule> getScheduleByName(String name,Pageable pageable){
+         return scheduleDao.findByNameLike(name,pageable);
+    }
+
+    /**
      * 按条件查询你考试计划
      * @param _paramList
      * @param _sortList

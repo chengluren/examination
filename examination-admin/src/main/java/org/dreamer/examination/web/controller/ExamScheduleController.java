@@ -10,16 +10,16 @@ import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.dreamer.examination.sql.model.SqlSortType;
+import org.dreamer.examination.vo.ComboGridData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -46,11 +46,28 @@ public class ExamScheduleController {
 
     private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
 
+
+    @RequestMapping(value="/all")
+    @ResponseBody
+    public ComboGridData<ExamSchedule> getAllExamSchedule(Integer page,Integer rows,String searchTerm){
+        Pageable p = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC,"startDate"));
+        String name = "%";
+        if (StringUtils.isNotEmpty(searchTerm)){
+            name = "%"+searchTerm+"%";
+        }
+        Page<ExamSchedule> data = examScheduleService.getScheduleByName(name,p);
+        ComboGridData<ExamSchedule> result = new ComboGridData<>();
+        result.setPage(data.getNumber()+1);
+        result.setTotal(data.getTotalPages());
+        result.setRecords(data.getNumberOfElements());
+        result.setRows(data.getContent());
+        return result;
+    }
+
     /**
      * 考试计划查询
      *
      * @param name
-     * @param major
      * @param tempid
      * @param page
      * @return
@@ -63,7 +80,7 @@ public class ExamScheduleController {
         Page<ExamScheduleViewVO> examScheduleViewVOs = null;
 
         Map<String, Object> map = new HashMap<String, Object>();
-        if (name != null) {
+        if (StringUtils.isNotEmpty(name)) {
             map.put("name-li", name);
         }
         if (tempid != null) {

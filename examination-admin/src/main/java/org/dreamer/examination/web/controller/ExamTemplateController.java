@@ -5,6 +5,7 @@ import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExamTemplateService;
 import org.dreamer.examination.service.QuestionStoreService;
+import org.dreamer.examination.vo.BaseInfoVO;
 import org.dreamer.examination.vo.ComboGridData;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +43,7 @@ public class ExamTemplateController {
 
     @RequestMapping(value = "/all")
     @ResponseBody
-    public ComboGridData<ExamTemplate> getAllExamTemplate(Integer page,Integer rows,String searchTerm){
+    public ComboGridData<BaseInfoVO> getAllExamTemplate(Integer page,Integer rows,String searchTerm){
         Pageable p = new PageRequest(page-1,rows);
         String name = "%";
         if (StringUtils.isNotEmpty(searchTerm)){
@@ -53,8 +54,8 @@ public class ExamTemplateController {
             }
             name = "%"+searchTerm+"%";
         }
-        Page<ExamTemplate> templates = templateService.getExamTemplateByNameLike(name,p);
-        ComboGridData<ExamTemplate> result = new ComboGridData<>();
+        Page<BaseInfoVO> templates = templateService.getExamTempateBaseInfo(name,p);
+        ComboGridData<BaseInfoVO> result = new ComboGridData<>();
         result.setPage(templates.getNumber()+1);
         result.setTotal(templates.getTotalPages());
         result.setRecords(templates.getNumberOfElements());

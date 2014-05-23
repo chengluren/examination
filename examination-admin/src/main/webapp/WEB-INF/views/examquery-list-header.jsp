@@ -128,7 +128,7 @@
             colModel: [
                 {'columnName': 'id', 'width': '10', 'label': 'id'},
                 {'columnName': 'name', 'width': '50', 'label': '名称'},
-                {'columnName': 'startDate', 'width': '30', 'label': '考试日期'}
+                {'columnName': 'startDate', 'width': '40', 'label': '考试日期'}
             ],
             select: function (event, ui) {
                 $("#scheduleName").val(ui.item.name);

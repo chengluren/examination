@@ -8,6 +8,7 @@ import org.dreamer.examination.repository.ExamTemplateDao;
 import org.dreamer.examination.repository.MustChooseQuestionDefDao;
 import org.dreamer.examination.repository.TemplateQuestionDefDao;
 import org.dreamer.examination.utils.QuestionTypeUtils;
+import org.dreamer.examination.vo.BaseInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -61,6 +62,10 @@ public class ExamTemplateService {
 
     public Page<ExamTemplate> getExamTemplate(Pageable page) {
         return templateDao.findAll(page);
+    }
+
+    public Page<BaseInfoVO> getExamTempateBaseInfo(String likeName,Pageable page){
+        return templateDao.findNameInfo(likeName,page);
     }
 
     public List<ExamTemplate> getExamTemplatesByName(String name) {

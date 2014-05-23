@@ -54,8 +54,8 @@
            url: '${ctx}/template/all',
            debug: true,
            colModel: [
-               {'columnName': 'id', 'width': '10', 'label': 'id'},
-               {'columnName': 'name', 'width': '50', 'label': '名称'}
+               {'columnName': 'id', 'width': '20', 'label': 'id'},
+               {'columnName': 'name', 'width': '70', 'label': '名称'}
            ],
            select: function (event, ui) {
                $("#tempName").val(ui.item.name);

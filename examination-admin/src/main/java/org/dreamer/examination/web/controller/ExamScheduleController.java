@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +52,7 @@ public class ExamScheduleController {
 
     @RequestMapping(value="/all")
     @ResponseBody
-    public ComboGridData<ExamSchedule> getAllExamSchedule(Integer page,Integer rows,String searchTerm){
+    public ComboGridData<Map<String,Object>> getAllExamSchedule(Integer page,Integer rows,String searchTerm){
         Pageable p = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC,"startDate"));
         String name = "%";
         if (StringUtils.isNotEmpty(searchTerm)){
@@ -63,11 +64,21 @@ public class ExamScheduleController {
             name = "%"+searchTerm+"%";
         }
         Page<ExamSchedule> data = examScheduleService.getScheduleByName(name,p);
-        ComboGridData<ExamSchedule> result = new ComboGridData<>();
+        ComboGridData<Map<String,Object>> result = new ComboGridData<>();
         result.setPage(data.getNumber()+1);
         result.setTotal(data.getTotalPages());
         result.setRecords(data.getNumberOfElements());
-        result.setRows(data.getContent());
+        List<Map<String,Object>> listMap = new ArrayList<>();
+        List<ExamSchedule> content = data.getContent();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for(ExamSchedule s : content){
+             Map<String,Object> map = new HashMap<>();
+            map.put("id",s.getId());
+            map.put("name",s.getName());
+            map.put("startDate",format.format(s.getStartDate()));
+            listMap.add(map);
+        }
+        result.setRows(listMap);
         return result;
     }
 

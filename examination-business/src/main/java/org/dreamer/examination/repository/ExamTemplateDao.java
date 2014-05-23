@@ -1,6 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.ExamTemplate;
+import org.dreamer.examination.vo.BaseInfoVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +26,9 @@ public interface ExamTemplateDao extends JpaRepository<ExamTemplate,Long> {
     public Page<ExamTemplate> findByName(String name,Pageable pageable);
 
     public Page<ExamTemplate> findByNameLike(String likeName,Pageable pageable);
+
+    @Query("select new org.dreamer.examination.vo.BaseInfoVO(t.id,t.name) from ExamTemplate t where t.name like ?1")
+    public Page<BaseInfoVO> findNameInfo(String likeName,Pageable pageable);
 
     @Query("select t.id,t.name,t.passScore,t.multiChoiceMixedInChoice from ExamTemplate t where t.id = ?1")
     public List<Object[]> findTemplateBaseInfo(Long tempId);

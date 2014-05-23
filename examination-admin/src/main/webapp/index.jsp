@@ -71,7 +71,7 @@
             });
         }
         function getExamSchedule() {
-            $.getJSON("http://localhost:8080/exam/examSchedule?major=M001&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examSchedule?major=28&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -95,11 +95,11 @@
 //                takeExam();
 //        getExamQuestions();
 //                        sequenceLoadQuestion();
-                        randomLoadQuestion();
+//                        randomLoadQuestion();
 //                commitAnswer();
 //                commitPaper();
         //        getMajorStore();
-//                getExamSchedule();
+                getExamSchedule();
 //                getExamRecord();
 //        getExamRecord2();
 //        getExamAnswer();

@@ -65,7 +65,7 @@
                                         <%--</c:forEach>--%>
                                     <%--</select>--%>
                                     <input type="hidden" id="major" name="major"/>
-                                    <input id="majorName" name="majorName" type="text" readonly style="width:354px;height: 33px;" onclick="showMenu();"/>
+                                    <input id="majorName" name="majorName" type="text" readonly style="height: 33px;" class="form-control" onclick="showMenu();"/>
                                 </div>
                             </div>
 
@@ -107,5 +107,5 @@
     <!-- /.content -->
 </aside>
 <div id="majorContent" class="menuContent" style="display:none; position: absolute;">
-    <ul id="majorTree" class="ztree" style="margin-top:0; width:354px; height: 300px;"></ul>
+    <ul id="majorTree" class="ztree" style="margin-top:0; height: 300px;"></ul>
 </div>

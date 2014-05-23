@@ -1,9 +1,11 @@
 package org.dreamer.examination.web.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExamTemplateService;
 import org.dreamer.examination.service.QuestionStoreService;
+import org.dreamer.examination.vo.ComboGridData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +39,28 @@ public class ExamTemplateController {
     private ExamTemplateService templateService;
     @Autowired
     private ExamScheduleService scheduleService;
+
+    @RequestMapping(value = "/all")
+    @ResponseBody
+    public ComboGridData<ExamTemplate> getAllExamTemplate(Integer page,Integer rows,String searchTerm){
+        Pageable p = new PageRequest(page-1,rows);
+        String name = "%";
+        if (StringUtils.isNotEmpty(searchTerm)){
+            try {
+                searchTerm =new String(searchTerm.getBytes("ISO8859-1"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            name = "%"+searchTerm+"%";
+        }
+        Page<ExamTemplate> templates = templateService.getExamTemplateByNameLike(name,p);
+        ComboGridData<ExamTemplate> result = new ComboGridData<>();
+        result.setPage(templates.getNumber()+1);
+        result.setTotal(templates.getTotalPages());
+        result.setRecords(templates.getNumberOfElements());
+        result.setRows(templates.getContent());
+        return result;
+    }
 
     @RequestMapping(value = "/new")
     public ModelAndView newExamTemplate() {

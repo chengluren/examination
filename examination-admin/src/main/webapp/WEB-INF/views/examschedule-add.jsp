@@ -25,12 +25,14 @@
                                 <label for="tempid" class="col-sm-2 control-label">考试模板</label>
 
                                 <div class="col-sm-5">
-                                    <select name="tempid" id="tempid" class="form-control" data-placeholder="请选择考试模板">
-                                        <option value="">选择考试模板</option>
-                                        <c:forEach items="${templatelist}" var="template">
-                                            <option value=${template.id}>${template.name}</option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="tempid" id="tempid" class="form-control" data-placeholder="请选择考试模板">--%>
+                                        <%--<option value="">选择考试模板</option>--%>
+                                        <%--<c:forEach items="${templatelist}" var="template">--%>
+                                            <%--<option value=${template.id}>${template.name}</option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                        <input type="hidden" name="tempid" id="tempid"/>
+                                        <input id="tempName" class="form-control" class="form-control" placeholder="选择考试模板"/>
                                 </div>
                             </div>
 
@@ -63,7 +65,7 @@
                                         <%--</c:forEach>--%>
                                     <%--</select>--%>
                                     <input type="hidden" id="major" name="major"/>
-                                    <input id="majorName" name="majorName" type="text" readonly style="width:324px;height: 33px;" onclick="showMenu();"/>
+                                    <input id="majorName" name="majorName" type="text" readonly style="width:354px;height: 33px;" onclick="showMenu();"/>
                                 </div>
                             </div>
 
@@ -83,17 +85,16 @@
 
                                 <div class="col-sm-5">
                                     <select name="admissionYear" id="admissionYear" class="form-control">
-                                        <option value="2010">2010界</option>
-                                        <option value="2011">2011界</option>
-                                        <option value="2012">2012界</option>
-                                        <option value="2013" selected>2013界</option>
+                                        <c:forEach items="${sessions}" var="s">
+                                            <option value="${s}">${s}界</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="box-footer text-center">
                                 <button type="button" class="btn btn-success btn-flat" onclick="window.history.go(-1);">返 回</button>
-                                <button type="submit" class="btn btn-primary btn-flat" style="margin-left: 20px;">保存</button>
+                                <button type="button" class="btn btn-primary btn-flat" style="margin-left: 20px;" onclick="submitForm();">保存</button>
                             </div>
                         </div>
                     </form>
@@ -106,5 +107,5 @@
     <!-- /.content -->
 </aside>
 <div id="majorContent" class="menuContent" style="display:none; position: absolute;">
-    <ul id="majorTree" class="ztree" style="margin-top:0; width:324px; height: 300px;"></ul>
+    <ul id="majorTree" class="ztree" style="margin-top:0; width:354px; height: 300px;"></ul>
 </div>

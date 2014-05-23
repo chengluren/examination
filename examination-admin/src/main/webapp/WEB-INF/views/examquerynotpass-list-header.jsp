@@ -5,6 +5,9 @@
     .box .box-tools a{ color: #ffffff; }
 </style>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
+<link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery.ui.combogrid.css" rel="stylesheet" type="text/css"/>
+<script src="${ctx}/asset/js/plugins/combogrid/jquery.ui.combogrid-1.6.3.js" type="text/javascript"></script>
 <script type="text/javascript">
     function createPaginator(ulId, curPage, totalPage, toUrl) {
         var pgOptions = {
@@ -47,7 +50,35 @@
         window.location.href = url;
     }
 
+    function initScheduleComboGrid() {
+        $("#scheduleName").on("keyup",function(){
+            if($("#scheduleName").val().length==0){
+                $("#scheduleid").val("");
+            }
+        });
+        $("#scheduleName").combogrid({
+            url: '${ctx}/examschedule/all',
+            debug: true,
+            colModel: [
+                {'columnName': 'id', 'width': '10', 'label': 'id'},
+                {'columnName': 'name', 'width': '50', 'label': '名称'},
+                {'columnName': 'startDate', 'width': '30', 'label': '考试日期'}
+            ],
+            select: function (event, ui) {
+                $("#scheduleName").val(ui.item.name);
+                $("#scheduleid").val(ui.item.id);
+                return false;
+            },
+            showOn:true
+        });
+    }
+
     $(document).ready(function () {
-        createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/notpasslist")
+        initScheduleComboGrid();
+        var page = ${page},
+                totalPage = ${totalPage};
+        if(page>0 && totalPage>=page){
+            createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/notpasslist");
+        }
     });
 </script>

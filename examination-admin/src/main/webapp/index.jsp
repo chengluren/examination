@@ -21,13 +21,13 @@
             });
         }
         function sequenceLoadQuestion() {
-            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=10&type=CH&page=1&page.size=20&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=1&type=CH&page=1&page.size=20&callback=?", function (data) {
                 console.log(data);
             });
         }
 
         function randomLoadQuestion() {
-            $.getJSON("http://localhost:8080/train/randomLoad?storeId=10&type=CH&count=30&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/train/randomLoad?storeId=1&type=CH&count=30&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -92,10 +92,10 @@
                 console.log(data);
             });
         }
-                takeExam();
+//                takeExam();
 //        getExamQuestions();
 //                        sequenceLoadQuestion();
-        //                randomLoadQuestion();
+                        randomLoadQuestion();
 //                commitAnswer();
 //                commitPaper();
         //        getMajorStore();

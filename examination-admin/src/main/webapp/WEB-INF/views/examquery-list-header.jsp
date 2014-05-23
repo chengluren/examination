@@ -9,7 +9,6 @@
 <link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery.ui.combogrid.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" href="${ctx}/asset/js/plugins/zTree/css/zTreeStyle.css" rel="stylesheet"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
-<script src="${ctx}/asset/js/jquery-ui-1.10.3.js" type="text/javascript"></script>
 <script src="${ctx}/asset/js/plugins/combogrid/jquery.ui.combogrid-1.6.3.js" type="text/javascript"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.excheck-3.5.min.js"></script>
@@ -118,12 +117,17 @@
     }
 
     function initScheduleComboGrid() {
+        $("#scheduleName").on("keyup",function(){
+            if($("#scheduleName").val().length==0){
+                $("#scheduleid").val("");
+            }
+        });
         $("#scheduleName").combogrid({
             url: '${ctx}/examschedule/all',
             debug: true,
             colModel: [
                 {'columnName': 'id', 'width': '10', 'label': 'id'},
-                {'columnName': 'name', 'width': '40', 'label': '名称'},
+                {'columnName': 'name', 'width': '50', 'label': '名称'},
                 {'columnName': 'startDate', 'width': '30', 'label': '考试日期'}
             ],
             select: function (event, ui) {
@@ -132,7 +136,6 @@
                 return false;
             },
             showOn:true
-
         });
     }
 

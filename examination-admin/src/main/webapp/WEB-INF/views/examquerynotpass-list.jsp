@@ -29,17 +29,20 @@
                             <div class="form-group">
                                 <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">
-                                    <select name="scheduleid" id="scheduleid" class="form-control" >
-                                        <option value="">请选择考试名称</option>
-                                        <c:forEach items="${schedulelist}" var="schedule">
-                                            <option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="scheduleid" id="scheduleid" class="form-control" >--%>
+                                        <%--<option value="">请选择考试名称</option>--%>
+                                        <%--<c:forEach items="${schedulelist}" var="schedule">--%>
+                                            <%--<option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                        <input type="hidden" name="scheduleid" id="scheduleid" value="${scheduleid}"  />
+                                        <input id="scheduleName" value="${scheduleName}" class="form-control" class="form-control" placeholder="请选择考试安排" />
                                 </div>
 
-                                <label for="major" class="col-sm-1 control-label">专业:</label>
+                                <label for="majorName" class="col-sm-1 control-label">专业:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" value="${query.major}" class="form-control" id="major" name="major" placeholder="请输入专业">
+                                    <%--<input type="text" value="${query.major}" class="form-control" id="major" name="major" placeholder="请输入专业">--%>
+                                        <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
                                 </div>
                             </div>
 
@@ -88,7 +91,7 @@
                         </table>
                     </div>
                     <div class="box-footer" style="text-align: center;margin: 0">
-                        <p class="pull-left">总记录数:<span>${totalCount}</span>,第(<span>${page}/${totalPage}</span>)页</p>
+                        <p class="pull-left">总记录数:<span>${totalCount}</span>,第(<span><c:choose><c:when test="${totalPage==0}">0</c:when><c:otherwise>${page}</c:otherwise></c:choose>/${totalPage}</span>)页</p>
                         <ul id="paginator" class="pagination">
                         </ul>
                     </div>

@@ -45,7 +45,7 @@ public class DefaultExcelImporter implements Importer {
     private void doImportInternal(Sheet sheet,Parser p,long storeId){
         int maxRow = sheet.getLastRowNum();
         List<Question> list = new ArrayList<>();
-        for (int i=1;i<maxRow;i++){
+        for (int i=1;i<=maxRow;i++){
             Row row = sheet.getRow(i);
             Question q = p.parse(row);
             if (q!=null){

@@ -38,12 +38,14 @@
 
                                 <label for="tempid" class="col-sm-2 control-label">方案名称:</label>
                                 <div class="col-sm-3">
-                                    <select name="tempid" id="tempid" class="form-control" >
-                                        <option value="">选择考试模板</option>
-                                        <c:forEach items="${templatelist}" var="template">
-                                            <option value=${template.id} <c:if test="${tempid == template.id}">selected</c:if>>${template.name} </option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="tempid" id="tempid" class="form-control" >--%>
+                                        <%--<option value="">选择考试模板</option>--%>
+                                        <%--<c:forEach items="${templatelist}" var="template">--%>
+                                            <%--<option value=${template.id} <c:if test="${tempid == template.id}">selected</c:if>>${template.name} </option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                        <input type="hidden" name="tempid" id="tempid" value="${tempid}"/>
+                                        <input id="tempName" value="${tempName}" class="form-control" class="form-control" placeholder="选择考试模板"/>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
                             </div>
@@ -67,9 +69,9 @@
                                     <td>${s.name}</td>
                                     <td>${s.majorName}</td>
 
-                                    <td><fmt:formatDate value="${s.startDate}"  pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                    <td><fmt:formatDate value="${s.startDate}"  pattern="yyyy-MM-dd HH:mm"/></td>
 
-                                    <td><fmt:formatDate value="${s.endDate}"  pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                    <td><fmt:formatDate value="${s.endDate}"  pattern="yyyy-MM-dd HH:mm"/></td>
                                     <td>${s.tempname}</td>
                                     <td>${s.passScore}</td>
                                     <td>

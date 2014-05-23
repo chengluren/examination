@@ -46,7 +46,7 @@
                                             <%--data-options="url:'${ctx}/major/tree',method:'get'" cascadeCheck="false">--%>
                                     <%--</select>--%>
                                     <input type="hidden" id="storeMajor" name="storeMajor"/>
-                                    <input id="storeMajorName" type="text" readonly style="width:324px;height: 33px;" onclick="showMenu();"/>
+                                    <input id="storeMajorName" type="text" readonly style="width:354px;height: 33px;" onclick="showMenu();"/>
                                 </div>
                             </div>
 
@@ -65,5 +65,5 @@
     <!-- /.content -->
 </aside>
 <div id="majorContent" class="menuContent" style="display:none; position: absolute;">
-    <ul id="majorTree" class="ztree" style="margin-top:0; width:324px; height: 300px;"></ul>
+    <ul id="majorTree" class="ztree" style="margin-top:0; width:354px; height: 300px;"></ul>
 </div>

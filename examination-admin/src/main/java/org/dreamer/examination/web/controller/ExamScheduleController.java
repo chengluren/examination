@@ -3,6 +3,7 @@ package org.dreamer.examination.web.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.ExamSchedule;
 import org.dreamer.examination.entity.ExamScheduleViewVO;
+import org.dreamer.examination.entity.ExamTemplate;
 import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExamTemplateService;
@@ -22,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +55,11 @@ public class ExamScheduleController {
         Pageable p = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC,"startDate"));
         String name = "%";
         if (StringUtils.isNotEmpty(searchTerm)){
+            try {
+                searchTerm =new String(searchTerm.getBytes("ISO8859-1"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             name = "%"+searchTerm+"%";
         }
         Page<ExamSchedule> data = examScheduleService.getScheduleByName(name,p);
@@ -85,6 +92,11 @@ public class ExamScheduleController {
         }
         if (tempid != null) {
             map.put("tempid", tempid);
+            ExamTemplate template = templateService.getExamTemplate(tempid);
+            if (template!=null){
+                mv.addObject("tempid",tempid);
+                mv.addObject("tempName",template.getName());
+            }
         }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
@@ -107,6 +119,8 @@ public class ExamScheduleController {
     public String showAddPage(ModelMap map) {
         map.addAttribute("templatelist", templateService.findAllTemplate());
         map.addAttribute("majors", majors);
+        List<Integer> sessions = examScheduleService.getStudentSessions();
+        map.addAttribute("sessions",sessions);
         return "exam.examschedule-add";
     }
 
@@ -130,6 +144,8 @@ public class ExamScheduleController {
         }
         map.addAttribute("templatelist", templateService.findAllTemplate());
         map.addAttribute("schedule", scheduleViewVO);
+        List<Integer> sessions = examScheduleService.getStudentSessions();
+        map.addAttribute("sessions",sessions);
         return "exam.examschedule-edit";
     }
 

@@ -63,6 +63,9 @@ public class ExamQueryController {
         Map<String, Object> map = new HashMap<>();
         if (viewVO.getScheduleid() != null) {
             map.put("scheduleid", viewVO.getScheduleid());
+            ExamSchedule schedule = scheduleService.getExamSchedule(viewVO.getScheduleid());
+            mv.addObject("scheduleName",schedule.getName());
+            mv.addObject("scheduleid",viewVO.getScheduleid());
         }
         if (StringUtils.isNotEmpty(viewVO.getMajorName())) {
             map.put("majorName-li", viewVO.getMajorName());
@@ -197,6 +200,9 @@ public class ExamQueryController {
         Map<String, Object> map = new HashMap<String, Object>();
         if (scheduleid != null) {
             map.put("scheduleid", scheduleid);
+            ExamSchedule schedule = scheduleService.getExamSchedule(scheduleid);
+            mv.addObject("scheduleName",schedule.getName());
+            mv.addObject("scheduleid",scheduleid);
         }
         if (!StringUtils.isEmpty(className)) {
             map.put("className-li", className);

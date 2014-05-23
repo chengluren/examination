@@ -87,9 +87,12 @@ public class ExamScheduleService {
         scheduleDao.delete( id );
     }
 
-    public List<ScheduleDateVO> getScheduleDataByData( Date begin , Date end )
-    {
-       List<ScheduleDateVO> scheduleList =  scheduleDao.findScheduleByDateFilter( begin , end );
-      return scheduleList;
+    public List<ScheduleDateVO> getScheduleDataByData(Date begin, Date end) {
+        List<ScheduleDateVO> scheduleList = scheduleDao.findScheduleByDateFilter(begin, end);
+        return scheduleList;
+    }
+
+    public List<Integer> getStudentSessions(){
+        return scheduleDao.findStudentSession();
     }
 }

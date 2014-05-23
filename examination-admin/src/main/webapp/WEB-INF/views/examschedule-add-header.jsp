@@ -7,6 +7,8 @@
 <style>
     ul.ztree {margin-top: 10px; border: 1px solid #617775; background: #f0f6e4; width: 220px; height: 360px; overflow-y: scroll; overflow-x: auto;}
 </style>
+<link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery.ui.combogrid.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/datetimepicke/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript"
         src="${ctx}/asset/js/plugins/datetimepicke/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -14,7 +16,7 @@
 <script type="text/javascript" src="${ctx}/asset/js/plugins/validation/messages_zh.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.core-3.5.min.js"></script>
 <script type="text/javascript" src="${ctx}/asset/js/plugins/zTree/jquery.ztree.excheck-3.5.min.js"></script>
-
+<script src="${ctx}/asset/js/plugins/combogrid/jquery.ui.combogrid-1.6.3.js" type="text/javascript"></script>
 <script type="text/javascript">
     // ===========create zTree major dropdown select===============================
     var setting = {
@@ -110,19 +112,12 @@
         });
     }
 
-    $(document).ready(function () {
-//        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
-//        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
-        initDatePicker();
-        initValidator();
-        createDropdownTree();
-    });
-
     function initValidator() {
         return $("#scheduleform").validate({
             rules: {
                 "name": {required: true},
                 "tempid": {required: true},
+                "tempName":{required: true},
                 "startDate": {required: true},
                 "endDate": {required: true},
                 "major": {required: true},
@@ -134,7 +129,43 @@
     function submitForm() {
         var valid = $("#scheduleform").valid();
         if (valid) {
-            $("#scheduleform").submit();
+            if (valid) {
+                var id = $("#tempid").val();
+                if(!id || id.length==0){
+                    alert("请选择考试模板！")
+                }else{
+                    $("#scheduleform").submit();
+                }
+            }
         }
     }
+    function initExamTempComboGrid() {
+        $("#tempName").on("keyup",function(){
+            if($("#tempName").val().length==0){
+                $("#tempid").val("");
+            }
+        });
+        $("#tempName").combogrid({
+            url: '${ctx}/template/all',
+            width:354,
+            colModel: [
+                {'columnName': 'id', 'width': '10', 'label': 'id'},
+                {'columnName': 'name', 'width': '50', 'label': '名称'}
+            ],
+            select: function (event, ui) {
+                $("#tempName").val(ui.item.name);
+                $("#tempid").val(ui.item.id);
+                return false;
+            },
+            showOn:true
+        });
+    }
+    $(document).ready(function () {
+//        $("#startDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+//        $("#endDate").datetimepicker({format: 'yyyy-mm-dd hh:ii', language: 'zh-CN'});
+        initDatePicker();
+        initValidator();
+        createDropdownTree();
+        initExamTempComboGrid();
+    });
 </script>

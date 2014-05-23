@@ -29,12 +29,14 @@
                                 <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">
 
-                                    <select name="scheduleid" id="scheduleid" class="form-control" >
-                                        <option value="">请选择考试名称</option>
-                                        <c:forEach items="${schedulelist}" var="schedule">
-                                            <option value=${schedule.id} <c:if test="${scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<select name="scheduleid" id="scheduleid" class="form-control" >--%>
+                                        <%--<option value="">请选择考试名称</option>--%>
+                                        <%--<c:forEach items="${schedulelist}" var="schedule">--%>
+                                            <%--<option value=${schedule.id} <c:if test="${scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</select>--%>
+                                        <input type="hidden" name="scheduleid" id="scheduleid" value="${scheduleid}"/>
+                                        <input id="scheduleName" value="${scheduleName}" class="form-control" class="form-control" placeholder="请选择考试安排"/>
                                 </div>
 
                                 <label for="className" class="col-sm-1 control-label">班 级:</label>

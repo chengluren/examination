@@ -9,7 +9,7 @@
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=001&major=8&scheduleId=1&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=395&major=8&scheduleId=2&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
@@ -21,7 +21,7 @@
             });
         }
         function sequenceLoadQuestion() {
-            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=1&type=CH&page=1&page.size=20&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/train/sequenceLoad?storeId=1&type=CH&page=1&size=20&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -76,13 +76,13 @@
             });
         }
         function getExamRecord() {
-            $.getJSON("http://localhost:8080/exam/examRecords?staffId=001&page=0&page.size=10&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examRecords?staffId=395&page=0&size=20&callback=?", function (data) {
                 console.log(data);
             });
         }
 
         function getExamRecord2() {
-            $.getJSON("http://localhost:8080/exam/scheduleExamRecords?staffId=001&scheduleId=1&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/scheduleExamRecords?staffId=395&scheduleId=2&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -99,9 +99,9 @@
 //                commitAnswer();
 //                commitPaper();
         //        getMajorStore();
-                getExamSchedule();
-//                getExamRecord();
-//        getExamRecord2();
+//                getExamSchedule();
+                getExamRecord();
+        getExamRecord2();
 //        getExamAnswer();
     </script>
 </head>

@@ -92,7 +92,10 @@ public class ExaminationService {
                     if (rset.size()==aset.size() && Sets.intersection(aset,rset).containsAll(aset)){
                         score +=vo.getScore();
                     }else if(rset.size()<aset.size() && Sets.intersection(aset,rset).containsAll(rset)){
-                        score += (vo.getScore()/2.0);
+                        if(rset.size()>0 && aset.size()>0){
+                            score += (vo.getScore()*(rset.size()/aset.size()));
+                        }
+//                        score += (vo.getScore()/2.0);
                     }
                 }
             }

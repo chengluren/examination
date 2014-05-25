@@ -1,5 +1,6 @@
 package org.dreamer.examination.importer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.Question;
 import org.dreamer.examination.entity.QuestionOption;
 
@@ -56,6 +57,10 @@ public abstract class AbstractParser implements Parser {
     }
 
     protected Question.Difficulty parseDifficulty(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return Question.Difficulty.Easy;
+        }
+
         if (value.equals("容易")) {
             return Question.Difficulty.Easy;
         } else if (value.equals("中等")) {
@@ -66,8 +71,11 @@ public abstract class AbstractParser implements Parser {
         return Question.Difficulty.Moderate;
     }
 
-    protected  boolean parseMustChoose(String value){
-        if (value.equals("是")){
+    protected boolean parseMustChoose(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return false;
+        }
+        if (value.equals("是")) {
             return true;
         }
         return false;

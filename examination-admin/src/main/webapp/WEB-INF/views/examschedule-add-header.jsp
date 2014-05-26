@@ -20,21 +20,45 @@
 <script type="text/javascript">
     // ===========create zTree major dropdown select===============================
     var setting = {
+        check: {
+            enable: true,
+            chkboxType: {"Y":"", "N":""}
+        },
         view: {
-            dblClickExpand: false,
-            selectedMulti: false
+            dblClickExpand: false
         },
         callback: {
             beforeClick: beforeClick,
-            onClick: onClick
+            onCheck: onCheck
         }
     };
     function beforeClick(treeId, treeNode) {
-        var check = (treeNode && !treeNode.isParent);
-        if (!check) {
-            alert("只能选择专业!");
+//        var check = (treeNode && !treeNode.isParent);
+//        if (!check) {
+//            alert("只能选择专业!");
+//        }
+//        return check;
+        var zTree = $.fn.zTree.getZTreeObj("majorTree");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+    }
+
+    function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("majorTree"),
+                nodes = zTree.getCheckedNodes(true),
+                v = "",
+                vid = "";
+        for (var i=0, l=nodes.length; i<l; i++) {
+            v += nodes[i].name + ",";
+            vid += nodes[i].id + ",";
         }
-        return check;
+        if (v.length > 0 ) {
+            v = v.substring(0, v.length-1);
+            vid = vid.substring(0, vid.length-1);
+        }
+        var majorObj = $("#majorName");
+        majorObj.attr("value", v);
+        $("#major").val(vid);
     }
 
     function onClick(e, treeId, treeNode) {

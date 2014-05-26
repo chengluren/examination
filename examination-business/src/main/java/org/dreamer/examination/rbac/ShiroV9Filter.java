@@ -67,7 +67,7 @@ public class ShiroV9Filter extends AuthenticatingFilter {
                 return buffer;
             } catch (IOException e) {
                 e.printStackTrace();
-                return "by-jd_123".getBytes();
+                return "yb-jd_123".getBytes();
             } finally {
                 if (is != null) {
                     try {

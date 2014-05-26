@@ -24,8 +24,8 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
     public int countByExamIdAndQuesId(long examId,long quesId);
 
     @Query("select new org.dreamer.examination.vo.AnswerJudgeVO(a.quesId,q.answer,a.answer as realAnswer,pq.score,pq.quesType) " +
-            "from Answer a,Question q,PaperQuestion pq " +
-            "where a.quesId = q.id and q.id = pq.quesId and a.examId =?1 ")
+            "from Examination e, Answer a,Question q,PaperQuestion pq " +
+            "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
     public List<AnswerJudgeVO> findCommitAndRealAnswer(long examId);
 
     @Modifying

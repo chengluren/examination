@@ -1,5 +1,6 @@
 package org.dreamer.examination.service;
 
+import com.google.common.base.Joiner;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.ExamScheduleDao;
 import org.dreamer.examination.repository.ExamScheduleViewDao;
@@ -41,6 +42,7 @@ public class ExamScheduleService {
             major.setScheduleId(sid);
         }
         scheduleMajorDao.save(majors);
+        updateScheduleMajorNames(sid);
     }
 
     public void addExamSchedule(ExamSchedule schedule, String majors) {
@@ -127,4 +129,13 @@ public class ExamScheduleService {
     public List<Integer> getStudentSessions() {
         return scheduleDao.findStudentSession();
     }
+
+    public void updateScheduleMajorNames(Long id){
+        List<String> majors = scheduleMajorDao.findMajorNamesByScheduleId(id);
+        if (majors!=null && majors.size()>0){
+            String majorNames = Joiner.on(",").join(majors);
+            scheduleDao.updateScheduleMajorNames(id,majorNames);
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -45,4 +46,8 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
 
     @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session limit 10",nativeQuery = true)
     public List<Integer> findStudentSession();
+
+    @Modifying
+    @Query("update ExamSchedule set majorNames =:majorNames where id = :id")
+    public void updateScheduleMajorNames(@Param("id")Long id,@Param("majorNames")String majorNames);
 }

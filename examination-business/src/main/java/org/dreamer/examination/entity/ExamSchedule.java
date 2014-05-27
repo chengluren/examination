@@ -38,6 +38,9 @@ public class ExamSchedule implements Serializable {
 
     //本次考试针对的专业
     private String major;
+    //本次考试对应的专业名字
+    @Lob
+    private String majorNames;
     //考试名称
     private String name;
 
@@ -103,5 +106,13 @@ public class ExamSchedule implements Serializable {
 
     public void setDegree(Types.DegreeType degree) {
         this.degree = degree;
+    }
+
+    public String getMajorNames() {
+        return majorNames;
+    }
+
+    public void setMajorNames(String majorNames) {
+        this.majorNames = majorNames;
     }
 }

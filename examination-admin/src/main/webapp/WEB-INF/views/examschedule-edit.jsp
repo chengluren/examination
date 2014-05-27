@@ -72,7 +72,7 @@
                                             <%--<option value=${major} <c:if test="${schedule.major == major}">selected</c:if>> ${major}</option>--%>
                                         <%--</c:forEach>--%>
                                     <%--</select>--%>
-                                        <input type="hidden" id="major" name="major" value="${schedule.major}"/>
+                                        <input type="hidden" id="majors" name="majors" value="${schedule.major}"/>
                                         <input id="majorName" name="majorName" type="text" readonly style="height: 33px;" class="form-control" onclick="showMenu();"/>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                 <div class="col-sm-5">
                                     <select name="admissionYear" id="admissionYear" class="form-control">
                                         <c:forEach items="${sessions}" var="s">
-                                            <option value="${s}" <c:if test="${schedule.admissionYear==s}">selected="true" </c:if>>${s}界</option>
+                                            <option value="${s}" <c:if test="${schedule.admissionYear==s}">selected="true" </c:if>>${s}级</option>
                                         </c:forEach>
                                     </select>
                                 </div>

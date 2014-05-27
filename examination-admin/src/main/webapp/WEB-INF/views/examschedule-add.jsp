@@ -64,7 +64,7 @@
                                             <%--<option value=${major}> ${major}</option>--%>
                                         <%--</c:forEach>--%>
                                     <%--</select>--%>
-                                    <input type="hidden" id="major" name="major"/>
+                                    <input type="hidden" id="majors" name="majors"/>
                                     <input id="majorName" name="majorName" type="text" readonly style="height: 33px;" class="form-control" onclick="showMenu();"/>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                 <div class="col-sm-5">
                                     <select name="admissionYear" id="admissionYear" class="form-control">
                                         <c:forEach items="${sessions}" var="s">
-                                            <option value="${s}">${s}界</option>
+                                            <option value="${s}">${s} 级</option>
                                         </c:forEach>
                                     </select>
                                 </div>

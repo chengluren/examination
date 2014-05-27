@@ -1,5 +1,6 @@
 package org.dreamer.examination.web.controller;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.ExamSchedule;
 import org.dreamer.examination.entity.ExamScheduleViewVO;
@@ -25,10 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 考试查询管理控制器
@@ -47,7 +45,7 @@ public class ExamScheduleController {
     @Autowired
     private ExamTemplateService templateService;
 
-    private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
+//    private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
 
 
     @RequestMapping(value="/all")
@@ -129,17 +127,17 @@ public class ExamScheduleController {
     @RequestMapping(value = "/add")
     public String showAddPage(ModelMap map) {
         map.addAttribute("templatelist", templateService.findAllTemplate());
-        map.addAttribute("majors", majors);
         List<Integer> sessions = examScheduleService.getStudentSessions();
         map.addAttribute("sessions",sessions);
         return "exam.examschedule-add";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addSchedule(ExamScheduleViewVO examScheduleViewVO) {
+    public String addSchedule(ExamScheduleViewVO examScheduleViewVO,String majors) {
         ExamSchedule scheduleData = translateObject(examScheduleViewVO);
-        if (scheduleData != null)
-            examScheduleService.addExamSchedule(scheduleData);
+        if (scheduleData != null){
+            examScheduleService.addExamSchedule(scheduleData,majors);
+        }
         return "redirect:/examschedule/list";
     }
 
@@ -153,6 +151,8 @@ public class ExamScheduleController {
         if (scheduleViewVO == null) {
             scheduleViewVO = new ExamScheduleViewVO();
         }
+        List<String> majors = examScheduleService.getExamScheduleMajors(id);
+        map.addAttribute("majors", Joiner.on(",").join(majors));
         map.addAttribute("templatelist", templateService.findAllTemplate());
         map.addAttribute("schedule", scheduleViewVO);
         List<Integer> sessions = examScheduleService.getStudentSessions();

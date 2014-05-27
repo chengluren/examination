@@ -20,21 +20,40 @@
 
     // ===========create zTree major dropdown select===============================
     var setting = {
+        check: {
+            enable: true,
+            chkboxType: {"Y":"", "N":""}
+        },
         view: {
-            dblClickExpand: false,
-            selectedMulti: false
+            dblClickExpand: false
         },
         callback: {
             beforeClick: beforeClick,
-            onClick: onClick
+            onCheck: onCheck
         }
     };
     function beforeClick(treeId, treeNode) {
-        var check = (treeNode && !treeNode.isParent);
-        if (!check) {
-            alert("只能选择专业!");
+        var zTree = $.fn.zTree.getZTreeObj("majorTree");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+    }
+
+    function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("majorTree"),
+                nodes = zTree.getCheckedNodes(true),
+                v = "",
+                vid = "";
+        for (var i=0, l=nodes.length; i<l; i++) {
+            v += nodes[i].name + ",";
+            vid += nodes[i].id + ",";
         }
-        return check;
+        if (v.length > 0 ) {
+            v = v.substring(0, v.length-1);
+            vid = vid.substring(0, vid.length-1);
+        }
+        var majorObj = $("#majorName");
+        majorObj.attr("value", v);
+        $("#majors").val(vid);
     }
 
     function onClick(e, treeId, treeNode) {
@@ -75,17 +94,15 @@
         }
     }
     function createDropdownTree() {
-        var major = "${schedule.major}";
+        var majors = "${majors}",
+            ms = majors.split(",");
         $.getJSON("${ctx}/major/tree", function (data) {
             $.fn.zTree.init($("#majorTree"), setting, data);
-            if (major && major.length > 0) {
+            if(ms && ms.length>0){
                 var tree = $.fn.zTree.getZTreeObj("majorTree");
-                var node = tree.getNodeByParam("id", major, null);
-                if (node) {
-                    var name = node.name,
-                            parentName = node.getParentNode().name;
-                    $("#majorName").val(parentName + "--" + name);
-                    tree.selectNode(node, false);
+                for(var i=0;i<ms.length;i++){
+                    var node = tree.getNodeByParam("id",ms[i],null);
+                    tree.checkNode(node,true,null,true);
                 }
             }
         });

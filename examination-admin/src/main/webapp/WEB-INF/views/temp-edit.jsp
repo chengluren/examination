@@ -109,7 +109,7 @@
                                     <div class="box box-info">
                                         <div class="box-body">
                                             <div class="form-group">
-                                                <p>选择题: <a class="conf" tname="选择题设定" tid="chContainer"><i
+                                                <p>选择题: <a class="conf" tname="单选题设定" tid="chContainer"><i
                                                         class="fa fa-plus-square"></i></a></p>
                                             </div>
                                             <div id="chContainer" class="container">
@@ -244,7 +244,7 @@
 
                         <div class="col-sm-3">
                             <select id="mcqt" name="mcqt" class="form-control">
-                                <option value="CH" selected>选择题</option>
+                                <option value="CH" selected>单选题</option>
                                 <option value="MC">多选题</option>
                                 <option value="TF">判断题</option>
                             </select>

@@ -19,4 +19,8 @@ public class CollegeService {
     public List<College> getAllColleges() {
         return collegeDao.findAll();
     }
+
+    public College getCollege(Long id){
+        return collegeDao.findOne(id);
+    }
 }

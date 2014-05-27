@@ -58,7 +58,7 @@
         }
         var majorObj = $("#majorName");
         majorObj.attr("value", v);
-        $("#major").val(vid);
+        $("#majors").val(vid);
     }
 
     function onClick(e, treeId, treeNode) {
@@ -78,7 +78,7 @@
             vid = vid.substring(0, vid.length - 1);
         }
         $("#majorName").val(v);
-        $("#major").val(vid);
+        $("#majors").val(vid);
     }
 
     function showMenu() {

@@ -24,10 +24,18 @@ public class MajorController {
 
     @RequestMapping(value = "/tree")
     @ResponseBody
-    public List<MajorVO> majors(Long id) {
-
+    public List<MajorVO> majors() {
         List<College> colleges = collegeService.getAllColleges();
         List<MajorVO> result = toVO(colleges);
+        return result;
+    }
+    @RequestMapping(value = "/tree/college")
+    @ResponseBody
+    public List<MajorVO> collegeMajors(Long id){
+        College college = collegeService.getCollege(id);
+        List<College> list = new ArrayList<>();
+        list.add(college);
+        List<MajorVO> result = toVO(list);
         return result;
     }
 

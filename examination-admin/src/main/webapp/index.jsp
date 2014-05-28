@@ -71,7 +71,7 @@
             });
         }
         function getExamSchedule() {
-            $.getJSON("http://localhost:8080/exam/examSchedule?major=28&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examSchedule?major=28session=2009&degree=0&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -99,9 +99,9 @@
 //                commitAnswer();
 //                commitPaper();
         //        getMajorStore();
-//                getExamSchedule();
-                getExamRecord();
-        getExamRecord2();
+                getExamSchedule();
+//                getExamRecord();
+//        getExamRecord2();
 //        getExamAnswer();
     </script>
 </head>

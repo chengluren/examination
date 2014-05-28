@@ -3,9 +3,11 @@ package org.dreamer.examination.service;
 
 import org.dreamer.examination.entity.ExaminationViewNotPassVO;
 import org.dreamer.examination.entity.ExaminationViewPassRateVO;
+import org.dreamer.examination.entity.ExaminationViewPassVO;
 import org.dreamer.examination.entity.ExaminationViewVO;
 import org.dreamer.examination.repository.ExaminationViewDao;
 import org.dreamer.examination.repository.ExaminationViewNotPassDao;
+import org.dreamer.examination.repository.ExaminationViewPassDao;
 import org.dreamer.examination.repository.ExaminationViewPassRateDao;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
@@ -18,7 +20,7 @@ import java.util.List;
 
 /**
  * @author xwang
- * 考试管理查询
+ *         考试管理查询
  * @version 1.0
  *          ${tags}
  */
@@ -32,49 +34,66 @@ public class ExaminationViewService {
     private ExaminationViewNotPassDao examViewNotPassDao;
 
     @Autowired
+    private ExaminationViewPassDao examViewPassDao;
+
+    @Autowired
     private ExaminationViewPassRateDao examinationViewPassRateDao;
 
     /**
      * 成绩查询
+     *
      * @param _paramList
      * @param _sortList
      * @param _page
      * @return
      */
-    public Page<ExaminationViewVO> getExaminationByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page  ){
-        Page<ExaminationViewVO> examPage =  examViewDao.queryResult(_paramList,_sortList,_page);
+    public Page<ExaminationViewVO> getExaminationByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
+        Page<ExaminationViewVO> examPage = examViewDao.queryResult(_paramList, _sortList, _page);
         return examPage;
     }
 
     /**
      * 未通过考试查询
+     *
      * @param _paramList
      * @param _sortList
      * @param _page
      * @return
      */
-    public Page<ExaminationViewNotPassVO> getExaminationNotPassByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page  ){
-        Page<ExaminationViewNotPassVO> examPage =  examViewNotPassDao.queryResult(_paramList,_sortList,_page);
+    public Page<ExaminationViewNotPassVO> getExaminationNotPassByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
+        Page<ExaminationViewNotPassVO> examPage = examViewNotPassDao.queryResult(_paramList, _sortList, _page);
         return examPage;
     }
 
     /**
-     * 考试统计，通过率查询
+     * 获得考试通过的学生列表
+     *
      * @param _paramList
      * @param _sortList
      * @param _page
      * @return
      */
-    public Page<ExaminationViewPassRateVO> getExaminationPassRateByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page  ){
-        Page<ExaminationViewPassRateVO> examPage =  examinationViewPassRateDao.queryResult(_paramList,_sortList,_page);
+    public Page<ExaminationViewPassVO> getExaminationPassByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
+        Page<ExaminationViewPassVO> passPage = examViewPassDao.queryResult(_paramList, _sortList, _page);
+        return passPage;
+    }
+
+    /**
+     * 考试统计，通过率查询
+     *
+     * @param _paramList
+     * @param _sortList
+     * @param _page
+     * @return
+     */
+    public Page<ExaminationViewPassRateVO> getExaminationPassRateByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
+        Page<ExaminationViewPassRateVO> examPage = examinationViewPassRateDao.queryResult(_paramList, _sortList, _page);
         return examPage;
     }
 
 
-    public Double getAveragePassRate()
-
-    {
-        return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0:examinationViewPassRateDao.getAveragePassRate() ;
+    public Double getAveragePassRate() {
+        return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0 : examinationViewPassRateDao.getAveragePassRate();
     }
 
 }

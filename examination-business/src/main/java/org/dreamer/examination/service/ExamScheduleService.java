@@ -76,8 +76,9 @@ public class ExamScheduleService {
         return (list != null && list.size() == 1) ? list.get(0) : null;
     }
 
-    public List<ExamScheduleVO> getExamSchedule(String major) {
-        return scheduleDao.findSchedule(major);
+    public List<ExamScheduleVO> getExamSchedule(String major,int admissionYear,String degree) {
+        Types.DegreeType degreeType = (degree!=null&&degree.equals("0")) ? Types.DegreeType.Bachelor : Types.DegreeType.Master;
+        return scheduleDao.findSchedule(major,admissionYear,degreeType);
     }
 
     /**
@@ -119,6 +120,7 @@ public class ExamScheduleService {
 
     public void delete(Long id) {
         scheduleDao.delete(id);
+        scheduleMajorDao.deleteByScheduleId(id);
     }
 
     public List<ScheduleDateVO> getScheduleDataByData(Date begin, Date end) {

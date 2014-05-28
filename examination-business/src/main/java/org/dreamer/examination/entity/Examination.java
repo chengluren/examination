@@ -8,7 +8,7 @@ import java.util.Date;
  * 记录参考人员的一次考试
  * @author lcheng
  * @version 1.0
- *          ${tags}
+ *
  */
 @Entity
 @Table(name="examinations")
@@ -30,10 +30,6 @@ public class Examination implements Serializable{
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private ExamSchedule schedule;
-
-//    @Lob
-//    @Basic(fetch = FetchType.LAZY)
-//    private String answers;
 
     @Column(scale = 1)
     private float finalScore;
@@ -65,14 +61,6 @@ public class Examination implements Serializable{
     public void setPaper(Paper paper) {
         this.paper = paper;
     }
-
-//    public String getAnswers() {
-//        return answers;
-//    }
-//
-//    public void setAnswers(String answers) {
-//        this.answers = answers;
-//    }
 
     public float getFinalScore() {
         return finalScore;

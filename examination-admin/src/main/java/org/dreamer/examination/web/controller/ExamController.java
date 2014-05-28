@@ -118,8 +118,8 @@ public class ExamController {
 
     @RequestMapping(value = "/examSchedule")
     @ResponseBody
-    public JSONPObject examSchedule(String major, String callback) {
-        List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major);
+    public JSONPObject examSchedule(String major,int session,String degree, String callback) {
+        List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major,session,degree);
         return new JSONPObject(callback, scheduleVOs);
     }
     @RequestMapping(value = "/examAnswers")

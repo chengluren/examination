@@ -1,10 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dreamer.examination.business.ExamNotPassExcelCreator;
-import org.dreamer.examination.business.ExamRecordExcelCreator;
-import org.dreamer.examination.business.ExcelCreator;
-import org.dreamer.examination.business.ExcelSettings;
+import org.dreamer.examination.business.*;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExaminationService;
@@ -19,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,17 +60,17 @@ public class ExamQueryController {
         if (viewVO.getScheduleid() != null) {
             map.put("scheduleid", viewVO.getScheduleid());
             ExamSchedule schedule = scheduleService.getExamSchedule(viewVO.getScheduleid());
-            mv.addObject("scheduleName",schedule.getName());
-            mv.addObject("scheduleid",viewVO.getScheduleid());
+            mv.addObject("scheduleName", schedule.getName());
+            mv.addObject("scheduleid", viewVO.getScheduleid());
         }
         if (StringUtils.isNotEmpty(viewVO.getMajorName())) {
             map.put("majorName-li", viewVO.getMajorName());
         }
         if (StringUtils.isNotEmpty(viewVO.getClassName())) {
-            map.put("className", viewVO.getClassName());
+            map.put("className-li", viewVO.getClassName());
         }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
-            map.put("stuNo", viewVO.getStuNo());
+            map.put("stuNo-li", viewVO.getStuNo());
         }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
@@ -83,8 +79,7 @@ public class ExamQueryController {
         mv.addObject("page", examRecordVOs.getNumber() + 1);
         mv.addObject("totalPage", examRecordVOs.getTotalPages());
         mv.addObject("totalCount", examRecordVOs.getTotalElements());
-
-        mv.addObject("schedulelist", scheduleService.getAllSchedule());
+        //mv.addObject("schedulelist", scheduleService.getAllSchedule());
 
         if (viewVO == null) {
             viewVO = new ExaminationViewVO();
@@ -105,12 +100,73 @@ public class ExamQueryController {
         ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
             response.reset();
-            String fileName = title+".xlsx";
-            fileName = new String(fileName.getBytes(),"ISO8859-1");
-            response.addHeader("Content-Disposition","attachment; filename="+fileName );
+            String fileName = title + ".xlsx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             creator.createExcel(settings, ((ExamRecordExcelCreator) creator).new ExamRecordDataProvider(), bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/passlist")
+    public ModelAndView getExamRecordPassList(ExaminationViewPassVO viewVO, @PageableDefault Pageable page) {
+        ModelAndView mv = new ModelAndView("exam.examquerypass-list");
+        Page<ExaminationViewPassVO> examViewRecordVOs = null;
+
+        Map<String, Object> map = new HashMap<>();
+        if (viewVO.getScheduleid() != null) {
+            map.put("scheduleid", viewVO.getScheduleid());
+            ExamSchedule schedule = scheduleService.getExamSchedule(viewVO.getScheduleid());
+            mv.addObject("scheduleName", schedule.getName());
+            mv.addObject("scheduleid", viewVO.getScheduleid());
+        }
+        if (StringUtils.isNotEmpty(viewVO.getMajorName())) {
+            map.put("majorName-li", viewVO.getMajorName());
+        }
+        if (StringUtils.isNotEmpty(viewVO.getClassName())) {
+            map.put("className-li", viewVO.getClassName());
+        }
+        if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
+            map.put("stuNo-li", viewVO.getStuNo());
+        }
+        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+        List<SqlQueryItem> itemList = builder.builder(map);
+        examViewRecordVOs = examViewService.getExaminationPassByFilter(itemList, null, page);
+        mv.addObject("examrecord", examViewRecordVOs);
+        mv.addObject("page", examViewRecordVOs.getNumber() + 1);
+        mv.addObject("totalPage", examViewRecordVOs.getTotalPages());
+        mv.addObject("totalCount", examViewRecordVOs.getTotalElements());
+        //搜索参数
+        if (viewVO == null) {
+            viewVO = new ExaminationViewPassVO();
+        }
+        mv.addObject("query", viewVO);
+        return mv;
+    }
+
+    @RequestMapping(value = "/examPassDownload")
+    public void downloadExamPass(ExaminationViewPassVO vo, HttpServletResponse response) {
+        ExcelCreator creator = new ExamPassExcelCreator(examViewService, vo);
+        String title = "";
+        if (vo != null && StringUtils.isNotEmpty(vo.getSchedulename())) {
+            title = vo.getSchedulename() + "考试通过记录表";
+        } else {
+            title = "考试通过记录表";
+        }
+        ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
+        try {
+            response.reset();
+            String fileName = title + ".xlsx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setContentType("application/octet-stream");
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            creator.createExcel(settings, ((ExamPassExcelCreator) creator).new ExamPassDataProvider(), bos);
             bos.flush();
             bos.close();
         } catch (IOException e) {
@@ -133,15 +189,18 @@ public class ExamQueryController {
         Map<String, Object> map = new HashMap<>();
         if (viewVO.getScheduleid() != null) {
             map.put("scheduleid", viewVO.getScheduleid());
+            ExamSchedule schedule = scheduleService.getExamSchedule(viewVO.getScheduleid());
+            mv.addObject("scheduleName", schedule.getName());
+            mv.addObject("scheduleid", viewVO.getScheduleid());
         }
         if (StringUtils.isNotEmpty(viewVO.getMajorName())) {
             map.put("majorName-li", viewVO.getMajorName());
         }
         if (StringUtils.isNotEmpty(viewVO.getClassName())) {
-            map.put("className", viewVO.getClassName());
+            map.put("className-li", viewVO.getClassName());
         }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
-            map.put("stuNo", viewVO.getStuNo());
+            map.put("stuNo-li", viewVO.getStuNo());
         }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
@@ -150,7 +209,7 @@ public class ExamQueryController {
         mv.addObject("page", examViewRecordVOs.getNumber() + 1);
         mv.addObject("totalPage", examViewRecordVOs.getTotalPages());
         mv.addObject("totalCount", examViewRecordVOs.getTotalElements());
-        mv.addObject("schedulelist", scheduleService.getAllSchedule());
+        //mv.addObject("schedulelist", scheduleService.getAllSchedule());
         //搜索参数
         if (viewVO == null) {
             viewVO = new ExaminationViewNotPassVO();
@@ -171,9 +230,9 @@ public class ExamQueryController {
         ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
             response.reset();
-            String fileName = title+".xlsx";
-            fileName = new String(fileName.getBytes(),"ISO8859-1");
-            response.addHeader("Content-Disposition","attachment; filename="+fileName );
+            String fileName = title + ".xlsx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             creator.createExcel(settings, ((ExamNotPassExcelCreator) creator).new ExamNotPassDataProvider(), bos);
@@ -188,12 +247,12 @@ public class ExamQueryController {
      * 考试统计，通过率
      *
      * @param scheduleid 考试安排编号
-     * @param className   班级
+     * @param className  班级
      * @param page
      * @return
      */
     @RequestMapping(value = "/passratelist")
-    public ModelAndView getExamRecordPassrateList(Long scheduleid, String className,@PageableDefault Pageable page) {
+    public ModelAndView getExamRecordPassrateList(Long scheduleid, String className, @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examquerypassrate-list");
         Page<ExaminationViewPassRateVO> examViewRecordVOs = null;
 
@@ -201,8 +260,8 @@ public class ExamQueryController {
         if (scheduleid != null) {
             map.put("scheduleid", scheduleid);
             ExamSchedule schedule = scheduleService.getExamSchedule(scheduleid);
-            mv.addObject("scheduleName",schedule.getName());
-            mv.addObject("scheduleid",scheduleid);
+            mv.addObject("scheduleName", schedule.getName());
+            mv.addObject("scheduleid", scheduleid);
         }
         if (!StringUtils.isEmpty(className)) {
             map.put("className-li", className);

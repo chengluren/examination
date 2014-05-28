@@ -30,7 +30,7 @@ public class ExamScheduleViewVO implements Serializable {
 
     private String major;
 
-    private String majorName;
+    private String majorNames;
     //年级
     private int admissionYear;
     //学历
@@ -123,11 +123,11 @@ public class ExamScheduleViewVO implements Serializable {
         this.degree = degree;
     }
 
-    public String getMajorName() {
-        return majorName;
+    public String getMajorNames() {
+        return majorNames;
     }
 
-    public void setMajorName(String majorName) {
-        this.majorName = majorName;
+    public void setMajorNames(String majorNames) {
+        this.majorNames = majorNames;
     }
 }

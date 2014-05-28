@@ -56,7 +56,7 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>名称</th>
-                                <th>专业</th>
+                                <th style="width:300px">考试专业</th>
                                 <th>开始时间</th>
                                 <th>结束时间</th>
                                 <th>模板名称</th>
@@ -67,7 +67,7 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.name}</td>
-                                    <td>${s.majorName}</td>
+                                    <td>${s.majorNames}</td>
 
                                     <td><fmt:formatDate value="${s.startDate}"  pattern="yyyy-MM-dd HH:mm"/></td>
 

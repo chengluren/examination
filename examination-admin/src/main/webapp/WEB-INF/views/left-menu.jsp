@@ -63,6 +63,7 @@
                 <ul class="treeview-menu">
                     <li><a href="${ctx}/examschedule/list"><i class="fa fa-angle-double-right"></i> 考试计划管理</a></li>
                     <li><a href="${ctx}/examquery/list"><i class="fa fa-angle-double-right"></i> 考试记录查询</a></li>
+                    <li><a href="${ctx}/examquery/passlist"><i class="fa fa-angle-double-right"></i>  通过查询</a></li>
                     <li><a href="${ctx}/examquery/notpasslist"><i class="fa fa-angle-double-right"></i> 未通过查询</a></li>
                     <li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>
                 </ul>

@@ -1,6 +1,7 @@
 package org.dreamer.examination.repository;
 
 import org.dreamer.examination.entity.ExamSchedule;
+import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.vo.ExamScheduleVO;
 import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.data.domain.Page;
@@ -34,8 +35,8 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
     public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
 
     @Query("select new org.dreamer.examination.vo.ExamScheduleVO(s.name,s.startDate,s.endDate,s.id) " +
-            "from ExamSchedule s where current_time() < s.startDate and s.major = ?1")
-    public List<ExamScheduleVO> findSchedule(String major);
+            "from ExamSchedule s where current_time() < s.endDate and s.major = ?1 and s.admissionYear = ?2 and s.degree = ?3")
+    public List<ExamScheduleVO> findSchedule(String major,int admissionYear,Types.DegreeType degree);
 
 
     @Query("select new org.dreamer.examination.vo.ScheduleDateVO( s.id , s.name,s.startDate,s.endDate  ) " +
@@ -44,7 +45,7 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
             )
     public List<ScheduleDateVO> findScheduleByDateFilter(@Param("beginDate") Date beginDate ,@Param("endDate") Date endDate );
 
-    @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session limit 10",nativeQuery = true)
+    @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session limit 100",nativeQuery = true)
     public List<Integer> findStudentSession();
 
     @Modifying

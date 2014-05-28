@@ -70,11 +70,11 @@ public class ExamScheduleService {
         return scheduleMajorDao.findByScheduleId(sid);
     }
 
-    public Long getExamTemplateId(String major) {
-        Pageable p = new PageRequest(0, 1);
-        List<Long> list = scheduleDao.findScheduleByDate(major, p);
-        return (list != null && list.size() == 1) ? list.get(0) : null;
-    }
+//    public Long getExamTemplateId(String major) {
+//        Pageable p = new PageRequest(0, 1);
+//        List<Long> list = scheduleDao.findScheduleByDate(major, p);
+//        return (list != null && list.size() == 1) ? list.get(0) : null;
+//    }
 
     public List<ExamScheduleVO> getExamSchedule(String major,int admissionYear,String degree) {
         Types.DegreeType degreeType = (degree!=null&&degree.equals("0")) ? Types.DegreeType.Bachelor : Types.DegreeType.Master;

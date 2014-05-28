@@ -71,7 +71,7 @@
             });
         }
         function getExamSchedule() {
-            $.getJSON("http://localhost:8080/exam/examSchedule?major=28session=2009&degree=0&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examSchedule?major=28&session=2013&degree=1&callback=?", function (data) {
                 console.log(data);
             });
         }

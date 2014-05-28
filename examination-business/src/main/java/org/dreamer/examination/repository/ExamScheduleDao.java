@@ -26,16 +26,17 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
 
     public int countByTemplateId(Long tempId);
 
-    @Query("select s.template.id from ExamSchedule s where s.major = (:major) and  current_time() " +
-            "between s.startDate and s.endDate order by s.startDate desc")
-    public List<Long> findScheduleByDate(@Param("major")String major,Pageable p);
+//    @Query("select s.template.id from ExamSchedule s where s.major = (:major) and  current_time() " +
+//            "between s.startDate and s.endDate order by s.startDate desc")
+//    public List<Long> findScheduleByDate(@Param("major")String major,Pageable p);
 
-    @Query("from ExamSchedule s where s.major = (:major) and  current_time() " +
-            "between s.startDate and s.endDate order by s.startDate desc")
-    public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
+//    @Query("from ExamSchedule s where s.major = (:major) and  current_time() " +
+//            "between s.startDate and s.endDate order by s.startDate desc")
+//    public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
 
     @Query("select new org.dreamer.examination.vo.ExamScheduleVO(s.name,s.startDate,s.endDate,s.id) " +
-            "from ExamSchedule s where current_time() < s.endDate and s.major = ?1 and s.admissionYear = ?2 and s.degree = ?3")
+            "from ExamSchedule s,ScheduleMajor sm where s.id = sm.scheduleId and current_time() < s.endDate " +
+            "and sm.majorId = ?1 and s.admissionYear = ?2 and s.degree = ?3")
     public List<ExamScheduleVO> findSchedule(String major,int admissionYear,Types.DegreeType degree);
 
 

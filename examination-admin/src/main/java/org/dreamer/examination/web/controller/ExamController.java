@@ -19,7 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 考试控制器
@@ -125,7 +128,16 @@ public class ExamController {
     @RequestMapping(value = "/examAnswers")
     @ResponseBody
     public JSONPObject examAnswers(Long examId,String callback){
-        List<Answer> answers = answerService.getExamAnswers(examId);
-        return new JSONPObject(callback, answers);
+        //List<Answer> answers = answerService.getExamAnswers(examId);
+        List<Object[]> result = answerService.getCommitAndCorrectAnswers(examId);
+        List<Map<String,?>> resultMap = new ArrayList();
+        for(Object[] record : result){
+            Map<String,Object> rm = new HashMap<>();
+            rm.put("id",record[0]);
+            rm.put("answer",record[1]);
+            rm.put("realAnswer",record[2]);
+            resultMap.add(rm);
+        }
+        return new JSONPObject(callback, resultMap);
     }
 }

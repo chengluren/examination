@@ -28,6 +28,10 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
             "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
     public List<AnswerJudgeVO> findCommitAndRealAnswer(long examId);
 
+    @Query("select a.quesId,q.answer,a.answer as realAnswer from Examination e,Answer a,Question q,PaperQuestion pq " +
+            "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
+    public List<Object[]> findCommitAndRealAnswerArr(Long examId);
+
     @Modifying
     @Query("update Answer set answer=:answer where examId=:examId and quesId=:quesId")
     public void updateAnswer(@Param("examId")Long examId,@Param("quesId")Long quesId,@Param("answer")String answer);

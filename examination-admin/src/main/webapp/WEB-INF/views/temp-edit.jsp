@@ -109,7 +109,7 @@
                                     <div class="box box-info">
                                         <div class="box-body">
                                             <div class="form-group">
-                                                <p>选择题: <a class="conf" tname="单选题设定" tid="chContainer"><i
+                                                <p>单选题: <a class="conf" tname="单选题设定" tid="chContainer"><i
                                                         class="fa fa-plus-square"></i></a></p>
                                             </div>
                                             <div id="chContainer" class="container">

@@ -185,6 +185,13 @@
         });
     }
 
+    function bindAllCheckEvent(){
+        $("#allCheckbox").on("ifChanged",function(){
+            $("input[name='idCheckbox']").prop("checked",this.checked);
+            $("input[name='idCheckbox']").trigger("change");
+        })
+    }
+
     //action
     function deleteMustChoose(id) {
         if (window.confirm("您确定要删除该必考题吗？")) {
@@ -340,6 +347,7 @@
                             loadMustChooseData(p, size);
                         }
                     });
+                    $("#allCheckbox").iCheck('uncheck');
                     reMark();
                     bindCheckboxChangeEvent();
                 }else{
@@ -428,5 +436,6 @@
         bindSelectChangeEvent();
         bindAddMustChooseBtnEvent();
         bindMustChooseConfirmEvent();
+        bindAllCheckEvent();
     });
 </script>

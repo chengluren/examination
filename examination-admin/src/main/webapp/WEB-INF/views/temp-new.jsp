@@ -98,6 +98,9 @@
                                         </div>
                                     </div>
                                 </form>
+                                <div id="mcInfo" style="margin-bottom: 15px;">
+
+                                </div>
                                 <table id="mcQuesTable" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
@@ -176,7 +179,7 @@
                     <div class="form-group">
                         <label for="confStoreId" class="col-sm-2 control-label">答案</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <select class="form-control" id="confStoreId" name="confStoreId">
                                 <c:forEach items="${stores}" var="cs">
                                     <option value="${cs.id}">${cs.name}</option>
@@ -187,14 +190,14 @@
                     <div class="form-group">
                         <label for="confCount" class="col-sm-2 control-label">题数</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input type="text" id="confCount" name="confCount" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="confScore" class="col-sm-2 control-label">每题分值</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <input type="text" id="confScore" name="confScore" class="form-control"/>
                         </div>
                     </div>

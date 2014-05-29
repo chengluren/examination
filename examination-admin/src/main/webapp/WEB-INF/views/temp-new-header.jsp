@@ -181,19 +181,8 @@
 
     function bindAllCheckEvent(){
         $("#allCheckbox").on("ifChanged",function(){
-            if(this.checked){
-//               $("input[name='idCheckbox']").each(function(){
-//                   $(this).attr("checked",true);
-//               });
-               $("input[name='idCheckbox']").attr("checked",true);
-                $("input[name='idCheckbox']").trigger("change");
-            }else{
-//                $("input[name='idCheckbox']").each(function(){
-//                    $(this).attr("checked",false);
-//                });
-                $("input[name='idCheckbox']").attr("checked",false);
-                $("input[name='idCheckbox']").trigger("change");
-            }
+            $("input[name='idCheckbox']").prop("checked",this.checked);
+            $("input[name='idCheckbox']").trigger("change");
         })
     }
 
@@ -293,6 +282,7 @@
                     var tpl = $.templates("#quesTmpl");
                     $("#mcTableBody").html(tpl.render(data.content));
                     createPaginator("#paginator",(data.number+1),(data.totalPages));
+                    $("#allCheckbox").iCheck('uncheck');
                     reMark();
                     bindCheckboxChangeEvent();
                 }else{
@@ -338,11 +328,12 @@
         initWizard();
         initValidator();
         initModalDialog();
-        createChosen("#confStoreId", "165px");
+        createChosen("#confStoreId", "264px");
         createChosen("#mcStoreId", "250px");
-        //bindAllCheckEvent();
+
         bindTempConfEvent();
         bindConfConfirmEvent();
         bindSelectChangeEvent();
+        bindAllCheckEvent();
     });
 </script>

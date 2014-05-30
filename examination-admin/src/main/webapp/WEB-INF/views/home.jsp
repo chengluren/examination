@@ -21,17 +21,14 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>
-                            ${question_count}
+                            ${store_count}
                         </h3>
-
-                        <p>
-                            试题总数
-                        </p>
+                        <p>题库数</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="${ctx}/question/list" class="small-box-footer">
+                    <a href="${ctx}/store/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -42,17 +39,14 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>
-                            ${average_passrate}%
+                            ${question_count}
                         </h3>
-
-                        <p>
-                            考试平均通过率
-                        </p>
+                        <p>试题总数</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="${ctx}/examquery/passratelist" class="small-box-footer">
+                    <a href="${ctx}/question/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -65,10 +59,7 @@
                         <h3>
                             ${template_count}
                         </h3>
-
-                        <p>
-                            考试方案
-                        </p>
+                        <p>考试方案</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -84,12 +75,10 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>
-                            ${papter_count}
+                            ${schedule_count}
                         </h3>
 
-                        <p>
-                            试卷数
-                        </p>
+                        <p>近一个月考试计划</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>

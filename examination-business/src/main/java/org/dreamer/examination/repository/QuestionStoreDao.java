@@ -31,4 +31,9 @@ public interface QuestionStoreDao extends JpaRepository<QuestionStore, Long> {
             countQuery = "select count(s.id) from QuestionStore s")
     public Page<QuestionStoreVO> findStoreBaseAndQuesCountInfo(Pageable page);
 
+    @Query(value = "select new org.dreamer.examination.vo.QuestionStoreVO(s.id,s.name,(" +
+            "select count(q.id) from Question q where q.storeId= s.id) as quesCount,s.generic,s.comment) " +
+            "from QuestionStore s")
+    public List<QuestionStoreVO> findAllStoreBaseAndQuesCountInfo();
+
 }

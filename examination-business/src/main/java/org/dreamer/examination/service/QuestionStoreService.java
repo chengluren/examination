@@ -34,6 +34,10 @@ public class QuestionStoreService {
     @Autowired
     private QuestionOptionDao optionDao;
 
+    public long getStoreCount(){
+        return questionStoreDao.count();
+    }
+
     public void addQuestionStore(QuestionStore store) {
         questionStoreDao.save(store);
     }

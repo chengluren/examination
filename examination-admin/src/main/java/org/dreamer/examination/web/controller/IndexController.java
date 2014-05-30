@@ -1,7 +1,7 @@
 package org.dreamer.examination.web.controller;
 
-import org.dreamer.examination.vo.ScheduleDateVO;
 import org.dreamer.examination.service.*;
+import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,8 @@ import java.util.List;
 public class IndexController {
     @Autowired
     PaperService paperService;
-
+    @Autowired
+    QuestionStoreService storeService;
     @Autowired
     QuestionService questionService;
 
@@ -38,26 +40,34 @@ public class IndexController {
     ExaminationViewService examinationService;
 
     @RequestMapping(value = "index")
-    public ModelAndView index( ){
+    public ModelAndView index() {
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,1);
+        Date monthAfter = calendar.getTime();
+
+        List<ScheduleDateVO> scheduleList = scheduleService.getScheduleDataByData(now,monthAfter);
         ModelAndView mv = new ModelAndView("exam.home");
-        mv.addObject("papter_count",paperService.getPaperCount() );
-        mv.addObject("question_count",questionService.getQuestionCount() );
-        mv.addObject("average_passrate",examinationService.getAveragePassRate() );
-        mv.addObject("template_count",templateService.getTemplateCount() );
+        mv.addObject("store_count", storeService.getStoreCount());
+        mv.addObject("question_count", questionService.getQuestionCount());
+        mv.addObject("template_count", templateService.getTemplateCount());
+        mv.addObject("schedule_count",scheduleList.size());
+
+//        mv.addObject("paper_count", paperService.getPaperCount());
+//        mv.addObject("average_passrate", examinationService.getAveragePassRate());
         return mv;
     }
 
 
-    @RequestMapping(value = "getCalendarDate",method = {RequestMethod.GET,RequestMethod.POST} )
+    @RequestMapping(value = "getCalendarDate", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public List<ScheduleDateVO> getCurrentDate( @RequestParam("start") String start , @RequestParam("end")String end ){
+    public List<ScheduleDateVO> getCurrentDate(@RequestParam("start") String start, @RequestParam("end") String end) {
         start = start + "000";
         end = end + "000";
-      //  System.out.println( transferMicroseconds2DateStr(Long.valueOf(start)) );
-      // System.out.println( transferMicroseconds2DateStr(Long.valueOf(end)) );
-        Date beginDate = new Date( Long.valueOf(start ));
-        Date endDate = new Date( Long.valueOf(end ));
-        List<ScheduleDateVO> scheduleList = scheduleService.getScheduleDataByData( beginDate , endDate );
+        Date beginDate = new Date(Long.valueOf(start));
+        Date endDate = new Date(Long.valueOf(end));
+        List<ScheduleDateVO> scheduleList = scheduleService.getScheduleDataByData(beginDate, endDate);
         return scheduleList;
     }
    /*
@@ -76,17 +86,15 @@ public class IndexController {
     }
     */
 
-    private String getServerDate()
-    {
+    private String getServerDate() {
         String dateStr = "";
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        dateStr=sdf.format(dt);
+        dateStr = sdf.format(dt);
         return dateStr;
     }
 
-    public String transferMicroseconds2DateStr( Long millSecond )
-    {
+    public String transferMicroseconds2DateStr(Long millSecond) {
         Date date = new Date(millSecond);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(date);

@@ -27,6 +27,8 @@ public class User {
     private String salt;
     @Column(name = "realname",length = 50)
     private String realName;
+    @Column(name = "roleid")
+    private Long roleId;
 
     public Long getId() {
         return id;
@@ -66,5 +68,13 @@ public class User {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

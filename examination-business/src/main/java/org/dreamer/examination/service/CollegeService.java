@@ -23,4 +23,8 @@ public class CollegeService {
     public College getCollege(Long id){
         return collegeDao.findOne(id);
     }
+
+    public List<College> getCollegeByName(String name){
+        return collegeDao.findByName(name);
+    }
 }

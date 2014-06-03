@@ -17,4 +17,7 @@ public interface UserRoleDao extends JpaRepository<UserRole,Long>{
 
     @Query("select r.roleName from UserRole r where r.userName = ?1")
     public List<String> findUserRoleNames(String userName);
+
+    @Query(value = "select r.rolename from jiaoda_admin_role r where r.roleid = ?1",nativeQuery = true)
+    List<String> findAdminUserCollege(Long roleId);
 }

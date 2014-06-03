@@ -161,10 +161,11 @@ public class ExamScheduleController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editSchedule(ExamScheduleViewVO examScheduleViewVO) {
+    public String editSchedule(ExamScheduleViewVO examScheduleViewVO,String majors) {
         ExamSchedule scheduleData = translateObject(examScheduleViewVO);
-        if (scheduleData != null)
-            examScheduleService.addExamSchedule(scheduleData);
+        if (scheduleData != null){
+            examScheduleService.addExamSchedule(scheduleData,majors);
+        }
         return "redirect:/examschedule/list";
     }
 

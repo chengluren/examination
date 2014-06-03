@@ -1,13 +1,14 @@
 package org.dreamer.examination.service;
 
+import org.apache.shiro.SecurityUtils;
 import org.dreamer.examination.entity.RolePermission;
 import org.dreamer.examination.entity.User;
 import org.dreamer.examination.entity.UserRole;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.repository.RolePermissionDao;
 import org.dreamer.examination.repository.UserDao;
 import org.dreamer.examination.repository.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,14 @@ public class RBACService {
     @Autowired
     private RolePermissionDao rolePermissionDao;
 
+    public ShiroDatabaseRealm.ShiroUser getCurrentUser(){
+        Object obj = SecurityUtils.getSubject().getPrincipal();
+        if (obj!=null && obj instanceof ShiroDatabaseRealm.ShiroUser){
+            return (ShiroDatabaseRealm.ShiroUser)obj;
+        }
+        return null;
+    }
+
     public Page<User> getAllUser(Pageable page) {
         return userDao.findAll(page);
     }
@@ -43,6 +52,10 @@ public class RBACService {
 
     public List<String> getUserRoleStr(String userName){
          return userRoleDao.findUserRoleNames(userName);
+    }
+
+    public List<String> getAdminUserCollege(Long userRoleid){
+        return userRoleDao.findAdminUserCollege(userRoleid);
     }
 
     public List<RolePermission> getRolePermissions(String roleName) {

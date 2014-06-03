@@ -8,8 +8,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.dreamer.examination.entity.College;
 import org.dreamer.examination.entity.User;
 import org.dreamer.examination.entity.UserRole;
+import org.dreamer.examination.service.CollegeService;
 import org.dreamer.examination.service.RBACService;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +27,8 @@ public class ShiroDatabaseRealm extends AuthorizingRealm {
     private static final int HASH_ITERATION = 2;
 
     private RBACService rbacService;
+
+    private CollegeService collegeService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -47,7 +51,23 @@ public class ShiroDatabaseRealm extends AuthorizingRealm {
         List<User> users = rbacService.getUserByUserName(userName);
         if (users != null && users.size() > 0) {
             User user = users.get(0);
+            List<String> userColleges = rbacService.getAdminUserCollege(user.getRoleId());
+            long collegeId = -1;
+            String collegeName = "";
+            if (userColleges != null && userColleges.size() > 0) {
+                String college = userColleges.get(0);
+                if (!college.equals("超级管理员")) {
+                    List<College> cs = collegeService.getCollegeByName(college);
+                    if (cs != null && cs.size() > 0) {
+                        College c = cs.get(0);
+                        collegeId = c.getId();
+                        collegeName = c.getName();
+                    }
+                }
+            }
             ShiroUser shiroUser = new ShiroUser(user.getId(), user.getUserName(), user.getRealName());
+            shiroUser.setCollegeId(collegeId);
+            shiroUser.setCollegeName(collegeName);
             SimpleAuthenticationInfo authenInfo = new SimpleAuthenticationInfo(shiroUser, user.getPassword(),
                     ByteSource.Util.bytes(user.getSalt()), getName());
             return authenInfo;
@@ -69,10 +89,20 @@ public class ShiroDatabaseRealm extends AuthorizingRealm {
         this.rbacService = rbacService;
     }
 
+    public CollegeService getCollegeService() {
+        return collegeService;
+    }
+
+    public void setCollegeService(CollegeService collegeService) {
+        this.collegeService = collegeService;
+    }
+
     public static class ShiroUser implements Serializable {
         private Long id;
         private String userName;
         private String realName;
+        private Long collegeId;
+        private String collegeName;
 
         public ShiroUser(Long id, String userName, String realName) {
             this.id = id;
@@ -102,6 +132,22 @@ public class ShiroDatabaseRealm extends AuthorizingRealm {
 
         public void setRealName(String realName) {
             this.realName = realName;
+        }
+
+        public Long getCollegeId() {
+            return collegeId;
+        }
+
+        public void setCollegeId(Long collegeId) {
+            this.collegeId = collegeId;
+        }
+
+        public String getCollegeName() {
+            return collegeName;
+        }
+
+        public void setCollegeName(String collegeName) {
+            this.collegeName = collegeName;
         }
     }
 }

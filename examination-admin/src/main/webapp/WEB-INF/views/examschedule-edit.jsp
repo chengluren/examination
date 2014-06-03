@@ -113,5 +113,5 @@
     <!-- /.content -->
 </aside>
 <div id="majorContent" class="menuContent" style="display:none; position: absolute;">
-    <ul id="majorTree" class="ztree" style="margin-top:0; height: 300px;"></ul>
+    <ul id="majorTree" class="ztree" style="margin-top:0; height: 180px;width: 324px;"></ul>
 </div>

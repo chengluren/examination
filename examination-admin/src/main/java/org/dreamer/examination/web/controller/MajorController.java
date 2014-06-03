@@ -2,7 +2,9 @@ package org.dreamer.examination.web.controller;
 
 import org.dreamer.examination.entity.College;
 import org.dreamer.examination.entity.Major;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.service.CollegeService;
+import org.dreamer.examination.service.RBACService;
 import org.dreamer.examination.vo.MajorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +23,30 @@ public class MajorController {
 
     @Autowired
     private CollegeService collegeService;
+    @Autowired
+    private RBACService rbacService;
 
     @RequestMapping(value = "/tree")
     @ResponseBody
     public List<MajorVO> majors() {
-        List<College> colleges = collegeService.getAllColleges();
-        List<MajorVO> result = toVO(colleges);
+        List<College> colleges = null;
+        List<MajorVO> result = null;
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            List<String> userRoles = rbacService.getUserRoleStr(user.getUserName());
+            if (userRoles.contains("admin")){
+                colleges = collegeService.getAllColleges();
+                result = toVO(colleges);
+            }else{
+                Long cid = user.getCollegeId();
+                College college  = collegeService.getCollege(cid);
+                List<College> list = new ArrayList<>();
+                list.add(college);
+                result = toVO(list);
+            }
+        }else {
+            result = new ArrayList<>();
+        }
         return result;
     }
     @RequestMapping(value = "/tree/college")

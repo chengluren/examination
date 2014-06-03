@@ -23,6 +23,7 @@
 
     <bean id="dbRealm" class="org.dreamer.examination.rbac.ShiroDatabaseRealm">
         <property name="rbacService" ref="rbacService"/>
+        <property name="collegeService" ref="collegeService" />
     </bean>
 
     <bean id="v9Authc" class="org.dreamer.examination.rbac.ShiroV9Filter"></bean>

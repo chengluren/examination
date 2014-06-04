@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Right side column. Contains the navbar and content of the page -->
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
@@ -16,6 +17,7 @@
     <section class="content">
 
         <div class="row">
+
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
@@ -28,11 +30,19 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
+                    <shiro:hasRole name="admin">
                     <a href="${ctx}/store/list" class="small-box-footer">
                         更多信息 <i class="fa fa-arrow-circle-right"></i>
                     </a>
+                    </shiro:hasRole>
+                    <shiro:hasRole name="sub-admin">
+                        <a href="${ctx}/index" class="small-box-footer">
+                            <i class="fa"></i>
+                        </a>
+                    </shiro:hasRole>
                 </div>
             </div>
+
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->

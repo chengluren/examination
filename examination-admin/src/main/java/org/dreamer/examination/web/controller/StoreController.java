@@ -1,6 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dreamer.examination.entity.MajorStoreRelation;
 import org.dreamer.examination.entity.QuestionStore;
 import org.dreamer.examination.vo.QuestionStoreVO;
@@ -37,7 +38,7 @@ public class StoreController {
     private MajorStoreRelationService storeRelService;
 
    // private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/list")
     public ModelAndView getStoreInfoList(@PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.store-list");
@@ -47,13 +48,13 @@ public class StoreController {
         mv.addObject("totalPage", vos.getTotalPages());
         return mv;
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/add")
     public String addStore(ModelMap map) {
        // map.addAttribute("majors", majors);
         return "exam.store-add";
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addStore(String name, String comment, Boolean generic, String storeMajor) {
         QuestionStore store = new QuestionStore(name, comment);
@@ -69,7 +70,7 @@ public class StoreController {
         storeService.addQuestionStore(store, majors);
         return "redirect:/store/list";
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/edit/{id}")
     public ModelAndView editStore(@PathVariable("id") long id) {
         ModelAndView mv = new ModelAndView("exam.store-edit");
@@ -87,7 +88,7 @@ public class StoreController {
       //  mv.addObject("majors", majors);
         return mv;
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editStore(QuestionStore store, String storeMajor) {
         String[] majors = {};
@@ -97,14 +98,14 @@ public class StoreController {
         storeService.updateQuestionStore(store, majors);
         return "redirect:/store/list";
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/delete/{id}")
     public String deleteStore(@PathVariable("id") long id) {
         storeService.deleteStore(id);
         checkAndDeleteIndex(id);
         return "redirect:/store/list";
     }
-
+    @RequiresRoles(value = {"admin"})
     @RequestMapping(value = "/major")
     @ResponseBody
     public JSONPObject getMajorStore(String major, String callback) {

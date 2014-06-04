@@ -37,7 +37,7 @@ public class ExamSchedule implements Serializable {
     private ExamTemplate template;
 
     //本次考试针对的专业
-    private String major;
+    //private String major;
     //本次考试对应的专业名字
     @Lob
     private String majorNames;
@@ -76,13 +76,13 @@ public class ExamSchedule implements Serializable {
         this.template = template;
     }
 
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
+//    public String getMajor() {
+//        return major;
+//    }
+//
+//    public void setMajor(String major) {
+//        this.major = major;
+//    }
 
     public String getName() {
         return name;

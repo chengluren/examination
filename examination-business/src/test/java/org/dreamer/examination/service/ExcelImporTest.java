@@ -46,8 +46,12 @@ public class ExcelImporTest {
     @Test
     public void testNewImport(){
         Importer importer = new DefaultExcelImporter(questionService);
-        File excel = new File("E:\\题库\\通识\\通识-化学安全-3.xlsx");
-        importer.doImport(excel,1);
+//        File excel = new File("E:\\题库\\通识\\通识-化学安全-3.xlsx");
+//        importer.doImport(excel,1);
+        String generic = "E:\\题库\\通识";
+        String special = "E:\\题库\\专业";
+        doImport(generic);
+        doImport(special);
     }
 
     private void doImport(String rootDir){

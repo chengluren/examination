@@ -95,7 +95,7 @@ public class ExamTest {
 
         schedule.setStartDate(now);
         schedule.setEndDate(endDate);
-        schedule.setMajor("M001");
+        //schedule.setMajor("M001");
         schedule.setTemplate(template);
         schedule.setName("化学专业安全考试");
 

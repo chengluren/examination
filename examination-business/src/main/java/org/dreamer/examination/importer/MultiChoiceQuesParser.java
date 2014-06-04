@@ -79,7 +79,7 @@ public class MultiChoiceQuesParser extends AbstractParser implements Parser{
 //                Cell c = row.getCell(i);
 //                if(c!=null){
 //                    String op = row.getCell(i).getStringCellValue();
-//                    if (op!=null&&!op.equals("")){
+//                    if (op!=null&& op.length()>2){
 //                        options.add(op.substring(2).trim());
 //                    }
 //                }

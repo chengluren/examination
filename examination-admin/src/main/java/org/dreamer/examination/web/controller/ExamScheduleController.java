@@ -182,7 +182,7 @@ public class ExamScheduleController {
             scheduleData = new ExamSchedule();
             scheduleData.setStartDate(examScheduleViewVO.getStartDate());
             scheduleData.setEndDate(examScheduleViewVO.getEndDate());
-            scheduleData.setMajor(examScheduleViewVO.getMajor());
+            //scheduleData.setMajor(examScheduleViewVO.getMajor());
             scheduleData.setName(examScheduleViewVO.getName());
             scheduleData.setAdmissionYear(examScheduleViewVO.getAdmissionYear());
 

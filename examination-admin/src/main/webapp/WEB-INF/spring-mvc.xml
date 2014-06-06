@@ -66,6 +66,7 @@
     </bean>
 
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+         <property name="defaultErrorView" value="exam.exception"/>
          <property name="exceptionMappings">
              <props>
                 <prop key="org.apache.shiro.authz.UnauthorizedException">exam.unauthorized</prop>

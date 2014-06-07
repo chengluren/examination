@@ -111,7 +111,16 @@
                         score = $("#confScore").val(),
                         tableId = $("#modalTitle").attr("tid");
                 var quesType = tableId.substring(0,2).toUpperCase();
-                addTempQuesDef(tempId,sid,sname,quesType,count,score,tableId);
+                $.getJSON("${ctx}/question/countForStoreTypeNotMust",{
+                    storeId:sid,
+                    quesType:quesType
+                },function(data){
+                    if(data.count<count){
+                        alert("题库中的非必考题数（"+data.count+"）少于您输入的题目数，请输入合适的题目数.");
+                    }else{
+                        addTempQuesDef(tempId,sid,sname,quesType,count,score,tableId);
+                    }
+                });
 //                createConfigedTemp(sid,sname,count,score,("#"+tableId));
             }
             return false;

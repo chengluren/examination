@@ -105,13 +105,22 @@
                         sname = $("#confStoreId option:selected").text(),
                         count = $("#confCount").val(),
                         score = $("#confScore").val(),
-                        tableId = $("#modalTitle").attr("tid");
+                        tableId = $("#modalTitle").attr("tid"),
+                        quesType = tableId.substring(0,2).toUpperCase();
                 //createRow(sid, sname, count, score, tableId);
-                createConfigedTemp(sid,sname,count,score,("#"+tableId));
-                $('#confModal').modal('hide');
-                //$("#tempConfForm")[0].reset();
-                $("#confCount").val("");
-                $("#confScore").val("");
+                $.getJSON("${ctx}/question/countForStoreTypeNotMust",{
+                    storeId:sid,
+                    quesType:quesType
+                },function(data){
+                    if(data.count<count){
+                        alert("题库中的非必考题数（"+data.count+"）少于您输入的题目数，请输入合适的题目数.");
+                    }else{
+                        createConfigedTemp(sid,sname,count,score,("#"+tableId));
+                        $('#confModal').modal('hide');
+                        $("#confCount").val("");
+                        $("#confScore").val("");
+                    }
+                });
             }
             return false;
         });

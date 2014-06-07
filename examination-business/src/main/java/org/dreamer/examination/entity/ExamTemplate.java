@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 考试方案模板
@@ -26,12 +27,12 @@ public class ExamTemplate implements Serializable {
     @OneToMany(mappedBy = "template",cascade = {CascadeType.PERSIST},
             fetch = FetchType.EAGER,orphanRemoval = true)
     @OrderBy("questionType asc")
-    List<MustChooseQuestionDef> mustChooseDefs;
+    Set<MustChooseQuestionDef> mustChooseDefs;
 
     @OneToMany(mappedBy = "template",
             cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @OrderBy("questionType asc")
-    private List<TemplateQuestionDef> questionDefs;
+    private Set<TemplateQuestionDef> questionDefs;
 
     @Column(scale = 1)
     private float passScore;
@@ -55,19 +56,19 @@ public class ExamTemplate implements Serializable {
         this.name = name;
     }
 
-    public List<MustChooseQuestionDef> getMustChooseDefs() {
+    public Set<MustChooseQuestionDef> getMustChooseDefs() {
         return mustChooseDefs;
     }
 
-    public void setMustChooseDefs(List<MustChooseQuestionDef> mustChooseDefs) {
+    public void setMustChooseDefs(Set<MustChooseQuestionDef> mustChooseDefs) {
         this.mustChooseDefs = mustChooseDefs;
     }
 
-    public List<TemplateQuestionDef> getQuestionDefs() {
+    public Set<TemplateQuestionDef> getQuestionDefs() {
         return questionDefs;
     }
 
-    public void setQuestionDefs(List<TemplateQuestionDef> questionDefs) {
+    public void setQuestionDefs(Set<TemplateQuestionDef> questionDefs) {
         this.questionDefs = questionDefs;
     }
 

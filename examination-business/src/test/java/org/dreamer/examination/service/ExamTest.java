@@ -82,6 +82,44 @@ public class ExamTest {
 //    }
 
     @Test
+    public void testConcurrentNewExamination(){
+         int nt = 10;
+         final int times = 10;
+         Thread[] threads = new Thread[nt];
+        for(int i=0;i<nt;i++){
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for(int j=0;j<times;j++){
+                       examManager.newExamination("479","",250);
+                    }
+                }
+            });
+            threads[i] = t;
+        }
+        long start = System.currentTimeMillis();
+        for(Thread t: threads){
+            t.start();
+        }
+
+        for(Thread t: threads){
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("cost:"+(end-start)+" ms");
+    }
+
+    @Test
+    public void testExamTemplate(){
+        ExamTemplate template = templateService.getExamTemplate(50);
+        Assert.assertEquals(10,template.getMustChooseDefs().size());
+    }
+
+    @Test
     public void testExamScheduleCrud() {
 
         ExamTemplate template = templateService.getExamTemplate(1);

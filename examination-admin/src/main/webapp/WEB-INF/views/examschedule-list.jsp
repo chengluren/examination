@@ -55,8 +55,8 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>名称</th>
-                                <th style="width:300px">考试专业</th>
+                                <th style="width:130px">名称</th>
+                                <th style="width:290px">考试专业</th>
                                 <th>开始时间</th>
                                 <th>结束时间</th>
                                 <th>模板名称</th>

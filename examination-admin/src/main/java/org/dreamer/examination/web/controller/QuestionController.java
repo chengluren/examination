@@ -33,9 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lcheng on 2014/4/22.
@@ -267,6 +265,16 @@ public class QuestionController {
     @ResponseBody
     public List<Object[]> countForStoreGroup(){
         return quesService.countForStoreGroup();
+    }
+
+    @RequestMapping("/countForStoreTypeNotMust")
+    @ResponseBody
+    public Map<String,Long> countForStoreAndTypeNotMust(Long storeId,String quesType){
+        Types.QuestionType type = Types.QuestionType.getTypeFromShortName(quesType);
+        Long count = quesService.countOfTypeQuestionNotMust(storeId,type);
+        Map<String,Long> result = new HashMap<>();
+        result.put("count",count);
+        return result;
     }
 
     private Query createQuery(String storeId, String quesType, String queryTxt) {

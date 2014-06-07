@@ -13,10 +13,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -60,10 +57,11 @@ public class ExaminationManager {
 
         TemplateRandomStrategy randomStrategy = new DefaultTemplateRandomStrategy(questionService);
 
-        List<MustChooseQuestionDef> mustChoose = template.getMustChooseDefs();
-        List<TemplateQuestionDef> tempQuesDef = template.getQuestionDefs();
+        Set<MustChooseQuestionDef> mustChoose = template.getMustChooseDefs();
+        Set<TemplateQuestionDef> tempQuesDef = template.getQuestionDefs();
 
-        Map<Types.QuestionType,List<PaperQuestionVO>> generated = randomStrategy.randomGenerate(tempQuesDef);
+        List<TemplateQuestionDef> tempQuesDefList = new ArrayList<>(tempQuesDef);
+        Map<Types.QuestionType,List<PaperQuestionVO>> generated = randomStrategy.randomGenerate(tempQuesDefList);
         if (mustChoose != null && mustChoose.size() > 0){
             for (MustChooseQuestionDef def :mustChoose){
                 Types.QuestionType type = def.getQuestionType();

@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lcheng
@@ -234,14 +231,14 @@ public class ExamTemplateController {
             record.put("passScore", temp.getPassScore());
             int quesCount = 0;
             float totalScore = 0;
-            List<TemplateQuestionDef> tqDefList = temp.getQuestionDefs();
+            Set<TemplateQuestionDef> tqDefList = temp.getQuestionDefs();
             if (tqDefList != null && tqDefList.size() > 0) {
                 for (TemplateQuestionDef def : tqDefList) {
                     quesCount += def.getCount();
                     totalScore += (def.getScorePer() * def.getCount());
                 }
             }
-            List<MustChooseQuestionDef> mcDefList = temp.getMustChooseDefs();
+            Set<MustChooseQuestionDef> mcDefList = temp.getMustChooseDefs();
             if (mcDefList != null && mcDefList.size() > 0) {
                 for (MustChooseQuestionDef def : mcDefList) {
                     quesCount += 1;
@@ -270,7 +267,8 @@ public class ExamTemplateController {
         JSONArray mcdefJson = json.getJSONArray("mustChooseDefs");
         if (mcdefJson != null) {
             int len = mcdefJson.length();
-            List<MustChooseQuestionDef> mcdefList = new ArrayList<>();
+//            List<MustChooseQuestionDef> mcdefList = new ArrayList<>();
+            Set<MustChooseQuestionDef> mcdefList = new HashSet<>();
             for (int i = 0; i < len; i++) {
                 JSONObject mcdef = mcdefJson.getJSONObject(i);
                 MustChooseQuestionDef def = new MustChooseQuestionDef();
@@ -287,7 +285,7 @@ public class ExamTemplateController {
         JSONArray tempDefJson = json.getJSONArray("tempQuesDefs");
         if (tempDefJson != null) {
             int len = tempDefJson.length();
-            List<TemplateQuestionDef> tempDefList = new ArrayList<>();
+            Set<TemplateQuestionDef> tempDefList = new HashSet<>();
             for (int i = 0; i < len; i++) {
                 JSONObject tempDef = tempDefJson.getJSONObject(i);
                 Long storeId = tempDef.getLong("storeId");

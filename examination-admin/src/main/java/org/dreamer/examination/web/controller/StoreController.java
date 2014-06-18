@@ -105,7 +105,7 @@ public class StoreController {
         checkAndDeleteIndex(id);
         return "redirect:/store/list";
     }
-    @RequiresRoles(value = {"admin"})
+
     @RequestMapping(value = "/major")
     @ResponseBody
     public JSONPObject getMajorStore(String major, String callback) {

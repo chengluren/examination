@@ -8,7 +8,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">查看试卷<small>----考生${examVO.examStaffId},分数${examVO.finalScore}</small></h3>
+                        <h3 class="box-title">查看试卷<small>----考生${examVO.stuName},分数${examVO.finalScore}</small></h3>
                     </div>
                     <div class="box-body">
                         题型：<select id="quesTypes" name="quesType">

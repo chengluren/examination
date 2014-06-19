@@ -25,7 +25,7 @@ public class ScheduleDateVO {
         this.allDay = allDay;
     }
 
-    private Boolean allDay = false ;
+    private Boolean allDay = true ;
 
     public ScheduleDateVO(Long _id , String _title , Date _start , Date _end )
     {

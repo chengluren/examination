@@ -145,7 +145,8 @@
                 "startDate": {required: true},
                 "endDate": {required: true},
                 "major": {required: true},
-                "majorName":{required:true}
+                "majorName":{required:true},
+                "examTimeSpan":{required:true,digits:true,min:1}
             }
         });
     }

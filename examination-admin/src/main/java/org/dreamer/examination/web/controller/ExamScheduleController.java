@@ -185,7 +185,7 @@ public class ExamScheduleController {
             //scheduleData.setMajor(examScheduleViewVO.getMajor());
             scheduleData.setName(examScheduleViewVO.getName());
             scheduleData.setAdmissionYear(examScheduleViewVO.getAdmissionYear());
-
+            scheduleData.setExamTimeSpan(examScheduleViewVO.getExamTimeSpan());
             if (examScheduleViewVO.getTempid() != null) {
                 scheduleData.setTemplate(templateService.getExamTemplate(examScheduleViewVO.getTempid()));
             }

@@ -43,6 +43,8 @@ public class ExamSchedule implements Serializable {
     private String majorNames;
     //考试名称
     private String name;
+    //考试时长
+    public Integer examTimeSpan;
 
     public long getId() {
         return id;
@@ -114,5 +116,13 @@ public class ExamSchedule implements Serializable {
 
     public void setMajorNames(String majorNames) {
         this.majorNames = majorNames;
+    }
+
+    public Integer getExamTimeSpan() {
+        return examTimeSpan;
+    }
+
+    public void setExamTimeSpan(Integer examTimeSpan) {
+        this.examTimeSpan = examTimeSpan;
     }
 }

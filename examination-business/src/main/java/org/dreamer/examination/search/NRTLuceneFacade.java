@@ -11,6 +11,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.dreamer.examination.utils.SysUtils;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.io.File;
@@ -39,7 +40,7 @@ public class NRTLuceneFacade implements IndexAndSearchWrapper{
     private volatile long reopenToken;
 
     private NRTLuceneFacade() {
-        indexPath = "D:/exam/index";
+        indexPath = SysUtils.getConfigValue(P_INDEX_PATH);
         ramBufferSize = 1;
         analyzer = new IKAnalyzer(true);
         try {

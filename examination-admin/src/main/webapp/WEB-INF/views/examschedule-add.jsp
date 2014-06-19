@@ -55,6 +55,15 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="examTimeSpan" class="col-sm-2 control-label">考试时长(分钟)</label>
+
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="examTimeSpan" id="examTimeSpan"
+                                           placeholder="考试时长">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="majorName" class="col-sm-2 control-label">考试专业</label>
 
                                 <div class="col-sm-5">

@@ -18,15 +18,17 @@ public class ExamScheduleVO implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date endDate;
     private Long scheduleId;
+    private Integer examTimeSpan;
 
     public ExamScheduleVO() {
     }
 
-    public ExamScheduleVO(String name, Date startDate, Date endDate, Long scheduleId) {
+    public ExamScheduleVO(String name, Date startDate, Date endDate, Long scheduleId,Integer examTimeSpan) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.scheduleId = scheduleId;
+        this.examTimeSpan = examTimeSpan;
     }
 
     public String getName() {
@@ -59,5 +61,13 @@ public class ExamScheduleVO implements Serializable {
 
     public void setScheduleId(Long scheduleId) {
         this.scheduleId = scheduleId;
+    }
+
+    public Integer getExamTimeSpan() {
+        return examTimeSpan;
+    }
+
+    public void setExamTimeSpan(Integer examTimeSpan) {
+        this.examTimeSpan = examTimeSpan;
     }
 }

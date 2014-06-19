@@ -34,7 +34,7 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
 //            "between s.startDate and s.endDate order by s.startDate desc")
 //    public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
 
-    @Query("select new org.dreamer.examination.vo.ExamScheduleVO(s.name,s.startDate,s.endDate,s.id) " +
+    @Query("select new org.dreamer.examination.vo.ExamScheduleVO(s.name,s.startDate,s.endDate,s.id,s.examTimeSpan) " +
             "from ExamSchedule s,ScheduleMajor sm where s.id = sm.scheduleId and current_time() < s.endDate " +
             "and sm.majorId = ?1 and s.admissionYear = ?2 and s.degree = ?3")
     public List<ExamScheduleVO> findSchedule(String major,int admissionYear,Types.DegreeType degree);

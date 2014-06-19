@@ -36,6 +36,8 @@ public class ExamScheduleViewVO implements Serializable {
     //学历
     private int degree;
 
+    private Integer examTimeSpan;
+
     @Column(name = "temp_id")
     private Long tempid;
 
@@ -129,5 +131,13 @@ public class ExamScheduleViewVO implements Serializable {
 
     public void setMajorNames(String majorNames) {
         this.majorNames = majorNames;
+    }
+
+    public Integer getExamTimeSpan() {
+        return examTimeSpan;
+    }
+
+    public void setExamTimeSpan(Integer examTimeSpan) {
+        this.examTimeSpan = examTimeSpan;
     }
 }

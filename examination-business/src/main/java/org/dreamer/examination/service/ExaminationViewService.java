@@ -1,14 +1,8 @@
 package org.dreamer.examination.service;
 
 
-import org.dreamer.examination.entity.ExaminationViewNotPassVO;
-import org.dreamer.examination.entity.ExaminationViewPassRateVO;
-import org.dreamer.examination.entity.ExaminationViewPassVO;
-import org.dreamer.examination.entity.ExaminationViewVO;
-import org.dreamer.examination.repository.ExaminationViewDao;
-import org.dreamer.examination.repository.ExaminationViewNotPassDao;
-import org.dreamer.examination.repository.ExaminationViewPassDao;
-import org.dreamer.examination.repository.ExaminationViewPassRateDao;
+import org.dreamer.examination.entity.*;
+import org.dreamer.examination.repository.*;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +32,8 @@ public class ExaminationViewService {
 
     @Autowired
     private ExaminationViewPassRateDao examinationViewPassRateDao;
+    @Autowired
+    private StudentNotParticipateDao notParticipateDao;
 
     /**
      * 成绩查询
@@ -94,6 +90,17 @@ public class ExaminationViewService {
 
     public Double getAveragePassRate() {
         return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0 : examinationViewPassRateDao.getAveragePassRate();
+    }
+
+    /**
+     * 查询未参加考试的学生
+     * @param paramList
+     * @param sortList
+     * @param page
+     * @return
+     */
+    public Page<StudentNotParticipateView> getNotParticipateStudents(List<SqlQueryItem> paramList, List<SqlSortItem> sortList, Pageable page){
+        return notParticipateDao.queryResult(paramList,sortList,page);
     }
 
 }

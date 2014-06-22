@@ -11,6 +11,7 @@ import org.dreamer.examination.vo.ExamScheduleVO;
 import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -131,6 +132,17 @@ public class ExamScheduleService {
     public List<Integer> getStudentSessions() {
         return scheduleDao.findStudentSession();
     }
+
+    //======================获得学院下的考试计划=====================
+    public Page<Object[]> getCollegeSchedule(Long collegeId,String nameLike,Pageable page){
+        int offset = page.getOffset();
+        int size = page.getPageSize();
+        Long totalCount = scheduleDao.countForCollegeSchedule(collegeId,nameLike);
+        List<Object[]> content = scheduleDao.findCollegeSchedule(collegeId,nameLike,offset,size);
+        Page<Object[]> result = new PageImpl<>(content,page,totalCount);
+        return result;
+    }
+    //============================================================
 
     public void updateScheduleMajorNames(Long id){
         List<String> majors = scheduleMajorDao.findMajorNamesByScheduleId(id);

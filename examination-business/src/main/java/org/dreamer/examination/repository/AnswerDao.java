@@ -28,9 +28,15 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
             "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
     public List<AnswerJudgeVO> findCommitAndRealAnswer(long examId);
 
-    @Query("select a.quesId,q.answer,a.answer as realAnswer from Examination e,Answer a,Question q,PaperQuestion pq " +
-            "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
+//    @Query("select a.quesId,q.answer,a.answer as realAnswer from Examination e,Answer a,Question q,PaperQuestion pq " +
+//            "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
+//    public List<Object[]> findCommitAndRealAnswerArr(Long examId);
+
+    @Query(value = "select v.examId,v.answer,v.stuAnswer from v_exam_question_answers v where v.examId = ?1",nativeQuery = true)
     public List<Object[]> findCommitAndRealAnswerArr(Long examId);
+
+    @Query(value = "select v.quesType,v.typeQuestCount,v.correctCount from v_exam_answer_stats v where v.examId = ?1",nativeQuery = true)
+    public List<Object[]> findExamAnswerStat(Long examId);
 
     @Modifying
     @Query("update Answer set answer=:answer where examId=:examId and quesId=:quesId")

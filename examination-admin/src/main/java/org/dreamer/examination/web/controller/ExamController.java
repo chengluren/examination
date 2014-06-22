@@ -140,4 +140,42 @@ public class ExamController {
         }
         return new JSONPObject(callback, resultMap);
     }
+    @RequestMapping(value = "/examAnswersWithStats")
+    @ResponseBody
+    public JSONPObject examAnswerWithStats(Long examId,String callback) {
+        List<Object[]> answers = answerService.getCommitAndCorrectAnswers(examId);
+        List<Object[]> stats = answerService.getExamAnswerStats(examId);
+        Map<String,List<Map<String,?>>> result = new HashMap();
+        List<Map<String,?>> answerMap = convertAnswers(answers);
+        List<Map<String,?>> statMap = convertStats(stats);
+        result.put("stat",statMap);
+        result.put("answers",answerMap);
+        return  new JSONPObject(callback,result);
+    }
+
+    private List<Map<String,?>> convertAnswers(List<Object[]> result){
+        List<Map<String,?>> resultMap = new ArrayList();
+        for(Object[] record : result){
+            Map<String,Object> rm = new HashMap<>();
+            rm.put("id",record[0]);
+            rm.put("answer",record[1]);
+            rm.put("realAnswer",record[2]);
+            resultMap.add(rm);
+        }
+        return resultMap;
+    }
+
+    private List<Map<String,?>> convertStats(List<Object[]> result){
+        List<Map<String,?>> resultMap = new ArrayList();
+        for(Object[] record : result){
+            Map<String,Object> rm = new HashMap<>();
+            String qType = (String)record[0];
+            qType = qType.equals("Choice") ? "CH" :(qType.equals("TrueFalse") ? "TF" : "MC");
+            rm.put("qType",qType);
+            rm.put("quesCount",record[1]);
+            rm.put("correctCount",record[2]);
+            resultMap.add(rm);
+        }
+        return resultMap;
+    }
 }

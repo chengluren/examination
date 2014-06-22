@@ -7,11 +7,11 @@
     <section class="content-header">
         <h1>
             考试管理
-            <small>--考试记录查询</small>
+            <small>--考试通过查询</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="${ctx}/index"><i class="fa fa-dashboard"></i> 首页</a></li>
-            <li class="active">考试记录查询</li>
+            <li class="active">考试通过查询</li>
         </ol>
     </section>
 
@@ -21,36 +21,35 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">考试记录查询</h3>
+                        <h3 class="box-title">考试通过查询</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form class="form-horizontal" role="form"  method="post" action="${ctx}/examquery/list">
+                        <form class="form-horizontal" role="form"  method="post" action="${ctx}/examquery/notParticipate">
                             <div class="form-group">
-                                <label for="scheduleid" class="col-sm-2 control-label">考试名称:</label>
+                                <label for="scheduleId" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">
                                     <%--<select name="scheduleid" id="scheduleid" class="form-control" >--%>
-                                        <%--<option value="">请选择考试名称</option>--%>
-                                        <%--<c:forEach items="${schedulelist}" var="schedule">--%>
-                                            <%--<option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>--%>
-                                        <%--</c:forEach>--%>
+                                    <%--<option value="">请选择考试名称</option>--%>
+                                    <%--<c:forEach items="${schedulelist}" var="schedule">--%>
+                                    <%--<option value=${schedule.id} <c:if test="${query.scheduleid == schedule.id}">selected</c:if>>${schedule.name} </option>--%>
+                                    <%--</c:forEach>--%>
                                     <%--</select>--%>
-                                    <input type="hidden" name="scheduleid" id="scheduleid" value="${scheduleid}"/>
-                                    <input id="scheduleName" value="${scheduleName}" class="form-control" class="form-control" placeholder="请选择考试安排"/>
+                                    <input type="hidden" name="scheduleId" id="scheduleId" value="${scheduleId}"  />
+                                    <input id="scheduleName" value="${scheduleName}" class="form-control" class="form-control" placeholder="请选择考试安排" />
                                 </div>
 
-                                <label for="majorName" class="col-sm-1 control-label">专业:</label>
+                                <label for="stuMajor" class="col-sm-1 control-label">专业:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
-                                        <%--<input type="hidden" id="major" name="major"/>--%>
-                                        <%--<input id="majorName" name="majorName" type="text" readonly style="width:226px;height: 33px;" onclick="showMenu();"/>--%>
+                                    <%--<input type="text" value="${query.major}" class="form-control" id="major" name="major" placeholder="请输入专业">--%>
+                                    <input type="text" value="${query.stuMajor}" class="form-control" id="stuMajor" name="stuMajor" placeholder="请输入专业">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="className" class="col-sm-2 control-label">班级:</label>
+                                <label for="stuClassName" class="col-sm-2 control-label">班级:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" value="${query.className}" class="form-control" id="className" name="className" placeholder="请输入班级">
+                                    <input type="text" value="${query.stuClassName}" class="form-control" id="stuClassName" name="stuClassName" placeholder="请输入班级">
                                 </div>
 
                                 <label for="stuNo" class="col-sm-1 control-label">学号:</label>
@@ -66,45 +65,34 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>考试名称</th>
+                                <th>学 院</th>
+                                <th>专 业</th>
                                 <th>班 级</th>
                                 <th>学 号</th>
                                 <th>学 生</th>
-                                <th>分 数</th>
-                                <th>考试时间</th>
-                                <th>操 作</th>
                             </tr>
-                            <c:forEach items="${examrecord.content}" var="s" varStatus="st">
+                            <c:forEach items="${notParticipate.content}" var="s" varStatus="st">
                                 <tr>
                                     <td>${st.index+1}</td>
-                                    <td>${s.schedulename}</td>
-                                    <td>${s.className}</td>
+                                    <td>${s.scheduleName}</td>
+                                    <td>${s.collegeName}</td>
+                                    <td>${s.stuMajor}</td>
+                                    <td>${s.stuClassName}</td>
                                     <td>${s.stuNo}</td>
                                     <td>${s.stuName}</td>
-                                    <td>${s.finalScore}</td>
-                                    <td><fmt:formatDate value="${s.examStartTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                    <td>
-                                        <a class="btn btn-xs btn-flat" title="查看试卷" onclick="window.location.href='${ctx}/examquery/paper?examId=${s.id}';">
-                                            <i class="fa fa-file-text"></i>查看试卷
-                                        </a>
-                                    </td>
+
                                 </tr>
                             </c:forEach>
                         </table>
                     </div>
-                    <!-- /.box-body -->
                     <div class="box-footer" style="text-align: center;margin: 0">
                         <p class="pull-left">总记录数:<span>${totalCount}</span>,第(<span><c:choose><c:when test="${totalPage==0}">0</c:when><c:otherwise>${page}</c:otherwise></c:choose>/${totalPage}</span>)页</p>
                         <ul id="paginator" class="pagination">
                         </ul>
                     </div>
                 </div>
-                <!-- /.box -->
             </div>
 
         </div>
     </section>
-    <!-- /.content -->
 </aside>
-<%--<div id="majorContent" class="menuContent" style="display:none; position: absolute;">--%>
-    <%--<ul id="majorTree" class="ztree" style="margin-top:0; width:324px; height: 300px;"></ul>--%>
-<%--</div>--%>

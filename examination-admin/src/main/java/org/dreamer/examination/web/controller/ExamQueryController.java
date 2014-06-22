@@ -3,10 +3,8 @@ package org.dreamer.examination.web.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.business.*;
 import org.dreamer.examination.entity.*;
-import org.dreamer.examination.service.ExamScheduleService;
-import org.dreamer.examination.service.ExaminationService;
-import org.dreamer.examination.service.ExaminationViewService;
-import org.dreamer.examination.service.QuestionService;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
+import org.dreamer.examination.service.*;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.utils.Constants;
@@ -43,6 +41,8 @@ public class ExamQueryController {
     private ExaminationService examService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private RBACService rbacService;
 
     /**
      * 考试记录查询
@@ -72,6 +72,8 @@ public class ExamQueryController {
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
         }
+        setCollegeIdMap(map);
+
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
         examRecordVOs = examViewService.getExaminationByFilter(itemList, null, page);
@@ -97,6 +99,7 @@ public class ExamQueryController {
         } else {
             title = "学生考试记录表";
         }
+        setCollegeId(vo);
         ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
             response.reset();
@@ -134,6 +137,8 @@ public class ExamQueryController {
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
         }
+        setCollegeIdMap(map);
+
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
         examViewRecordVOs = examViewService.getExaminationPassByFilter(itemList, null, page);
@@ -158,6 +163,7 @@ public class ExamQueryController {
         } else {
             title = "考试通过记录表";
         }
+        setCollegeId(vo);
         ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
             response.reset();
@@ -202,6 +208,8 @@ public class ExamQueryController {
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
         }
+        setCollegeIdMap(map);
+
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
         examViewRecordVOs = examViewService.getExaminationNotPassByFilter(itemList, null, page);
@@ -227,6 +235,7 @@ public class ExamQueryController {
         } else {
             title = "考试未通过记录表";
         }
+        setCollegeId(vo);
         ExcelSettings settings = new ExcelSettings(title, Constants.EXAM_RECORD_COLUMNS);
         try {
             response.reset();
@@ -236,6 +245,73 @@ public class ExamQueryController {
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             creator.createExcel(settings, ((ExamNotPassExcelCreator) creator).new ExamNotPassDataProvider(), bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequestMapping(value = "/notParticipate")
+    public ModelAndView getNotParticipateStuList(StudentNotParticipateView vo,@PageableDefault Pageable page){
+        ModelAndView mv = new ModelAndView("exam.notParticipate-list");
+        Map<String, Object> map = new HashMap<>();
+        if (vo.getScheduleId() != null) {
+            map.put("scheduleId", vo.getScheduleId());
+            ExamSchedule schedule = scheduleService.getExamSchedule(vo.getScheduleId());
+            mv.addObject("scheduleName", schedule.getName());
+            mv.addObject("scheduleId", vo.getScheduleId());
+        }
+        if (StringUtils.isNotEmpty(vo.getStuMajor())) {
+            map.put("stuMajor-li", vo.getStuMajor());
+        }
+        if (StringUtils.isNotEmpty(vo.getStuClassName())) {
+            map.put("stuClassName-li", vo.getStuClassName());
+        }
+        if (StringUtils.isNotEmpty(vo.getStuNo())) {
+            map.put("stuNo-li", vo.getStuNo());
+        }
+        setCollegeIdMap(map);
+
+        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+        List<SqlQueryItem> itemList = builder.builder(map);
+        Page<StudentNotParticipateView>  notpstus = examViewService.getNotParticipateStudents(itemList,null,page);
+        mv.addObject("notParticipate", notpstus);
+        mv.addObject("page", notpstus.getNumber() + 1);
+        mv.addObject("totalPage", notpstus.getTotalPages());
+        mv.addObject("totalCount", notpstus.getTotalElements());
+        //mv.addObject("schedulelist", scheduleService.getAllSchedule());
+        //搜索参数
+        if (vo == null) {
+            vo = new StudentNotParticipateView();
+        }
+        mv.addObject("query", vo);
+        return mv;
+    }
+
+    @RequestMapping(value = "/notParticipateDownload")
+    public void downloadNotParticipate(StudentNotParticipateView vo, HttpServletResponse response) {
+        ExcelCreator creator = new NotParticipateExcelCreator(examViewService, vo);
+        String title = "";
+        if (vo != null && StringUtils.isNotEmpty(vo.getScheduleName())) {
+            title = vo.getScheduleName() + "考试未参考记录表";
+        } else {
+            title = "考试未参考记录表";
+        }
+        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
+        Long collegeId = user.getCollegeId();
+        if (collegeId!=null && collegeId !=-1){
+            vo.setCollegeId(collegeId);
+        }
+
+        ExcelSettings settings = new ExcelSettings(title, Constants.NOT_PARTICIPATE_COLUMNS);
+        try {
+            response.reset();
+            String fileName = title + ".xlsx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setContentType("application/octet-stream");
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            creator.createExcel(settings, ((NotParticipateExcelCreator) creator).new NotParticipateDataProvider(), bos);
             bos.flush();
             bos.close();
         } catch (IOException e) {
@@ -334,5 +410,23 @@ public class ExamQueryController {
             result.add(a);
         }
         return result;
+    }
+
+    private void setCollegeId(ExaminationViewBaseClass vo){
+        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
+        Long collegeId = user.getCollegeId();
+        if (collegeId!=null && collegeId !=-1){
+            vo.setCollegeId(collegeId);
+        }
+    }
+
+    private void setCollegeIdMap(Map<String,Object> map){
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            long collegeId = user.getCollegeId();
+            if(collegeId!=-1){
+                map.put("collegeId", collegeId);
+            }
+        }
     }
 }

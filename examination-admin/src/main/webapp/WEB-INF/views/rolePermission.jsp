@@ -9,7 +9,7 @@
             <small>角色权限管理</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 首页></a></li>
+            <li><a href="${ctx}/index"><i class="fa fa-dashboard"></i> 首页></a></li>
             <li class="active">角色权限</li>
         </ol>
     </section>

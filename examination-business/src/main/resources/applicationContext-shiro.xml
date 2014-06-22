@@ -53,6 +53,7 @@
                 /exam/scheduleExamRecords = anon
                 /exam/examRecords = anon
                 /exam/examAnswers = anon
+                /exam/examAnswersWithStats = anon
                 /train/sequenceLoad = anon
                 /train/randomLoad = anon
                 /index.jsp = anon

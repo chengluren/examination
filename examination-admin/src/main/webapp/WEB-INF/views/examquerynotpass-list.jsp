@@ -10,7 +10,7 @@
             <small>--未通过考试查询</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="${ctx}/home"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="${ctx}/index"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">未通过考试查询</li>
         </ol>
     </section>
@@ -65,6 +65,7 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>考试名称</th>
+                                <th>专 业</th>
                                 <th>班 级</th>
                                 <th>学 号</th>
                                 <th>学 生</th>
@@ -76,6 +77,7 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.schedulename}</td>
+                                    <td>${s.majorName}</td>
                                     <td>${s.className}</td>
                                     <td>${s.stuNo}</td>
                                     <td>${s.stuName}</td>

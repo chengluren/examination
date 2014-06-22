@@ -26,19 +26,11 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
 
     public int countByTemplateId(Long tempId);
 
-//    @Query("select s.template.id from ExamSchedule s where s.major = (:major) and  current_time() " +
-//            "between s.startDate and s.endDate order by s.startDate desc")
-//    public List<Long> findScheduleByDate(@Param("major")String major,Pageable p);
-
-//    @Query("from ExamSchedule s where s.major = (:major) and  current_time() " +
-//            "between s.startDate and s.endDate order by s.startDate desc")
-//    public List<ExamSchedule> findScheduleByDate(@Param("major")String major);
-
+    //去掉时间限制
     @Query("select new org.dreamer.examination.vo.ExamScheduleVO(s.name,s.startDate,s.endDate,s.id,s.examTimeSpan) " +
-            "from ExamSchedule s,ScheduleMajor sm where s.id = sm.scheduleId and current_time() < s.endDate " +
-            "and sm.majorId = ?1 and s.admissionYear = ?2 and s.degree = ?3")
+            "from ExamSchedule s,ScheduleMajor sm where s.id = sm.scheduleId " +
+            "and sm.majorId = ?1 and s.admissionYear = ?2 and s.degree = ?3 order by s.id desc ")
     public List<ExamScheduleVO> findSchedule(String major,int admissionYear,Types.DegreeType degree);
-
 
     @Query("select new org.dreamer.examination.vo.ScheduleDateVO( s.id , s.name,s.startDate,s.endDate  ) " +
             "from ExamSchedule s where s.startDate >= (:beginDate)  and s.endDate >= (:endDate) " +
@@ -48,6 +40,20 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule,Long>{
 
     @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session limit 100",nativeQuery = true)
     public List<Integer> findStudentSession();
+
+    //====================查找学院下的考试安排=====================
+    @Query(value = "select count(distinct sm.scheduleId) from " +
+            "schedule_majors sm,jiaoda_majors m,jiaoda_colleges c, exam_schedules s " +
+            "where sm.majorId = m.id and m.college_id = c.id and sm.scheduleId = s.id " +
+            "and c.id = ?1 and s.name like ?2", nativeQuery = true)
+    public Long countForCollegeSchedule(Long collegeId,String nameLike);
+
+    @Query(value = "select s.id,s.name,s.startDate from exam_schedules s where s.id in (" +
+            "select distinct (sm.scheduleId) from schedule_majors sm,jiaoda_majors m,jiaoda_colleges c " +
+            "where  sm.majorId = m.id and m.college_id = c.id and c.id = ?1 and s.name like ?2) " +
+            "order by s.startDate DESC limit ?3, ?4", nativeQuery = true)
+    public List<Object[]> findCollegeSchedule(Long collegeId,String nameLike,Integer offset,Integer size);
+    //===========================================================
 
     @Modifying
     @Query("update ExamSchedule set majorNames =:majorNames where id = :id")

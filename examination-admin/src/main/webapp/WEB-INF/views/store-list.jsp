@@ -10,7 +10,7 @@
             <small>--题库列表</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/home"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="${ctx}/index"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">题库列表</li>
         </ol>
     </section>

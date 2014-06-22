@@ -10,7 +10,7 @@
             <small>方案制定</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="${ctx}/index"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">方案制定</li>
         </ol>
     </section>

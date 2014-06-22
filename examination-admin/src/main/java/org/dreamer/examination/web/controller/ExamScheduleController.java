@@ -6,8 +6,10 @@ import org.dreamer.examination.entity.ExamSchedule;
 import org.dreamer.examination.entity.ExamScheduleViewVO;
 import org.dreamer.examination.entity.ExamTemplate;
 import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExamTemplateService;
+import org.dreamer.examination.service.RBACService;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
@@ -41,9 +43,10 @@ public class ExamScheduleController {
 
     @Autowired
     private ExamScheduleService examScheduleService;
-
     @Autowired
     private ExamTemplateService templateService;
+    @Autowired
+    private RBACService rbacService;
 
 //    private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
 
@@ -61,23 +64,16 @@ public class ExamScheduleController {
             }
             name = "%"+searchTerm+"%";
         }
-        Page<ExamSchedule> data = examScheduleService.getScheduleByName(name,p);
-        ComboGridData<Map<String,Object>> result = new ComboGridData<>();
-        result.setPage(data.getNumber()+1);
-        result.setTotal(data.getTotalPages());
-        result.setRecords(data.getNumberOfElements());
-        List<Map<String,Object>> listMap = new ArrayList<>();
-        List<ExamSchedule> content = data.getContent();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        for(ExamSchedule s : content){
-             Map<String,Object> map = new HashMap<>();
-            map.put("id",s.getId());
-            map.put("name",s.getName());
-            map.put("startDate",format.format(s.getStartDate()));
-            listMap.add(map);
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            Long collegeId = user.getCollegeId();
+            if (collegeId!=null && collegeId!=-1){
+                return getCollegeSchedule(collegeId,name,p);
+            }else{
+                return getAllSchedule(name,p);
+            }
         }
-        result.setRows(listMap);
-        return result;
+        return getAllSchedule(name,p);
     }
 
     /**
@@ -202,5 +198,43 @@ public class ExamScheduleController {
         return scheduleData;
     }
 
+    private ComboGridData<Map<String,Object>> getAllSchedule(String nameLike,Pageable p){
+        Page<ExamSchedule> data = examScheduleService.getScheduleByName(nameLike,p);
+        ComboGridData<Map<String,Object>> result = new ComboGridData<>();
+        result.setPage(data.getNumber()+1);
+        result.setTotal(data.getTotalPages());
+        result.setRecords(data.getNumberOfElements());
+        List<Map<String,Object>> listMap = new ArrayList<>();
+        List<ExamSchedule> content = data.getContent();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for(ExamSchedule s : content){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",s.getId());
+            map.put("name",s.getName());
+            map.put("startDate",format.format(s.getStartDate()));
+            listMap.add(map);
+        }
+        result.setRows(listMap);
+        return result;
+    }
 
+    private ComboGridData<Map<String,Object>> getCollegeSchedule(Long collegeId,String nameLike,Pageable p){
+        Page<Object[]> data = examScheduleService.getCollegeSchedule(collegeId, nameLike, p);
+        ComboGridData<Map<String,Object>> result = new ComboGridData<>();
+        result.setPage(data.getNumber()+1);
+        result.setTotal(data.getTotalPages());
+        result.setRecords(data.getNumberOfElements());
+        List<Map<String,Object>> listMap = new ArrayList<>();
+        List<Object[]> content = data.getContent();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        for(Object[] s : content){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",s[0]);
+            map.put("name",s[1]);
+            map.put("startDate",format.format(s[2]));
+            listMap.add(map);
+        }
+        result.setRows(listMap);
+        return result;
+    }
 }

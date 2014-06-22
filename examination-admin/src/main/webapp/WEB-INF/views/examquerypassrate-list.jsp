@@ -9,7 +9,7 @@
             <small>--考试成绩统计列表</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/home"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="/index"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li class="active">考试成绩统计列表</li>
         </ol>
     </section>

@@ -1,6 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.dreamer.examination.business.*;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.rbac.ShiroDatabaseRealm;
@@ -173,6 +174,33 @@ public class ExamQueryController {
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             creator.createExcel(settings, ((ExamPassExcelCreator) creator).new ExamPassDataProvider(), bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/passCertificateDownload")
+    public void downloadCertificate(ExaminationViewPassVO vo, HttpServletResponse response) {
+        String title = "";
+        if (vo != null && StringUtils.isNotEmpty(vo.getSchedulename())) {
+            title = vo.getSchedulename() + "考试合格证书";
+        } else {
+            title = "考试合格证书";
+        }
+        setCollegeId(vo);
+        try {
+            response.reset();
+            String fileName = title + ".docx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setContentType("application/octet-stream");
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+
+            CertificateCreator creator = new CertificateCreator(examViewService,vo);
+            XWPFDocument word = creator.create();
+            word.write(bos);
             bos.flush();
             bos.close();
         } catch (IOException e) {

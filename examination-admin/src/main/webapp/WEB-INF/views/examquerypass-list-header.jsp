@@ -49,6 +49,18 @@
                 url = encodeURI(url);
         window.location.href = url;
     }
+    function certificateDownload(){
+        var param = {
+            scheduleid: $("#scheduleid").val(),
+            majorName: $("#majorName").val(),
+            className: $("#className").val(),
+            stuNo: $("#stuNo").val()
+        };
+        var p = $.param(param),
+                url = "${ctx}/examquery/passCertificateDownload?"+ p,
+                url = encodeURI(url);
+        window.location.href = url;
+    }
 
     function initScheduleComboGrid() {
         $("#scheduleName").on("keyup",function(){

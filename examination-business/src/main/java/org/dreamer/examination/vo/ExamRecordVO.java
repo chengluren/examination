@@ -15,11 +15,14 @@ public class ExamRecordVO implements Serializable {
     private String examName;
     private float finalScore;
     private Date examDate;
+    private Date examCommitDate;
+    private Date scheduleStartDate;
+    private Date scheduleEndDate;
 
     public ExamRecordVO() {
     }
 
-    public ExamRecordVO(String staffId,Long examId, Long scheduleId,String examName,
+    public ExamRecordVO(String staffId, Long examId, Long scheduleId, String examName,
                         float finalScore, Date examDate) {
         this.staffId = staffId;
         this.examId = examId;
@@ -27,6 +30,20 @@ public class ExamRecordVO implements Serializable {
         this.examName = examName;
         this.finalScore = finalScore;
         this.examDate = examDate;
+    }
+
+    public ExamRecordVO(String staffId, Long examId, Long scheduleId, String examName,
+                        float finalScore, Date examDate, Date examCommitDate,
+                        Date scheduleStartDate, Date scheduleEndDate) {
+        this.staffId = staffId;
+        this.examId = examId;
+        this.scheduleId = scheduleId;
+        this.examName = examName;
+        this.finalScore = finalScore;
+        this.examDate = examDate;
+        this.examCommitDate = examCommitDate;
+        this.scheduleStartDate = scheduleStartDate;
+        this.scheduleEndDate = scheduleEndDate;
     }
 
     public String getStaffId() {
@@ -75,5 +92,29 @@ public class ExamRecordVO implements Serializable {
 
     public void setExamId(Long examId) {
         this.examId = examId;
+    }
+
+    public Date getExamCommitDate() {
+        return examCommitDate;
+    }
+
+    public void setExamCommitDate(Date examCommitDate) {
+        this.examCommitDate = examCommitDate;
+    }
+
+    public Date getScheduleStartDate() {
+        return scheduleStartDate;
+    }
+
+    public void setScheduleStartDate(Date scheduleStartDate) {
+        this.scheduleStartDate = scheduleStartDate;
+    }
+
+    public Date getScheduleEndDate() {
+        return scheduleEndDate;
+    }
+
+    public void setScheduleEndDate(Date scheduleEndDate) {
+        this.scheduleEndDate = scheduleEndDate;
     }
 }

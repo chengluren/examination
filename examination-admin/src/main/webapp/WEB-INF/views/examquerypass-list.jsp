@@ -59,6 +59,7 @@
 
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
                                 <button type="button" class="btn btn-primary btn-flat" onclick="examRecordDownload();">下载</button>
+                                <button type="button" class="btn btn-primary btn-flat" onclick="certificateDownload();">合格书</button>
                             </div>
                         </form>
                         <table class="table table-bordered table-hover">

@@ -32,7 +32,7 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
 //            "where a.examId =?1 and a.examId = e.id and e.paper.id = pq.paper.id and  a.quesId = q.id and a.quesId = pq.quesId")
 //    public List<Object[]> findCommitAndRealAnswerArr(Long examId);
 
-    @Query(value = "select v.examId,v.answer,v.stuAnswer from v_exam_question_answers v where v.examId = ?1",nativeQuery = true)
+    @Query(value = "select v.quesId,v.answer,v.stuAnswer from v_exam_question_answers v where v.examId = ?1",nativeQuery = true)
     public List<Object[]> findCommitAndRealAnswerArr(Long examId);
 
     @Query(value = "select v.quesType,v.typeQuestCount,v.correctCount from v_exam_answer_stats v where v.examId = ?1",nativeQuery = true)

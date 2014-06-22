@@ -41,16 +41,22 @@ public abstract class ExaminationViewBaseClass {
     private String stuNo;
 
     @Column(name = "passScore")
-    private Double passScore;
+    private Float passScore;
 
     @Column(name = "finalScore")
-    private Double finalScore;
+    private Float finalScore;
 
     @Column(name = "paperid")
     private String paperid;
 
     @Column(name = "examStartTime")
     private Date examStartTime;
+    @Column(name = "commitTime")
+    private Date examCommitTime;
+    @Column(name = "scheduleStartTime")
+    private Date scheduleStartTime;
+    @Column(name = "scheduleEndTime")
+    private Date scheduleEndTime;
 
     public Date getExamStartTime() {
         return examStartTime;
@@ -92,19 +98,19 @@ public abstract class ExaminationViewBaseClass {
         this.examStaffId = examStaffId;
     }
 
-    public Double getPassScore() {
+    public Float getPassScore() {
         return passScore;
     }
 
-    public void setPassScore(Double passScore) {
+    public void setPassScore(Float passScore) {
         this.passScore = passScore;
     }
 
-    public Double getFinalScore() {
+    public Float getFinalScore() {
         return finalScore;
     }
 
-    public void setFinalScore(Double finalScore) {
+    public void setFinalScore(Float finalScore) {
         this.finalScore = finalScore;
     }
 
@@ -171,5 +177,29 @@ public abstract class ExaminationViewBaseClass {
 
     public void setStuNo(String stuNo) {
         this.stuNo = stuNo;
+    }
+
+    public Date getExamCommitTime() {
+        return examCommitTime;
+    }
+
+    public void setExamCommitTime(Date examCommitTime) {
+        this.examCommitTime = examCommitTime;
+    }
+
+    public Date getScheduleStartTime() {
+        return scheduleStartTime;
+    }
+
+    public void setScheduleStartTime(Date scheduleStartTime) {
+        this.scheduleStartTime = scheduleStartTime;
+    }
+
+    public Date getScheduleEndTime() {
+        return scheduleEndTime;
+    }
+
+    public void setScheduleEndTime(Date scheduleEndTime) {
+        this.scheduleEndTime = scheduleEndTime;
     }
 }

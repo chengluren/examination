@@ -145,10 +145,15 @@ public class ExamController {
     public JSONPObject examAnswerWithStats(Long examId,String callback) {
         List<Object[]> answers = answerService.getCommitAndCorrectAnswers(examId);
         List<Object[]> stats = answerService.getExamAnswerStats(examId);
-        Map<String,List<Map<String,?>>> result = new HashMap();
+        Map<String,Object> result = new HashMap();
         List<Map<String,?>> answerMap = convertAnswers(answers);
         List<Map<String,?>> statMap = convertStats(stats);
-        result.put("stat",statMap);
+        Examination ex = examService.getExamination(examId);
+        Float finaScore = ex.getFinalScore();
+        Integer quesTotalCount = answers.size();
+        result.put("finaScore",finaScore);
+        result.put("quesTotalCount",quesTotalCount);
+        result.put("quesStat",statMap);
         result.put("answers",answerMap);
         return  new JSONPObject(callback,result);
     }

@@ -9,7 +9,7 @@
 
     <script>
         function takeExam() {
-            $.getJSON("http://localhost:8080/exam/new?staffId=395&major=8&scheduleId=2&callback=?",
+            $.getJSON("http://localhost:8080/exam/new?staffId=481&major=28&scheduleId=1&callback=?",
                     function (data) {
                         //console.log(data)
                         console.log(JSON.stringify(data));
@@ -60,29 +60,29 @@
         }
 
         function commitPaper() {
-            $.getJSON("http://localhost:8080/exam/commit?examId=1&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/commit?examId=50&callback=?", function (data) {
                 console.log(data);
             });
         }
 
         function getMajorStore() {
-            $.getJSON("http://localhost:8080/store/major?major=M001&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/store/major?major=28&callback=?", function (data) {
                 console.log(data);
             });
         }
         function getExamSchedule() {
-            $.getJSON("http://localhost:8080/exam/examSchedule?major=28&session=2013&degree=1&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examSchedule?major=28&session=2013&degree=0&callback=?", function (data) {
                 console.log(data);
             });
         }
         function getExamRecord() {
-            $.getJSON("http://localhost:8080/exam/examRecords?staffId=395&page=0&size=20&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examRecords?staffId=481&page=0&size=20&callback=?", function (data) {
                 console.log(data);
             });
         }
 
         function getExamRecord2() {
-            $.getJSON("http://localhost:8080/exam/scheduleExamRecords?staffId=395&scheduleId=2&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/scheduleExamRecords?staffId=481&scheduleId=1&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -92,17 +92,24 @@
                 console.log(data);
             });
         }
+
+        function getExamAnswerWithStats() {
+            $.getJSON("http://localhost:8080/exam/examAnswersWithStats?examId=1&callback=?", function (data) {
+                console.log(data);
+            });
+        }
 //                takeExam();
 //        getExamQuestions();
 //                        sequenceLoadQuestion();
 //                        randomLoadQuestion();
 //                commitAnswer();
-//                commitPaper();
-        //        getMajorStore();
-                getExamSchedule();
+                commitPaper();
+//                getMajorStore();
+//                getExamSchedule();
 //                getExamRecord();
 //        getExamRecord2();
 //        getExamAnswer();
+//        getExamAnswerWithStats();
     </script>
 </head>
 <body>

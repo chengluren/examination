@@ -23,14 +23,24 @@ public interface ExaminationDao extends CommonRepository<Examination,Long>{
     @Query(value = "select count(pq.id) from Examination e,PaperQuestion pq where e.id = :examId and e.paper.id= pq.paper.id")
     public int countExamPaperQuestion(@Param("examId")Long examId);
 
-    @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
-            "e.examStaffId,e.id,e.schedule.id,e.schedule.name,e.finalScore,e.examStartTime)  " +
-            "from Examination e where e.examStaffId = ?1 ")
-    public Page<ExamRecordVO> findStaffExamRecords(String staffId,Pageable page);
+//    @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
+//            "e.examStaffId,e.id,e.schedule.id,e.schedule.name,e.finalScore,e.examStartTime)  " +
+//            "from Examination e where e.examStaffId = ?1 ")
+//    public Page<ExamRecordVO> findStaffExamRecords(String staffId,Pageable page);
 
     @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
-            "e.examStaffId,e.id,e.schedule.id,e.schedule.name,e.finalScore,e.examStartTime)  " +
-            "from Examination e where e.examStaffId = ?1 and e.schedule.id = ?2 ")
+            "e.examStaffId,e.id,e.scheduleid,e.schedulename,e.finalScore,e.examStartTime,e.examCommitTime,e.scheduleStartTime,e.scheduleEndTime)  " +
+            "from ExaminationViewVO e where e.examStaffId = ?1 ")
+    public Page<ExamRecordVO> findStaffExamRecords(String staffId,Pageable page);
+
+//    @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
+//            "e.examStaffId,e.id,e.schedule.id,e.schedule.name,e.finalScore,e.examStartTime)  " +
+//            "from Examination e where e.examStaffId = ?1 and e.schedule.id = ?2 ")
+//    public List<ExamRecordVO> findStaffExamRecords(String staffId,Long scheduleId);
+
+    @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +
+            "e.examStaffId,e.id,e.scheduleid,e.schedulename,e.finalScore,e.examStartTime,e.examCommitTime,e.scheduleStartTime,e.scheduleEndTime)  " +
+            "from ExaminationViewVO e where e.examStaffId = ?1 and e.scheduleid = ?2 ")
     public List<ExamRecordVO> findStaffExamRecords(String staffId,Long scheduleId);
 
     @Query("select new org.dreamer.examination.vo.ExamRecordVO(" +

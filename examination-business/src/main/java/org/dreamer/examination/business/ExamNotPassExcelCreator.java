@@ -73,6 +73,9 @@ public class ExamNotPassExcelCreator extends AbstractExcelCreator<ExaminationVie
             if (StringUtils.isNotEmpty(queryParam.getStuNo())) {
                 map.put("stuNo", queryParam.getStuNo());
             }
+            if (queryParam.getCollegeId()!=null && queryParam.getCollegeId()!=-1){
+                map.put("collegeId",queryParam.getCollegeId());
+            }
             SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
             List<SqlQueryItem> itemList = builder.builder(map);
             return examService.getExaminationNotPassByFilter(itemList, null, page);

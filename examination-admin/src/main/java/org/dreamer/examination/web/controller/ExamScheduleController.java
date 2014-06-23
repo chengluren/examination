@@ -91,25 +91,25 @@ public class ExamScheduleController {
         ModelAndView mv = new ModelAndView("exam.examschedule-list");
         Page<ExamScheduleViewVO> examScheduleViewVOs = null;
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtils.isNotEmpty(name)) {
-            map.put("name-li", name);
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+             Long collegeId = user.getCollegeId();
+            if (collegeId!=null && collegeId!=-1){
+                examScheduleViewVOs = getCollegeSchedule(collegeId,name,tempid,page);
+            }else{
+                examScheduleViewVOs = getAllSchedule(name,tempid,page);
+            }
+        }else{
+            examScheduleViewVOs = getAllSchedule(name,tempid,page);
         }
         if (tempid != null) {
-            map.put("tempid", tempid);
             ExamTemplate template = templateService.getExamTemplate(tempid);
             if (template!=null){
                 mv.addObject("tempid",tempid);
                 mv.addObject("tempName",template.getName());
             }
         }
-        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
-        List<SqlQueryItem> itemList = builder.builder(map);
 
-        List<SqlSortItem> sortList = new ArrayList<SqlSortItem>();
-        sortList.add(new SqlSortItem("id", SqlSortType.DESC));
-
-        examScheduleViewVOs = examScheduleService.getScheduleByFilter(itemList, sortList, page);
         mv.addObject("schedulerecord", examScheduleViewVOs);
         mv.addObject("page", examScheduleViewVOs.getNumber() + 1);
         mv.addObject("totalPage", examScheduleViewVOs.getTotalPages());
@@ -236,5 +236,35 @@ public class ExamScheduleController {
         }
         result.setRows(listMap);
         return result;
+    }
+
+    private Page<ExamScheduleViewVO> getAllSchedule(String nameLike,Long tempid,Pageable page){
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isNotEmpty(nameLike)) {
+            map.put("name-li", nameLike);
+        }
+        if (tempid != null) {
+            map.put("tempid", tempid);
+        }
+        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+        List<SqlQueryItem> itemList = builder.builder(map);
+
+        List<SqlSortItem> sortList = new ArrayList<>();
+        sortList.add(new SqlSortItem("id", SqlSortType.DESC));
+        return examScheduleService.getScheduleByFilter(itemList, sortList, page);
+    }
+
+    private Page<ExamScheduleViewVO> getCollegeSchedule(Long collegeId,String nameLike,
+                                                        Long tempId,Pageable page){
+         if (StringUtils.isEmpty(nameLike)){
+             nameLike = "%";
+         }else{
+             nameLike ="%"+nameLike+"%";
+         }
+        if (tempId==null){
+            return examScheduleService.getCollegeScheduleAll(collegeId,nameLike,page);
+        }else{
+            return examScheduleService.getCollegeScheduleAll(collegeId,nameLike,tempId,page);
+        }
     }
 }

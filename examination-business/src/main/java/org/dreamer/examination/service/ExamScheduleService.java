@@ -142,6 +142,15 @@ public class ExamScheduleService {
         Page<Object[]> result = new PageImpl<>(content,page,totalCount);
         return result;
     }
+
+    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId,String nameLike,Pageable page){
+        return scheduleDao.findCollegeSchedule(collegeId,nameLike,page);
+    }
+
+    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId,String nameLike,
+                                                          Long tempId,Pageable page){
+        return scheduleDao.findCollegeSchedule(collegeId,nameLike,tempId,page);
+    }
     //============================================================
 
     public void updateScheduleMajorNames(Long id){

@@ -1,5 +1,6 @@
 package org.dreamer.examination.web.controller;
 
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.service.*;
 import org.dreamer.examination.vo.ScheduleDateVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,21 +39,25 @@ public class IndexController {
 
     @Autowired
     ExaminationViewService examinationService;
+    @Autowired
+    private RBACService rbacService;
 
     @RequestMapping(value = "index")
     public ModelAndView index() {
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH,1);
-        Date monthAfter = calendar.getTime();
+//        Date now = new Date();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(now);
+//        calendar.add(Calendar.MONTH, 1);
+//        Date monthAfter = calendar.getTime();
+        Date start = getFirstOfMonth();
+        Date end = getLastDayOfMonth();
 
-        List<ScheduleDateVO> scheduleList = scheduleService.getScheduleDataByData(now,monthAfter);
+        List<ScheduleDateVO> scheduleList = getScheduleByDate(start,end);
         ModelAndView mv = new ModelAndView("exam.home");
         mv.addObject("store_count", storeService.getStoreCount());
         mv.addObject("question_count", questionService.getQuestionCount());
         mv.addObject("template_count", templateService.getTemplateCount());
-        mv.addObject("schedule_count",scheduleList.size());
+        mv.addObject("schedule_count", scheduleList.size());
 
 //        mv.addObject("paper_count", paperService.getPaperCount());
 //        mv.addObject("average_passrate", examinationService.getAveragePassRate());
@@ -67,24 +72,8 @@ public class IndexController {
         end = end + "000";
         Date beginDate = new Date(Long.valueOf(start));
         Date endDate = new Date(Long.valueOf(end));
-        List<ScheduleDateVO> scheduleList = scheduleService.getScheduleDataByData(beginDate, endDate);
-        return scheduleList;
+        return getScheduleByDate(beginDate,endDate);
     }
-   /*
-    @RequestMapping(value = "getCalenDarDate",method = {RequestMethod.GET,RequestMethod.POST} )
-    @ResponseBody
-    public String getCurrentDate( HttpServletRequest _request ){
-        Enumeration<String> keySet = _request.getParameterNames();
-        while ( keySet.hasMoreElements() )
-        {
-            String key = keySet.nextElement();
-            Object val = _request.getParameter(key);
-            System.out.println( "key:" + key + "==value:" + val );
-        }
-
-        return "";
-    }
-    */
 
     private String getServerDate() {
         String dateStr = "";
@@ -100,5 +89,30 @@ public class IndexController {
         return sdf.format(date);
     }
 
+    private Date getFirstOfMonth(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH,1);
+        return c.getTime();
+    }
 
+    private Date getLastDayOfMonth(){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return c.getTime();
+    }
+
+    private List<ScheduleDateVO> getScheduleByDate(Date beginDate,Date endDate){
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user != null) {
+            Long collegeId = user.getCollegeId();
+            if (collegeId != null && collegeId != -1) {
+                return scheduleService.getCollegeScheduleByDate(collegeId, beginDate, endDate);
+            } else {
+                return scheduleService.getScheduleDataByData(beginDate, endDate);
+            }
+        } else {
+            return scheduleService.getScheduleDataByData(beginDate, endDate);
+        }
+    }
 }

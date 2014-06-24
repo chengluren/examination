@@ -77,9 +77,9 @@ public class ExamScheduleService {
 //        return (list != null && list.size() == 1) ? list.get(0) : null;
 //    }
 
-    public List<ExamScheduleVO> getExamSchedule(String major,int admissionYear,String degree) {
-        Types.DegreeType degreeType = (degree!=null&&degree.equals("0")) ? Types.DegreeType.Bachelor : Types.DegreeType.Master;
-        return scheduleDao.findSchedule(major,admissionYear,degreeType);
+    public List<ExamScheduleVO> getExamSchedule(String major, int admissionYear, String degree) {
+        Types.DegreeType degreeType = (degree != null && degree.equals("0")) ? Types.DegreeType.Bachelor : Types.DegreeType.Master;
+        return scheduleDao.findSchedule(major, admissionYear, degreeType);
     }
 
     /**
@@ -129,35 +129,39 @@ public class ExamScheduleService {
         return scheduleList;
     }
 
+    public List<ScheduleDateVO> getCollegeScheduleByDate(Long collegeId,Date begin, Date end){
+        return scheduleDao.findCollegeScheduleByDateFilter(collegeId,begin,end);
+    }
+
     public List<Integer> getStudentSessions() {
         return scheduleDao.findStudentSession();
     }
 
     //======================获得学院下的考试计划=====================
-    public Page<Object[]> getCollegeSchedule(Long collegeId,String nameLike,Pageable page){
+    public Page<Object[]> getCollegeSchedule(Long collegeId, String nameLike, Pageable page) {
         int offset = page.getOffset();
         int size = page.getPageSize();
-        Long totalCount = scheduleDao.countForCollegeSchedule(collegeId,nameLike);
-        List<Object[]> content = scheduleDao.findCollegeSchedule(collegeId,nameLike,offset,size);
-        Page<Object[]> result = new PageImpl<>(content,page,totalCount);
+        Long totalCount = scheduleDao.countForCollegeSchedule(collegeId, nameLike);
+        List<Object[]> content = scheduleDao.findCollegeSchedule(collegeId, nameLike, offset, size);
+        Page<Object[]> result = new PageImpl<>(content, page, totalCount);
         return result;
     }
 
-    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId,String nameLike,Pageable page){
-        return scheduleDao.findCollegeSchedule(collegeId,nameLike,page);
+    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId, String nameLike, Pageable page) {
+        return scheduleDao.findCollegeSchedule(collegeId, nameLike, page);
     }
 
-    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId,String nameLike,
-                                                          Long tempId,Pageable page){
-        return scheduleDao.findCollegeSchedule(collegeId,nameLike,tempId,page);
+    public Page<ExamScheduleViewVO> getCollegeScheduleAll(Long collegeId, String nameLike,
+                                                          Long tempId, Pageable page) {
+        return scheduleDao.findCollegeSchedule(collegeId, nameLike, tempId, page);
     }
     //============================================================
 
-    public void updateScheduleMajorNames(Long id){
+    public void updateScheduleMajorNames(Long id) {
         List<String> majors = scheduleMajorDao.findMajorNamesByScheduleId(id);
-        if (majors!=null && majors.size()>0){
+        if (majors != null && majors.size() > 0) {
             String majorNames = Joiner.on(",").join(majors);
-            scheduleDao.updateScheduleMajorNames(id,majorNames);
+            scheduleDao.updateScheduleMajorNames(id, majorNames);
         }
     }
 

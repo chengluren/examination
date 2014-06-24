@@ -54,6 +54,10 @@
         $("#confModal").modal({
             show: false
         });
+        $("#confModal").on("shown.bs.modal",function(){
+            $("#confStoreId").trigger("change");
+            chosenStat();
+        });
     }
     function initValidator() {
         return $("#tempConfForm").validate({
@@ -63,6 +67,36 @@
             }
         });
     }
+    // =====================题数和分数的统计=========================
+    function chosenStat(){
+        var mcCount = mcq.length;
+        var mcScores = 0;
+        for(var i=0;i<mcqs.length;i++){
+            mcScores += parseInt(mcqs[i]);
+        }
+        var chStat = typeQuesStat("#chContainer div");
+        var mcStat = typeQuesStat("#mcContainer div");
+        var tfStat = typeQuesStat("#tfContainer div");
+        var count = chStat[0]+mcStat[0]+tfStat[0],
+            score = chStat[1]+mcStat[1]+tfStat[1],
+            totalCount = mcCount + count,
+            totalScore = mcScores + score;
+        $("#chosenInfo").text("共选 "+totalCount+" 道试题，共计 "+totalScore+" 分。其中必考题 "+mcCount+" 道，随机题 "+count+" 道。");
+    }
+    function typeQuesStat(div){
+        var typeCount = 0,
+            typeScore = 0;
+        $(div).each(function(){
+            var as = $(this).children(),
+                count = $(as[1]).attr("count"),
+                score = $(as[2]).attr("score"),
+                totalScore = parseInt(count) * parseInt(score);
+            typeCount += parseInt(count);
+            typeScore += totalScore;
+        });
+        return [typeCount,typeScore];
+    }
+    //===========================================================
     function createChosen(el, width) {
         $(el).chosen({
             no_results_text: "没有找到",
@@ -97,6 +131,20 @@
         }
         return false;
     }
+    function bindStoreSelectChangeEvent(){
+        $("#confStoreId").on("change",function(){
+            var sid = $("#confStoreId").val(),
+                tableId = $("#modalTitle").attr("tid"),
+                quesType = tableId.substring(0,2).toUpperCase();
+            $.getJSON("${ctx}/question/countForStoreTypeNotMust",{
+                storeId:sid,
+                quesType:quesType
+            },function(data){
+                $("#quesCountInfo").text("共( "+data.count+" )道试题可选.");
+            });
+        });
+    }
+
     function bindConfConfirmEvent() {
         $("#confConfirm").on("click", function () {
             var valid = $("#tempConfForm").valid();
@@ -344,5 +392,6 @@
         bindConfConfirmEvent();
         bindSelectChangeEvent();
         bindAllCheckEvent();
+        bindStoreSelectChangeEvent();
     });
 </script>

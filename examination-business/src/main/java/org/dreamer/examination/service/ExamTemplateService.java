@@ -88,7 +88,7 @@ public class ExamTemplateService {
         return templateDao.findTemplateBaseInfo(tempId);
     }
 
-    public Page<List<Object[]>> getExamTemplateMustChooseDef(Long tempId, Pageable pageable) {
+    public Page<Object[]> getExamTemplateMustChooseDef(Long tempId, Pageable pageable) {
         return mustChooseDefDao.findMustChooseDefs(tempId, pageable);
     }
 

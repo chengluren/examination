@@ -31,5 +31,5 @@ public interface MustChooseQuestionDefDao extends JpaRepository<MustChooseQuesti
 
     @Query("select d.id,d.questionId,q.stem,q.answer,d.quesScore,d.questionType " +
             "from MustChooseQuestionDef d,Question q where d.questionId = q.id and d.template.id = ?1")
-    public Page<List<Object[]>> findMustChooseDefs(Long tempId,Pageable pageable);
+    public Page<Object[]> findMustChooseDefs(Long tempId,Pageable pageable);
 }

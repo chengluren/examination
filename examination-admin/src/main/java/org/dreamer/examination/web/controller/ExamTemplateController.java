@@ -1,5 +1,6 @@
 package org.dreamer.examination.web.controller;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.service.ExamScheduleService;
@@ -112,7 +113,7 @@ public class ExamTemplateController {
     @RequestMapping(value = "/mc/list", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Map<String, Object> tempMustChoseList(Long tempId, Pageable page) {
-        Page<List<Object[]>> mustChoose = templateService.getExamTemplateMustChooseDef(tempId, page);
+        Page<Object[]> mustChoose = templateService.getExamTemplateMustChooseDef(tempId, page);
         Map<String, Object> result = new HashMap<>();
         result.put("totalPage", mustChoose.getTotalPages());
         result.put("page", mustChoose.getNumber());
@@ -127,11 +128,16 @@ public class ExamTemplateController {
         List<Object[]> baseInfo = templateService.getExamTemplateInfo(tempId);
 
         Pageable p = new PageRequest(0, 10);
-        Page<List<Object[]>> mcDefs = templateService.getExamTemplateMustChooseDef(tempId, p);
+        Page<Object[]> mcDefs = templateService.getExamTemplateMustChooseDef(tempId, p);
+        Page<Object[]> allMcDefs = templateService.getExamTemplateMustChooseDef(tempId, null);
         List<Object[]> tempQuesDefs = templateService.getExamTemplateQuesDef(tempId);
         if (baseInfo != null && baseInfo.size() > 0) {
             mv.addObject("baseInfo", baseInfo.get(0));
             mv.addObject("mcDefs", mcDefs.getContent());
+            String[] mcqInfo = parseMustChooseInfo(allMcDefs.getContent());
+            mv.addObject("mcq",mcqInfo[0]);
+            mv.addObject("mcqs",mcqInfo[1]);
+            mv.addObject("mcqt",mcqInfo[2]);
             mv.addObject("mcDefsPage", 0);
             mv.addObject("mcDefsTotalPage", mcDefs.getTotalPages());
             mv.addObject("tempQuesDefs", tempQuesDefs);
@@ -180,7 +186,15 @@ public class ExamTemplateController {
                 JSONObject jo = jarr.getJSONObject(i);
                 Long quesId = jo.getLong("quesId");
                 String quesType = jo.getString("quesType");
-                String score = jo.getString("score");
+                Object scoreObj = jo.get("score");
+                String score = "1";
+                if (scoreObj instanceof String){
+                     score = (String)scoreObj;
+                }else if (scoreObj instanceof  Integer){
+                    score = String.valueOf((Integer)scoreObj);
+                }else if (scoreObj instanceof  Float){
+                    score = String.valueOf((Float)scoreObj);
+                }
                 MustChooseQuestionDef def = new MustChooseQuestionDef(quesId,
                         Types.QuestionType.getTypeFromShortName(quesType), Float.valueOf(score));
                 defs.add(def);
@@ -252,7 +266,6 @@ public class ExamTemplateController {
         return result;
     }
 
-
     private ExamTemplate parseJsonToTemplate(JSONObject json) {
         ExamTemplate template = new ExamTemplate();
         String name = json.getString("name");
@@ -300,6 +313,35 @@ public class ExamTemplateController {
         }
 
         return template;
+    }
 
+    private String[] parseMustChooseInfo(List<Object[]> data){
+        if (data!=null && data.size()>0){
+            StringBuffer mcq = new StringBuffer("[");
+            StringBuffer mcqs = new StringBuffer("[");
+            StringBuffer mcqt = new StringBuffer("[");
+            for (int i=0;i<data.size();i++){
+                mcq.append(data.get(i)[1]+",");
+                mcqs.append(data.get(i)[4]+",");
+                String qType = data.get(i)[5].toString();
+                qType = qType.equals("Choice") ? "CH" :(qType.equals("TrueFalse") ? "TF" : "MC");
+                mcqt.append("'"+qType+"',");
+            }
+            if(mcq.charAt(mcq.length()-1)==','){
+                mcq.deleteCharAt(mcq.length()-1);
+            }
+            if(mcqs.charAt(mcqs.length()-1)==','){
+                mcqs.deleteCharAt(mcqs.length()-1);
+            }
+            if(mcqt.charAt(mcqt.length()-1)==','){
+                mcqt.deleteCharAt(mcqt.length()-1);
+            }
+            mcq.append("]");
+            mcqs.append("]");
+            mcqt.append("]");
+            return new String[]{mcq.toString(),mcqs.toString(),mcqt.toString()};
+        }else{
+            return new String[]{"[]","[]","[]"};
+        }
     }
 }

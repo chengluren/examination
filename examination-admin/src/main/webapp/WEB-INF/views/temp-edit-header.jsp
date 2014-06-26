@@ -46,7 +46,7 @@
 
     <td class="text-center">{{:#data[4]}}</td>
     <td class="text-center">
-    <a class="btn btn-primary btn-xs" onclick="deleteMustChoose({{:#data[0]}})">
+    <a class="btn btn-primary btn-xs" onclick="deleteMustChoose({{:#data[0]}},{{:#data[1]}})">
     <i class="fa fa-times"></i>
     </a>
     </td>
@@ -65,16 +65,19 @@
 
     var tempId = ${baseInfo[0]};
     var mcDefsTotalPage = ${mcDefsTotalPage};
-    var mcq = [],
-        mcqs = [],
-        mcqt =[];
+    var mcq = ${mcq},
+        mcqs = ${mcqs},
+        mcqt =${mcqt},
+        nmcq = [],
+        nmcqs = [],
+        nmcqt = [];
 
     // =====================题数和分数的统计=========================
     function chosenStat(){
         var mcCount = mcq.length;
         var mcScores = 0;
         for(var i=0;i<mcqs.length;i++){
-            mcScores += parseInt(mcqs[i]);
+            mcScores += mcqs[i];
         }
         var chStat = typeQuesStat("#chContainer div");
         var mcStat = typeQuesStat("#mcContainer div");
@@ -190,30 +193,30 @@
 
     function bindAddMustChooseBtnEvent(){
         $("#addMCBtn").on('click',function(){
-            mcq = []; mcqs = []; mcqt =[];
+            nmcq = []; nmcqs = []; nmcqt =[];
             loadMustChooseData(0,5);
             $('#mcModal').modal('show');
         });
     }
 
     function bindCheckboxChangeEvent(){
-        $("input[name=idCheckbox]").on("change",function(){
+        $("input[name='idCheckbox']").on("change",function(){
             var qid = $(this).attr("qid");
             var sel = $(this).parent().parent().children("td.text-center")[1],
                     iel= $(sel).children()[0],
                     score = $(iel).val();
             if(this.checked){
-                if($.inArray(qid,mcq)==-1){
-                    mcq.push(qid);
-                    mcqs.push(score);
-                    mcqt.push($("#mcqt").val());
+                if($.inArray(qid,nmcq)==-1){
+                    nmcq.push(qid);
+                    nmcqs.push(parseInt(score));
+                    nmcqt.push($("#mcqt").val());
                 }
             }else{
-                var idx = $.inArray(qid,mcq);
+                var idx = $.inArray(qid,nmcq);
                 if(idx!=-1){
-                    mcq.splice(idx,1);
-                    mcqs.splice(idx,1);
-                    mcqt.splice(idx,1);
+                    nmcq.splice(idx,1);
+                    nmcqs.splice(idx,1);
+                    nmcqt.splice(idx,1);
                 }
             }
         });
@@ -222,20 +225,19 @@
             var fel = $(this).parent().parent().children()[0],
                     cel = $(fel).children()[0],
                     sid = $(cel).attr("qid"),
-                    idx = $.inArray(sid,mcq);
+                    idx = $.inArray(sid,nmcq);
             if($.isNumeric(score)&&parseInt(score)>0){
                 if(idx!=-1){
-                    mcqs.splice(idx,1,score);
+                    nmcqs.splice(idx,1,parseInt(score));
                 }
             }else{
                 alert("请输入大于0的整数！");
                 if(idx!=-1){
-                    $(this).val(mcqs[idx]);
+                    $(this).val(nmcqs[idx]);
                 }else{
                     $(this).val(1);
                 }
             }
-
         });
     }
 
@@ -254,7 +256,7 @@
     }
 
     //action
-    function deleteMustChoose(id) {
+    function deleteMustChoose(id,quesId) {
         if (window.confirm("您确定要删除该必考题吗？")) {
             $.ajax({
                 url: "${ctx}/template/mc/delete",
@@ -266,6 +268,12 @@
                     if (data.success) {
                         var page = $("#paginator").bootstrapPaginator("getPages").current;
                         loadTemplateMustChooseData(tempId,(page-1));
+                        var idx = $.inArray(quesId,mcq);
+                        if(idx!=-1){
+                            mcq.splice(idx,1);
+                            mcqs.splice(idx,1);
+                            mcqt.splice(idx,1);
+                        }
                     }else{
                         alert(data.message);
                     }
@@ -334,29 +342,31 @@
                 }
             });
         }
-
     }
 
     function reMark(){
-        $.each(mcq,function(idx,val){
+        $.each(nmcq,function(idx,val){
             var sel =$("#mcConfTableBody input[qid="+val+"]");
             if(sel){
                 sel.attr("checked","checked");
                 var tdel = sel.parent().parent().children("td.text-center")[1],
                         iel = $(tdel).children()[0];
-                $(iel).val(mcqs[idx]);
+                $(iel).val(nmcqs[idx]);
             }
         });
     }
 
     function collectMustChooseData(){
         var mcdef =[];
-        $.each(mcq,function(idx,val){
+        $.each(nmcq,function(idx,val){
             var obj = {};
             obj.quesId= val;
-            obj.quesType=mcqt[idx];
-            obj.score = mcqs[idx];
+            obj.quesType=nmcqt[idx];
+            obj.score = nmcqs[idx];
             mcdef.push(obj);
+            mcq.push(val);
+            mcqs.push(nmcqt[idx]);
+            mcqt.push(nmcqs[idx]);
         });
         return {'tempId':tempId,'mcs':mcdef};
     }

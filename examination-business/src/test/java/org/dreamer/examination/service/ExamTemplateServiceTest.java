@@ -79,7 +79,7 @@ public class ExamTemplateServiceTest {
     @Test
     public void testDeleteDefs(){
         templateService.deleteTemplateMustChoose(1);
-        Page<List<Object[]>> p = templateService.getExamTemplateMustChooseDef(0L,new PageRequest(0,10));
+        Page<Object[]> p = templateService.getExamTemplateMustChooseDef(0L,new PageRequest(0,10));
 
     }
 }

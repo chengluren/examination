@@ -60,10 +60,16 @@
         });
     }
     function initValidator() {
-        return $("#tempConfForm").validate({
+        $("#tempConfForm").validate({
             rules: {
                 "confCount": {required: true, number: true},
                 "confScore": {required: true, number: true}
+            }
+        });
+        $("#baseInfoForm").validate({
+            rules: {
+                "name": {required: true},
+                "passScore": {required: true, number: true,min:90}
             }
         });
     }

@@ -483,7 +483,7 @@
         $("#baseInfoForm").validate({
             rules: {
                 "name": {required: true},
-                "passScore": {required: true, number: true}
+                "passScore": {required: true, number: true,min:90}
             }
         });
     }

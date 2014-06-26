@@ -195,6 +195,7 @@
                                 </c:forEach>
                             </select>
                         </div>
+                        <span id="quesCountInfo" style="color: red"></span>
                     </div>
                     <div class="form-group">
                         <label for="confCount" class="col-sm-2 control-label">题数</label>
@@ -211,6 +212,7 @@
                         </div>
                     </div>
                 </form>
+                <span id="chosenInfo" style="color: red"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

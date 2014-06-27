@@ -3,9 +3,11 @@ package org.dreamer.examination.web.controller;
 import com.google.common.base.Joiner;
 import org.apache.commons.lang3.StringUtils;
 import org.dreamer.examination.entity.*;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExamTemplateService;
 import org.dreamer.examination.service.QuestionStoreService;
+import org.dreamer.examination.service.RBACService;
 import org.dreamer.examination.vo.BaseInfoVO;
 import org.dreamer.examination.vo.ComboGridData;
 import org.json.JSONArray;
@@ -38,6 +40,8 @@ public class ExamTemplateController {
     private ExamTemplateService templateService;
     @Autowired
     private ExamScheduleService scheduleService;
+    @Autowired
+    private RBACService rbacService;
 
     @RequestMapping(value = "/all")
     @ResponseBody
@@ -64,7 +68,8 @@ public class ExamTemplateController {
     @RequestMapping(value = "/new")
     public ModelAndView newExamTemplate() {
         ModelAndView mv = new ModelAndView("exam.temp-new");
-        List<QuestionStore> stores = storeService.getAll();
+//        List<QuestionStore> stores = storeService.getAll();
+        List<QuestionStore> stores = getStore();
         mv.addObject("stores", stores);
         return mv;
     }
@@ -124,7 +129,8 @@ public class ExamTemplateController {
     @RequestMapping(value = "/edit")
     public ModelAndView editTemplate(Long tempId) {
         ModelAndView mv = new ModelAndView("exam.temp-edit");
-        List<QuestionStore> stores = storeService.getAll();
+//        List<QuestionStore> stores = storeService.getAll();
+        List<QuestionStore> stores = getStore();
         List<Object[]> baseInfo = templateService.getExamTemplateInfo(tempId);
 
         Pageable p = new PageRequest(0, 10);
@@ -342,6 +348,20 @@ public class ExamTemplateController {
             return new String[]{mcq.toString(),mcqs.toString(),mcqt.toString()};
         }else{
             return new String[]{"[]","[]","[]"};
+        }
+    }
+
+    private List<QuestionStore> getStore(){
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            Long collegeId = user.getCollegeId();
+            if (collegeId!=null&& collegeId!=-1){
+                return storeService.getCollegeStore(collegeId);
+            }else{
+                return storeService.getAll();
+            }
+        }else {
+            return storeService.getAll();
         }
     }
 }

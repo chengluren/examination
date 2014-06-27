@@ -69,6 +69,12 @@ public class QuestionStoreService {
         return questionStoreDao.findAll();
     }
 
+    public List<QuestionStore> getCollegeStore(Long collegeId) {
+        List<QuestionStore> generic = questionStoreDao.findByGeneric(true);
+        generic.addAll(questionStoreDao.findStoreForCollege(collegeId));
+        return generic;
+    }
+
     public QuestionStore getStore(long id) {
         return questionStoreDao.findOne(id);
     }

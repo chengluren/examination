@@ -105,12 +105,18 @@
 
     //event bind
     function bindBaseInfoChangeEvent() {
-        $("#baseInfoForm input").on("change ifChanged", function () {
+        $("#baseInfoForm input").on("change ifChecked ifUnchecked", function (event) {
             var valid = $("#baseInfoForm").valid();
             if (valid) {
                 var name = $("#name").val(),
-                        passScore = $("#passScore").val(),
+                        passScore = $("#passScore").val();
+                        //mixedIn = $("#multiChoiceMixedInChoice").val();
                         mixedIn = $("#multiChoiceMixedInChoice").parent().attr("aria-checked") == "true" ? false : true;
+                if(event.type && event.type=='ifChecked'){
+                    mixedIn = true;
+                }else if(event.type && event.type=='ifUnchecked'){
+                    mixedIn = false;
+                }
                 $.post("${ctx}/template/update", {
                     tempId: tempId,
                     name: name,

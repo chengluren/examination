@@ -23,6 +23,11 @@ public interface QuestionStoreDao extends JpaRepository<QuestionStore, Long> {
     @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and r.major = :major")
     public List<QuestionStore> findStoreForMajor(@Param("major") String major);
 
+    @Query(value = "SELECT s FROM QuestionStore s where s.id in (" +
+            "select distinct ms.storeId from MajorStoreRelation ms where cast(ms.major as long) in (" +
+            "select m.id from Major m where m.college.id = ?1))")
+    public List<QuestionStore> findStoreForCollege(Long collegeId);
+
     public List<QuestionStore> findByGeneric(boolean generic);
 
     @Query(value = "select new org.dreamer.examination.vo.QuestionStoreVO(s.id,s.name,(" +

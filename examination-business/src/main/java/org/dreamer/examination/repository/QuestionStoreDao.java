@@ -21,10 +21,10 @@ public interface QuestionStoreDao extends JpaRepository<QuestionStore, Long> {
     public Page<QuestionStore> findStoreForMajor(@Param("major") String major, Pageable pageable);
 
     @Query(value = "SELECT s FROM QuestionStore s, MajorStoreRelation r where s.id = r.storeId and r.major = :major")
-    public List<QuestionStore> findStoreForMajor(@Param("major") String major);
+    public List<QuestionStore> findStoreForMajor(@Param("major") Long major);
 
     @Query(value = "SELECT s FROM QuestionStore s where s.id in (" +
-            "select distinct ms.storeId from MajorStoreRelation ms where cast(ms.major as long) in (" +
+            "select distinct ms.storeId from MajorStoreRelation ms where ms.major in (" +
             "select m.id from Major m where m.college.id = ?1))")
     public List<QuestionStore> findStoreForCollege(Long collegeId);
 

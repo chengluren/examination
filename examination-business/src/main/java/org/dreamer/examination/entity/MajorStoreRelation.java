@@ -20,15 +20,15 @@ public class MajorStoreRelation implements Serializable {
     /**
      * 专业标识
      */
-    @Column(length = 30)
-    private String major;
+    //@Column(length = 30)
+    private long major;
 
     private long storeId;
 
     public MajorStoreRelation() {
     }
 
-    public MajorStoreRelation(long storeId, String major) {
+    public MajorStoreRelation(long storeId, long major) {
         this.storeId = storeId;
         this.major = major;
     }
@@ -41,11 +41,11 @@ public class MajorStoreRelation implements Serializable {
         this.id = id;
     }
 
-    public String getMajor() {
+    public long getMajor() {
         return major;
     }
 
-    public void setMajor(String major) {
+    public void setMajor(long major) {
         this.major = major;
     }
 

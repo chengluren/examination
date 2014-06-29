@@ -92,7 +92,7 @@ public class QuestionStoreService {
      * @param major
      * @return
      */
-    public List<QuestionStore> getStoreForMajor(String major) {
+    public List<QuestionStore> getStoreForMajor(Long major) {
         List<QuestionStore> stores = questionStoreDao.findByGeneric(true);
         stores.addAll(questionStoreDao.findStoreForMajor(major));
         return stores;
@@ -111,7 +111,7 @@ public class QuestionStoreService {
         }
         List<MajorStoreRelation> rels = new ArrayList<>();
         for (String major : majors) {
-            rels.add(new MajorStoreRelation(storeId, major));
+            rels.add(new MajorStoreRelation(storeId, Long.valueOf(major)));
         }
         return rels;
     }

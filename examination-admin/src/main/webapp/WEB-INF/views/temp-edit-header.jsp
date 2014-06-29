@@ -496,7 +496,7 @@
 
     $(document).ready(function () {
         createValidator();
-        createChosen("#confStoreId", "165px");
+        createChosen("#confStoreId", "264px");
         createChosen("#mcStoreId","200px");
         if(mcDefsTotalPage>0){
             createPaginator("#paginator",1,mcDefsTotalPage);

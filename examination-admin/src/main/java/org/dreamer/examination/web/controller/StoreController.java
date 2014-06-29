@@ -108,7 +108,7 @@ public class StoreController {
 
     @RequestMapping(value = "/major")
     @ResponseBody
-    public JSONPObject getMajorStore(String major, String callback) {
+    public JSONPObject getMajorStore(Long major, String callback) {
         List<QuestionStore> stores = storeService.getStoreForMajor(major);
         JSONPObject jsonp = new JSONPObject(callback, stores);
         return jsonp;

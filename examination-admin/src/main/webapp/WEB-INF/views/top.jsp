@@ -5,7 +5,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <header class="header">
-    <a href="index.html" class="logo">
+    <a href="${ctx}/index" class="logo">
         考试管理系统后台
     </a>
     <!-- Header Navbar: style can be found in header.less -->

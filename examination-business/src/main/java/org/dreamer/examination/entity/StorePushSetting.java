@@ -18,21 +18,21 @@ public class StorePushSetting implements Serializable {
     private Long collegeId;
     private Integer grade;
     private Types.DegreeType degree;
-    private boolean pushDiscipline;
+    private Integer pushType;
 
     public StorePushSetting(){}
 
     public StorePushSetting(Long collegeId,Integer grade,
-                            Types.DegreeType degree,boolean pushDiscipline){
+                            Types.DegreeType degree,Integer pushType){
         this.collegeId = collegeId;
         this.grade = grade;
         this.degree = degree;
-        this.pushDiscipline = pushDiscipline;
+        this.pushType = pushType;
     }
 
     public StorePushSetting(Long collegeId,Integer grade,
                             Types.DegreeType degree){
-        this(collegeId,grade,degree,false);
+        this(collegeId,grade,degree,0);
     }
 
     public Long getId() {
@@ -67,11 +67,11 @@ public class StorePushSetting implements Serializable {
         this.degree = degree;
     }
 
-    public boolean isPushDiscipline() {
-        return pushDiscipline;
+    public Integer getPushType() {
+        return pushType;
     }
 
-    public void setPushDiscipline(boolean pushDiscipline) {
-        this.pushDiscipline = pushDiscipline;
+    public void setPushType(Integer pushType) {
+        this.pushType = pushType;
     }
 }

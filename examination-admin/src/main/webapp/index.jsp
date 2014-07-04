@@ -70,6 +70,13 @@
                 console.log(data);
             });
         }
+
+        function getStudentStore() {
+            $.getJSON("http://localhost:8080/store/student?stuId=399&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+
         function getExamSchedule() {
             $.getJSON("http://localhost:8080/exam/examSchedule?major=28&session=2013&degree=0&callback=?", function (data) {
                 console.log(data);
@@ -103,8 +110,9 @@
 //                        sequenceLoadQuestion();
 //                        randomLoadQuestion();
 //                commitAnswer();
-                commitPaper();
+//                commitPaper();
 //                getMajorStore();
+        getStudentStore();
 //                getExamSchedule();
 //                getExamRecord();
 //        getExamRecord2();

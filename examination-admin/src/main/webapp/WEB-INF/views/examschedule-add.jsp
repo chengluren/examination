@@ -79,7 +79,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="degree" class="col-sm-2 control-label">考试年级</label>
+                                <label for="degree" class="col-sm-2 control-label">学生类型</label>
 
                                 <div class="col-sm-5">
                                     <select name="degree" id="degree" class="form-control">

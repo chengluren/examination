@@ -47,7 +47,7 @@
                                                          <label>
                                                              <input type="checkbox" name="multiChoiceMixedInChoice"
                                                                     id="multiChoiceMixedInChoice" <c:if test="${baseInfo[3]}">checked</c:if> >
-                                                             是否将多选题混入单选题中
+                                                             将多选题混入单选题中
                                                          </label>
                                                      </div>
                                                  </div>

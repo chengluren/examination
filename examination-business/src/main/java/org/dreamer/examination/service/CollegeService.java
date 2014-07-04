@@ -20,11 +20,16 @@ public class CollegeService {
         return collegeDao.findAll();
     }
 
-    public College getCollege(Long id){
+    public College getCollege(Long id) {
         return collegeDao.findOne(id);
     }
 
-    public List<College> getCollegeByName(String name){
+    public List<College> getCollegeByName(String name) {
         return collegeDao.findByName(name);
+    }
+
+    public Object[] getStudentBaseInfo(Long stuId) {
+        List<Object[]> list = collegeDao.findStudentBaseInfo(stuId);
+        return list != null && list.size() > 0 ? list.get(0) : null;
     }
 }

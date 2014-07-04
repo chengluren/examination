@@ -98,6 +98,23 @@ public class QuestionStoreService {
         return stores;
     }
 
+    /**
+     * 获得通识库
+     * @return
+     */
+    public List<QuestionStore> getGenericStore(){
+        return questionStoreDao.findByGeneric(true);
+    }
+
+    /**
+     * 获得某专业的专业题库
+     * @param major
+     * @return
+     */
+    public List<QuestionStore> getDisciplineStoreForMajor(Long major){
+        return questionStoreDao.findStoreForMajor(major);
+    }
+
     public void deleteStore(long storeId) {
         questionStoreDao.delete(storeId);
         majorStoreRelDao.deleteByStoreId(storeId);

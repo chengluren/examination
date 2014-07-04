@@ -47,7 +47,7 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule, Long> {
     public  List<ScheduleDateVO> findCollegeScheduleByDateFilter(@Param("collegeId")Long collegeId,
                                                                  @Param("beginDate") Date beginDate, @Param("endDate") Date endDate);
 
-    @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session limit 100", nativeQuery = true)
+    @Query(value = "select distinct (s.stu_session) from jiaoda_member_student s order by s.stu_session desc limit 100", nativeQuery = true)
     public List<Integer> findStudentSession();
 
     //====================查找学院下的考试安排=====================

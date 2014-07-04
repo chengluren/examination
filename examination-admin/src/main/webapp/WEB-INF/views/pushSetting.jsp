@@ -17,7 +17,7 @@
                                 <div class="form-group">
                                     <label for="collegeId" class="col-sm-2 control-label">院 系</label>
                                     <div class="col-sm-4">
-                                        <select id="collegeId" name="collegeId">
+                                        <select id="collegeId" name="collegeId" class="form-control">
                                             <c:forEach items="${colleges}" var="c">
                                                  <option value="${c.id}">${c.name}</option>
                                             </c:forEach>
@@ -26,12 +26,12 @@
                                 </div>
                             </c:if>
                             <c:if test="${college!=null}">
-                                <input type="hidden" id="collegeId" name="collegeId" value="${collegeId}"/>
+                                <input type="hidden" id="collegeId" name="collegeId" value="${college}"/>
                             </c:if>
                             <div class="form-group">
-                                <label for="degree" class="col-sm-2 control-label">学 制</label>
+                                <label for="degree" class="col-sm-2 control-label">学生类型</label>
                                 <div class="col-sm-4">
-                                    <select id="degree" name="degree">
+                                    <select id="degree" name="degree" class="form-control">
                                         <option value="0">本科生</option>
                                         <option value="1">研究生</option>
                                     </select>
@@ -42,33 +42,32 @@
                                 <div class="col-sm-4">
                                     <select id="grade" name="grade" class="form-control">
                                         <c:forEach var="g" items="${grades}">
-                                            <option value="${g}">${g}届</option>
+                                            <option value="${g}">${g} 级</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="imgPath" class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4">
-                                    <input type="text" id="imgPath" name="imgPath" class="form-control" value="${q.imgPath}" />
-                                </div>
-                            </div>
 
                             <div class="form-group">
-                                <label for="pushDiscipline" class="col-sm-2 control-label" style="margin-right: 15px;">推送专业题库</label>
-                                <div class="checkbox">
+                                <label  class="col-sm-2 control-label">推送题库</label>
+                                <div class="col-sm-4" style="margin-top: 8px">
                                     <label>
-                                        <input type="checkbox" name="pushDiscipline" id="pushDiscipline"/>
-                                        推送
+                                        <input type="radio" id="pushGeneric" name="pushType" class="flat-red" value="0"/> 通识库
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="pushDiscipline" name="pushType" class="flat-red" value="1"/> 专业库
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="pushAll" name="pushType" class="flat-red" value="2"/> 通识和专业库
                                     </label>
                                 </div>
                             </div>
 
                         </div>
                     </form>
-                    <div class="box-footer text-center">
-                        <button id="btnSave" class="btn btn-primary btn-flat" style="margin-left:10px;" onclick="save();">保存</button>
-                        <button id="btnReturn" class="btn btn-success btn-flat" style="margin-left:30px;" onclick="window.history.go(-1);">返回</button>
+                    <div class="box-footer">
+                        <button id="btnSave" class="btn btn-primary btn-flat" style="margin-left:180px;" onclick="save();">保存</button>
+                        <button id="btnReturn" class="btn btn-success btn-flat" style="margin-left:20px;" onclick="window.history.go(-1);">返回</button>
                     </div>
                 </div>
                 <!-- /.box -->

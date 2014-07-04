@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,6 +126,38 @@ public class StoreController {
         return jsonp;
     }
 
+    @RequestMapping(value = "/student")
+    @ResponseBody
+    public JSONPObject getStoreForStudent(Long stuId, String callback) {
+        List<QuestionStore> stores = null;
+        Object[] stuInfo = collegeService.getStudentBaseInfo(stuId);
+        if (stuInfo!=null){
+            Long collegeId = ((BigInteger)stuInfo[0]).longValue();
+            Integer degree = Integer.valueOf((String)stuInfo[1]);
+            Integer grade = (Integer)stuInfo[2];
+            Long majorId = ((BigInteger)stuInfo[3]).longValue();
+            Types.DegreeType type = (degree==0) ? Types.DegreeType.Bachelor : Types.DegreeType.Master;
+            StorePushSetting setting = storePushService.getSetting(collegeId,grade,type);
+            if (setting!=null){
+                Integer pushType = setting.getPushType();
+                if (pushType==0){
+                    stores = storeService.getGenericStore();
+                }else if (pushType==1){
+                    stores = storeService.getDisciplineStoreForMajor(majorId);
+                }else if (pushType == 2){
+                    stores =storeService.getGenericStore();
+                    stores.addAll(storeService.getDisciplineStoreForMajor(majorId));
+                }
+            }else {
+                stores = new ArrayList<>();
+            }
+        }else {
+            stores = new ArrayList<>();
+        }
+        JSONPObject jsonp = new JSONPObject(callback, stores);
+        return jsonp;
+    }
+
     @RequestMapping(value = "/pushSetting")
     public ModelAndView storePushSetting() {
         ModelAndView mv = new ModelAndView("exam.pushSetting");
@@ -155,20 +189,21 @@ public class StoreController {
         setting = storePushService.getSetting(collegeId,grade,degreeType);
         if (setting==null){
             setting = new StorePushSetting(collegeId,grade,degreeType);
+            setting.setPushType(-1);
         }
         return setting;
     }
-    @RequestMapping(value = "/pushSetting/add")
+    @RequestMapping(value = "/pushSetting/add",method = RequestMethod.POST)
     @ResponseBody
     public Result saveStorePushSetting(Long id,Long collegeId,
-                                       Integer grade, Integer degree,boolean pushDiscipline){
+                                       Integer grade, Integer degree,Integer pushType){
         Types.DegreeType degreeType = null;
         if (degree == 0){
             degreeType = Types.DegreeType.Bachelor;
         }else {
             degreeType = Types.DegreeType.Master;
         }
-        StorePushSetting setting =new StorePushSetting(collegeId,grade,degreeType,pushDiscipline);
+        StorePushSetting setting =new StorePushSetting(collegeId,grade,degreeType,pushType);
         if (id!=null){
             setting.setId(id);
         }

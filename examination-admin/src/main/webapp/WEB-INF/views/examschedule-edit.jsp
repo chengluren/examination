@@ -87,7 +87,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="degree" class="col-sm-2 control-label">考试年级</label>
+                                <label for="degree" class="col-sm-2 control-label">学生类型</label>
                                 <div class="col-sm-5">
                                     <select name="degree" id="degree" class="form-control">
                                         <option value="0" <c:if test="${schedule.degree==0}">selected="true" </c:if> >本科生</option>

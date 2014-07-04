@@ -58,6 +58,7 @@
                 /train/randomLoad = anon
                 /index.jsp = anon
                 /store/major = anon
+                /store/student = anon
                 /favicon.ico = anon
                 /v9login = v9Authc
                 /login = authc

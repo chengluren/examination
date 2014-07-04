@@ -43,6 +43,7 @@
                         <li><a href="${ctx}/question/indexedList"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
                     </c:if>
                     <li><a href="${ctx}/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
+                    <li><a href="${ctx}/store/pushSetting"><i class="fa fa-angle-double-right"></i> 题库推送</a></li>
                 </ul>
             </li>
             <li class="treeview active">

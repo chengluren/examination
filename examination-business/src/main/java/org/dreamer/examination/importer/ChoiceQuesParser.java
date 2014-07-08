@@ -23,6 +23,9 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
             max = row.getLastCellNum();
             Cell stemCell = row.getCell(0);
             String stem = (stemCell !=null) ? parseStem(stemCell.getStringCellValue()) : null;
+            if(stem==null || stem.length()==0){
+                return null;
+            }
 
             Cell difficultyCell = row.getCell(1);
             Question.Difficulty difficulty = (difficultyCell!=null) ?

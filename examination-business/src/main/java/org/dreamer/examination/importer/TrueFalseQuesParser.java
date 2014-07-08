@@ -16,6 +16,9 @@ public class TrueFalseQuesParser extends AbstractParser implements Parser {
         if (row!=null){
             Cell stemCell = row.getCell(0);
             String stem = (stemCell !=null) ? parseStem(stemCell.getStringCellValue()) : null;
+            if(stem==null || stem.length()==0){
+                return null;
+            }
 
             Cell difficultyCell = row.getCell(1);
             Question.Difficulty difficulty = (difficultyCell!=null) ?

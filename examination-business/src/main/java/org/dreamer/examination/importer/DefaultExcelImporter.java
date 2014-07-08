@@ -53,12 +53,14 @@ public class DefaultExcelImporter implements Importer {
                 list.add(q);
             }
         }
-        questionService.addQuestion(list);
-        String type = SysUtils.getConfigValue("question.list.type","db");
-        boolean index = type.equals("index") ? true: false;
-        if (index){
-            QuestionIndexer indexer = SysUtils.getBean(QuestionIndexer.class);
-            indexer.indexQuestions(list);
+        if(list.size()>0){
+            questionService.addQuestion(list);
+            String type = SysUtils.getConfigValue("question.list.type","db");
+            boolean index = type.equals("index") ? true: false;
+            if (index){
+                QuestionIndexer indexer = SysUtils.getBean(QuestionIndexer.class);
+                indexer.indexQuestions(list);
+            }
         }
     }
 }

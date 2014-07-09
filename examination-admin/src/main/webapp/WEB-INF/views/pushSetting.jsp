@@ -16,7 +16,7 @@
                             <c:if test="${colleges!=null}">
                                 <div class="form-group">
                                     <label for="collegeId" class="col-sm-2 control-label">院 系</label>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-5">
                                         <select id="collegeId" name="collegeId" class="form-control">
                                             <c:forEach items="${colleges}" var="c">
                                                  <option value="${c.id}">${c.name}</option>
@@ -30,7 +30,7 @@
                             </c:if>
                             <div class="form-group">
                                 <label for="degree" class="col-sm-2 control-label">学生类型</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <select id="degree" name="degree" class="form-control">
                                         <option value="0">本科生</option>
                                         <option value="1">研究生</option>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="grade" class="col-sm-2 control-label">年 级</label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-5">
                                     <select id="grade" name="grade" class="form-control">
                                         <c:forEach var="g" items="${grades}">
                                             <option value="${g}">${g} 级</option>
@@ -50,7 +50,7 @@
 
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">推送题库</label>
-                                <div class="col-sm-4" style="margin-top: 8px">
+                                <div class="col-sm-5" style="margin-top: 8px">
                                     <label>
                                         <input type="radio" id="pushGeneric" name="pushType" class="flat-red" value="0"/> 通识库
                                     </label>

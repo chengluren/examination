@@ -41,7 +41,7 @@
 
                                         <div class="col-sm-3">
                                             <input type="text" id="passScore" name="passScore" class="form-control"
-                                                   value="60"/>
+                                                   value="90"/>
                                         </div>
                                     </div>
                                     <div class="form-group">

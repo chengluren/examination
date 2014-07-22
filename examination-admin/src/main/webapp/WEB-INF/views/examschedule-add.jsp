@@ -59,7 +59,7 @@
 
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" name="examTimeSpan" id="examTimeSpan"
-                                           placeholder="考试时长">
+                                           placeholder="考试时长" value="90">
                                 </div>
                             </div>
 

@@ -72,6 +72,7 @@
                                 <th>学 生</th>
                                 <th>最高分</th>
                                 <th>考试时间</th>
+                                <th>承诺书</th>
                                 <th>操 作</th>
                             </tr>
                             <c:forEach items="${examrecord.content}" var="s" varStatus="st">
@@ -84,6 +85,14 @@
                                     <td>${s.stuName}</td>
                                     <td><span class="badge bg-red">${s.finalScore}</span></td>
                                     <td><fmt:formatDate value="${s.examStartTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                    <c:choose>
+                                        <c:when test="${s.promise==null || s.promise ==0}">
+                                            <td class="text-red">未签</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="text-green">已签</td>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <td>
                                         <a class="btn btn-xs btn-flat" title="查看试卷" onclick="window.location.href='${ctx}/examquery/paper?examId=${s.id}';">
                                             <i class="fa fa-file-text"></i>查看试卷

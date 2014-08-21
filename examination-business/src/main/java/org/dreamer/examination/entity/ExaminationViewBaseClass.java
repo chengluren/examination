@@ -57,6 +57,8 @@ public abstract class ExaminationViewBaseClass {
     private Date scheduleStartTime;
     @Column(name = "scheduleEndTime")
     private Date scheduleEndTime;
+    @Column(name="promise")
+    private Integer promise;
 
     public Date getExamStartTime() {
         return examStartTime;
@@ -201,5 +203,13 @@ public abstract class ExaminationViewBaseClass {
 
     public void setScheduleEndTime(Date scheduleEndTime) {
         this.scheduleEndTime = scheduleEndTime;
+    }
+
+    public Integer getPromise() {
+        return promise;
+    }
+
+    public void setPromise(Integer promise) {
+        this.promise = promise;
     }
 }

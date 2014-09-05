@@ -78,6 +78,9 @@ public class ExamPassExcelCreator extends AbstractExcelCreator<ExaminationViewPa
             if (queryParam.getCollegeId()!=null && queryParam.getCollegeId()!=-1){
                 map.put("collegeId",queryParam.getCollegeId());
             }
+            if (queryParam.getPromise()!=null && queryParam.getPromise()!=-1){
+                map.put("promise",queryParam.getPromise());
+            }
             SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
             List<SqlQueryItem> itemList = builder.builder(map);
             return examService.getExaminationPassByFilter(itemList, null, page);

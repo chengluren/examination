@@ -63,6 +63,9 @@ public class CertificateCreator {
         if (param.getCollegeId()!=null && param.getCollegeId()!=-1){
             map.put("collegeId",param.getCollegeId());
         }
+        if (param.getPromise()!=null && param.getPromise()!=-1){
+            map.put("promise",param.getPromise());
+        }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
         return itemList;

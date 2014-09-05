@@ -44,6 +44,21 @@
                                     <%--<input type="text" value="${query.major}" class="form-control" id="major" name="major" placeholder="请输入专业">--%>
                                     <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
                                 </div>
+
+                                <div class="radio">
+                                     <label><span style="font-weight: bold;line-height: 1.428571429;font-size: 14px">承诺书:</span>
+                                         <input type="radio" name="promise" id="p1" value="-1" <c:if test="${query.promise ==-1}">checked </c:if>>
+                                         全部
+                                     </label>
+                                    <label>
+                                        <input type="radio" name="promise" id="p2" value="1" <c:if test="${query.promise ==1}">checked</c:if>>
+                                        已签
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="promise" id="p3" value="0" <c:if test="${query.promise ==0}">checked</c:if>>
+                                        未签
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="form-group">

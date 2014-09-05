@@ -143,8 +143,19 @@ public class ExamController {
     @RequestMapping(value = "/examAnswersWithStats")
     @ResponseBody
     public JSONPObject examAnswerWithStats(Long examId,String callback) {
+        int retry = 0;
         List<Object[]> answers = answerService.getCommitAndCorrectAnswers(examId);
         List<Object[]> stats = answerService.getExamAnswerStats(examId);
+        while(retry<10 && (answers.size()==0 || stats.size()==0)){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            answers = answerService.getCommitAndCorrectAnswers(examId);
+            stats = answerService.getExamAnswerStats(examId);
+            retry++;
+        }
         Map<String,Object> result = new HashMap();
         List<Map<String,?>> answerMap = convertAnswers(answers);
         List<Map<String,?>> statMap = convertStats(stats);

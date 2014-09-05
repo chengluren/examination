@@ -42,7 +42,8 @@
             scheduleid: $("#scheduleid").val(),
             majorName: $("#majorName").val(),
             className: $("#className").val(),
-            stuNo: $("#stuNo").val()
+            stuNo: $("#stuNo").val(),
+            promise:$("input[name='promise']:checked").val()
         };
         var p = $.param(param),
                 url = "${ctx}/examquery/examPassDownload?"+ p,
@@ -54,7 +55,8 @@
             scheduleid: $("#scheduleid").val(),
             majorName: $("#majorName").val(),
             className: $("#className").val(),
-            stuNo: $("#stuNo").val()
+            stuNo: $("#stuNo").val(),
+            promise:$("input[name='promise']:checked").val()
         };
         var p = $.param(param),
                 url = "${ctx}/examquery/passCertificateDownload?"+ p,

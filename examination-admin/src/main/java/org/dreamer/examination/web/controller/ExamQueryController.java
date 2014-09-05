@@ -121,6 +121,9 @@ public class ExamQueryController {
     public ModelAndView getExamRecordPassList(ExaminationViewPassVO viewVO, @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examquerypass-list");
         Page<ExaminationViewPassVO> examViewRecordVOs = null;
+        if (viewVO.getPromise()==null){
+            viewVO.setPromise(-1);
+        }
 
         Map<String, Object> map = new HashMap<>();
         if (viewVO.getScheduleid() != null) {
@@ -137,6 +140,9 @@ public class ExamQueryController {
         }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
+        }
+        if (viewVO.getPromise()!=null && viewVO.getPromise()!=-1){
+            map.put("promise",viewVO.getPromise());
         }
         setCollegeIdMap(map);
 

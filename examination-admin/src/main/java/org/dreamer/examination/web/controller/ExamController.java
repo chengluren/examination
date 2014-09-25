@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -117,6 +119,21 @@ public class ExamController {
     public JSONPObject examRecords(String staffId,Long scheduleId, String callback) {
         List<ExamRecordVO> examRecordVOs = examService.getExamRecords(staffId, scheduleId);
         return new JSONPObject(callback, examRecordVOs);
+    }
+
+    @RequestMapping(value = "/examRecordsStats")
+    @ResponseBody
+    public JSONPObject examRecordsStats(String staffId,String callback,Pageable page){
+        Page<ExamStatView> examStats = examService.getExamStats(staffId,page);
+        return new JSONPObject(callback,examStats);
+    }
+
+    @RequestMapping(value = "/scheduleExamRecordsStats")
+    @ResponseBody
+    public JSONPObject examRecordStats(String staffId,Long scheduleId,
+                                       String callback,Pageable page){
+        Page<ExamStatView> examStats = examService.getExamStats(staffId,scheduleId,page);
+        return new JSONPObject(callback,examStats);
     }
 
     @RequestMapping(value = "/examSchedule")

@@ -2,10 +2,7 @@ package org.dreamer.examination.service;
 
 import com.google.common.collect.Sets;
 import org.dreamer.examination.entity.*;
-import org.dreamer.examination.repository.AnswerDao;
-import org.dreamer.examination.repository.ExaminationDao;
-import org.dreamer.examination.repository.PaperDao;
-import org.dreamer.examination.repository.PaperQuestionDao;
+import org.dreamer.examination.repository.*;
 import org.dreamer.examination.vo.AnswerJudgeVO;
 import org.dreamer.examination.vo.ExamRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,8 @@ public class ExaminationService {
     private AnswerDao answerDao;
     @Autowired
     private PaperQuestionDao paperQuestionDao;
+    @Autowired
+    private ExamStatDao examStatDao;
 
     public void addExamination(Examination examination){
         Paper p = examination.getPaper();
@@ -52,6 +51,15 @@ public class ExaminationService {
     public List<ExamRecordVO> getExamRecords(String straffId,Long scheduleId){
         return examDao.findStaffExamRecords(straffId,scheduleId);
     }
+
+    public Page<ExamStatView> getExamStats(String staffId,Pageable page){
+        return examStatDao.findByExamStaffId(staffId,page);
+    }
+
+    public Page<ExamStatView> getExamStats(String staffId,Long scheduleId,Pageable page){
+        return examStatDao.findByExamStaffIdAndScheduleId(staffId,scheduleId,page);
+    }
+
 //    @Deprecated
 //    public int getExamPaperQuestionCount(long examId,long paperId){
 //        return paperQuestionDao.countByExamIdAndPaperId(examId,paperId);

@@ -51,7 +51,9 @@
                 /exam/commit = anon
                 /exam/examSchedule = anon
                 /exam/scheduleExamRecords = anon
+                /exam/scheduleExamRecordsStats = anon
                 /exam/examRecords = anon
+                /exam/examRecordsStats = anon
                 /exam/examAnswers = anon
                 /exam/examAnswersWithStats = anon
                 /train/sequenceLoad = anon

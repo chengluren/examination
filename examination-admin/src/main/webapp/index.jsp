@@ -94,6 +94,17 @@
             });
         }
 
+        function getExamRecordStats() {
+            $.getJSON("http://localhost:8080/exam/examRecordsStats?staffId=481&page=0&size=20&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+        function getExamRecord2Stats() {
+            $.getJSON("http://localhost:8080/exam/scheduleExamRecordsStats?staffId=481&scheduleId=1&callback=?", function (data) {
+                console.log(data);
+            });
+        }
+
         function getExamAnswer() {
             $.getJSON("http://localhost:8080/exam/examAnswers?examId=1&callback=?", function (data) {
                 console.log(data);
@@ -112,12 +123,14 @@
 //                commitAnswer();
 //                commitPaper();
 //                getMajorStore();
-        getStudentStore();
+//        getStudentStore();
 //                getExamSchedule();
 //                getExamRecord();
 //        getExamRecord2();
 //        getExamAnswer();
 //        getExamAnswerWithStats();
+        //getExamRecordStats();
+        getExamRecord2Stats();
     </script>
 </head>
 <body>

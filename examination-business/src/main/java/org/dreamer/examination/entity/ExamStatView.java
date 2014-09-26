@@ -15,9 +15,10 @@ import java.util.Date;
 public class ExamStatView implements Serializable {
     @Id
     private Long id;
+    @Column(name = "examName")
     private String name;
 
-    @Column(name = "commitDate")
+    @Column(name = "commitTime")
     private Date examCommitDate;
     private Date scheduleStartDate;
     private Date scheduleEndDate;

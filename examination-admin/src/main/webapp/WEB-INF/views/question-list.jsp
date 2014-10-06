@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
@@ -20,9 +21,11 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">试题列表</h3>
+                        <shiro:hasRole name="admin">
                         <div class="box-tools pull-right" style="margin-right: 80px;">
                             <a class="btn btn-primary btn-flat" style="color: #ffffff;" role="button" onclick="toQuestionImport();">试题导入</a>
                         </div>
+                        </shiro:hasRole>
                     </div>
                     <div class="box-body table-responsive">
                         <form class="form-horizontal" role="form" method="post">
@@ -67,7 +70,9 @@
                                 <th style="width: 60%">试 题</th>
                                 <th class="text-center">答 案</th>
                                 <th class="text-center">必 考</th>
+                                <shiro:hasRole name="admin">
                                 <th class="text-center">操 作</th>
+                                </shiro:hasRole>
                             </tr>
                             </thead>
                             <tbody>
@@ -89,6 +94,7 @@
                                                 <c:otherwise>否</c:otherwise>
                                             </c:choose>
                                         </td>
+                                        <shiro:hasRole name="admin">
                                         <td class="text-center">
                                             <a class="btn btn-primary btn-xs" onclick="editQuestion(${q.id});">
                                                 <i class="fa fa-edit"></i>
@@ -97,6 +103,7 @@
                                                 <i class="fa fa-times"></i>
                                             </a>
                                         </td>
+                                        </shiro:hasRole>
                                     </tr>
                                 </c:forEach>
                             </c:if>

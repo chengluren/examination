@@ -18,6 +18,10 @@ public interface AnswerDao extends JpaRepository<Answer,Long>{
     @Query(value = "delete from Answer where examId = ?1 and quesId = ?2")
     public void deleteByExamIdAndQuesId(long examId,long quesId);
 
+    @Modifying
+    @Query(value = "delete from Answer where examId in (select id from Examination where schedule.id =?1)")
+    public void deleteBySchedule(long scheduleId);
+
 
 //    public void updateAnswer(Answer a);
 

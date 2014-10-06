@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.dreamer.examination.business.ExaminationManager;
-import org.dreamer.examination.entity.*;
+import org.dreamer.examination.entity.Answer;
+import org.dreamer.examination.entity.Examination;
+import org.dreamer.examination.entity.Result;
+import org.dreamer.examination.entity.Types;
 import org.dreamer.examination.service.AnswerService;
 import org.dreamer.examination.service.ExamScheduleService;
 import org.dreamer.examination.service.ExaminationService;
@@ -52,8 +55,8 @@ public class ExamController {
      */
     @RequestMapping(value = "/new")
     @ResponseBody
-    public JSONPObject takeExamination(String staffId, String major,long scheduleId,String callback) {
-        ExamAndQuestionVO vo = examManager.newExamination(staffId, major,scheduleId);
+    public JSONPObject takeExamination(String staffId, String major, long scheduleId, String callback) {
+        ExamAndQuestionVO vo = examManager.newExamination(staffId, major, scheduleId);
         JSONPObject r = new JSONPObject(callback, vo);
         return r;
     }
@@ -116,54 +119,56 @@ public class ExamController {
 
     @RequestMapping(value = "/scheduleExamRecords")
     @ResponseBody
-    public JSONPObject examRecords(String staffId,Long scheduleId, String callback) {
+    public JSONPObject examRecords(String staffId, Long scheduleId, String callback) {
         List<ExamRecordVO> examRecordVOs = examService.getExamRecords(staffId, scheduleId);
         return new JSONPObject(callback, examRecordVOs);
     }
 
-    @RequestMapping(value = "/examRecordsStats")
-    @ResponseBody
-    public JSONPObject examRecordsStats(String staffId,String callback,Pageable page){
-        Page<ExamStatView> examStats = examService.getExamStats(staffId,page);
-        return new JSONPObject(callback,examStats);
-    }
+//    @RequestMapping(value = "/examRecordsStats")
+//    @ResponseBody
+//    public JSONPObject examRecordsStats(String staffId,String callback,Pageable page){
+//        Page<ExamStatView> examStats = examService.getExamStats(staffId,page);
+//        return new JSONPObject(callback,examStats);
+//    }
 
-    @RequestMapping(value = "/scheduleExamRecordsStats")
-    @ResponseBody
-    public JSONPObject examRecordStats(String staffId,Long scheduleId,
-                                       String callback,Pageable page){
-        Page<ExamStatView> examStats = examService.getExamStats(staffId,scheduleId,page);
-        return new JSONPObject(callback,examStats);
-    }
+//    @RequestMapping(value = "/scheduleExamRecordsStats")
+//    @ResponseBody
+//    public JSONPObject examRecordStats(String staffId,Long scheduleId,
+//                                       String callback,Pageable page){
+//        Page<ExamStatView> examStats = examService.getExamStats(staffId,scheduleId,page);
+//        return new JSONPObject(callback,examStats);
+//    }
 
     @RequestMapping(value = "/examSchedule")
     @ResponseBody
-    public JSONPObject examSchedule(String major,int session,String degree, String callback) {
-        List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major,session,degree);
+    public JSONPObject examSchedule(String major, int session, String degree, String callback) {
+        List<ExamScheduleVO> scheduleVOs = scheduleService.getExamSchedule(major, session, degree);
         return new JSONPObject(callback, scheduleVOs);
     }
+
     @RequestMapping(value = "/examAnswers")
     @ResponseBody
-    public JSONPObject examAnswers(Long examId,String callback){
+    public JSONPObject examAnswers(Long examId, String callback) {
         //List<Answer> answers = answerService.getExamAnswers(examId);
         List<Object[]> result = answerService.getCommitAndCorrectAnswers(examId);
-        List<Map<String,?>> resultMap = new ArrayList();
-        for(Object[] record : result){
-            Map<String,Object> rm = new HashMap<>();
-            rm.put("id",record[0]);
-            rm.put("answer",record[1]);
-            rm.put("realAnswer",record[2]);
+        List<Map<String, ?>> resultMap = new ArrayList();
+        for (Object[] record : result) {
+            Map<String, Object> rm = new HashMap<>();
+            rm.put("id", record[0]);
+            rm.put("answer", record[1]);
+            rm.put("realAnswer", record[2]);
             resultMap.add(rm);
         }
         return new JSONPObject(callback, resultMap);
     }
+
     @RequestMapping(value = "/examAnswersWithStats")
     @ResponseBody
-    public JSONPObject examAnswerWithStats(Long examId,String callback) {
+    public JSONPObject examAnswerWithStats(Long examId, String callback) {
         int retry = 0;
         List<Object[]> answers = answerService.getCommitAndCorrectAnswers(examId);
         List<Object[]> stats = answerService.getExamAnswerStats(examId);
-        while(retry<10 && (answers.size()==0 || stats.size()==0)){
+        while (retry < 10 && (answers.size() == 0 || stats.size() == 0)) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -173,40 +178,40 @@ public class ExamController {
             stats = answerService.getExamAnswerStats(examId);
             retry++;
         }
-        Map<String,Object> result = new HashMap();
-        List<Map<String,?>> answerMap = convertAnswers(answers);
-        List<Map<String,?>> statMap = convertStats(stats);
+        Map<String, Object> result = new HashMap();
+        List<Map<String, ?>> answerMap = convertAnswers(answers);
+        List<Map<String, ?>> statMap = convertStats(stats);
         Examination ex = examService.getExamination(examId);
         Float finaScore = ex.getFinalScore();
         Integer quesTotalCount = answers.size();
-        result.put("finaScore",finaScore);
-        result.put("quesTotalCount",quesTotalCount);
-        result.put("quesStat",statMap);
-        result.put("answers",answerMap);
-        return  new JSONPObject(callback,result);
+        result.put("finaScore", finaScore);
+        result.put("quesTotalCount", quesTotalCount);
+        result.put("quesStat", statMap);
+        result.put("answers", answerMap);
+        return new JSONPObject(callback, result);
     }
 
-    private List<Map<String,?>> convertAnswers(List<Object[]> result){
-        List<Map<String,?>> resultMap = new ArrayList();
-        for(Object[] record : result){
-            Map<String,Object> rm = new HashMap<>();
-            rm.put("id",record[0]);
-            rm.put("answer",record[1]);
-            rm.put("realAnswer",record[2]);
+    private List<Map<String, ?>> convertAnswers(List<Object[]> result) {
+        List<Map<String, ?>> resultMap = new ArrayList();
+        for (Object[] record : result) {
+            Map<String, Object> rm = new HashMap<>();
+            rm.put("id", record[0]);
+            rm.put("answer", record[1]);
+            rm.put("realAnswer", record[2]);
             resultMap.add(rm);
         }
         return resultMap;
     }
 
-    private List<Map<String,?>> convertStats(List<Object[]> result){
-        List<Map<String,?>> resultMap = new ArrayList();
-        for(Object[] record : result){
-            Map<String,Object> rm = new HashMap<>();
-            String qType = (String)record[0];
-            qType = qType.equals("Choice") ? "CH" :(qType.equals("TrueFalse") ? "TF" : "MC");
-            rm.put("qType",qType);
-            rm.put("quesCount",record[1]);
-            rm.put("correctCount",record[2]);
+    private List<Map<String, ?>> convertStats(List<Object[]> result) {
+        List<Map<String, ?>> resultMap = new ArrayList();
+        for (Object[] record : result) {
+            Map<String, Object> rm = new HashMap<>();
+            String qType = (String) record[0];
+            qType = qType.equals("Choice") ? "CH" : (qType.equals("TrueFalse") ? "TF" : "MC");
+            rm.put("qType", qType);
+            rm.put("quesCount", record[1]);
+            rm.put("correctCount", record[2]);
             resultMap.add(rm);
         }
         return resultMap;

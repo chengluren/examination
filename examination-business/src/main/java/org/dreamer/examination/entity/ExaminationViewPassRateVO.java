@@ -13,8 +13,8 @@ import java.io.Serializable;
  * @version 1.0
  *          ${tags}
  */
-@Entity
-@Table(name = "v_examination_passrate")
+//@Entity
+//@Table(name = "v_examination_passrate")
 public class ExaminationViewPassRateVO implements Serializable {
     @Id
     private long id;

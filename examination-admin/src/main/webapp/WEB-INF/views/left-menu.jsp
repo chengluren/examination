@@ -42,7 +42,9 @@
                     <c:if test="${questionListType=='index'}">
                         <li><a href="${ctx}/question/indexedList"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
                     </c:if>
+                    <shiro:hasRole name="admin">
                     <li><a href="${ctx}/question/import"><i class="fa fa-angle-double-right"></i> 试题导入</a></li>
+                    </shiro:hasRole>
                     <li><a href="${ctx}/store/pushSetting"><i class="fa fa-angle-double-right"></i> 题库推送</a></li>
                 </ul>
             </li>
@@ -68,7 +70,7 @@
                     <li><a href="${ctx}/examquery/list"><i class="fa fa-angle-double-right"></i> 考试记录查询</a></li>
                     <li><a href="${ctx}/examquery/passlist"><i class="fa fa-angle-double-right"></i>  通过查询</a></li>
                     <li><a href="${ctx}/examquery/notpasslist"><i class="fa fa-angle-double-right"></i> 未通过查询</a></li>
-                    <li><a href="${ctx}/examquery/notParticipate"><i class="fa fa-angle-double-right"></i> 未考查询</a></li>
+                    <%--<li><a href="${ctx}/examquery/notParticipate"><i class="fa fa-angle-double-right"></i> 未考查询</a></li>--%>
                     <%--<li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>--%>
                 </ul>
             </li>

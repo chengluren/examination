@@ -20,6 +20,8 @@ import java.util.Set;
  */
 public interface ExaminationDao extends CommonRepository<Examination,Long>{
 
+    public int countByScheduleId(Long scheduleId);
+
     @Query(value = "select count(pq.id) from Examination e,PaperQuestion pq where e.id = :examId and e.paper.id= pq.paper.id")
     public int countExamPaperQuestion(@Param("examId")Long examId);
 
@@ -67,4 +69,8 @@ public interface ExaminationDao extends CommonRepository<Examination,Long>{
     @Modifying
     @Query("update Examination set finalScore =:finalScore,commitTime = :commitTime where id =:examId")
     public void updateExamFinalScore(@Param("examId")Long examId,@Param("finalScore")float finalScore,@Param("commitTime")Date commitTime);
+
+    @Modifying
+    @Query("delete from Examination where schedule.id = ?1")
+    public void deleteByScheduleId(Long scheduleId);
 }

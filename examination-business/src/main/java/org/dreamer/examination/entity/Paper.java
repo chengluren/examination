@@ -30,7 +30,7 @@ public class Paper implements Serializable {
 //    @Basic(fetch = FetchType.LAZY)
 //    private String quesIdTxt;
 
-    @OneToMany(mappedBy = "paper")
+    @OneToMany(mappedBy = "paper",cascade = CascadeType.REMOVE)
     private List<PaperQuestion> paperQuestions;
 
     @Transient

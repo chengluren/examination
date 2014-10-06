@@ -56,7 +56,13 @@ public class ExamTemplateController {
             }
             name = "%"+searchTerm+"%";
         }
-        Page<BaseInfoVO> templates = templateService.getExamTempateBaseInfo(name,p);
+        Long collegeId = getCurrentUserCollege();
+        Page<BaseInfoVO> templates;
+        if (collegeId!=-1){
+            templates = templateService.getExamTempateBaseInfo(collegeId,name,p);
+        }else{
+            templates = templateService.getExamTempateBaseInfo(name,p);
+        }
         ComboGridData<BaseInfoVO> result = new ComboGridData<>();
         result.setPage(templates.getNumber()+1);
         result.setTotal(templates.getTotalPages());
@@ -80,6 +86,7 @@ public class ExamTemplateController {
         Result result = null;
         JSONObject json = new JSONObject(template);
         ExamTemplate examTemplate = parseJsonToTemplate(json);
+        examTemplate.setCollege(getCurrentUserCollege());
         templateService.addExamTemplate(examTemplate);
         result = new Result(true, "ddd");
         return result;
@@ -89,10 +96,19 @@ public class ExamTemplateController {
     public ModelAndView examTemplateList(String name, Pageable page) {
         ModelAndView mv = new ModelAndView("exam.temp-list");
         Page<ExamTemplate> templates = null;
-        if (name != null) {
-            templates = templateService.getExamTemplateByNameLike("%" + name + "%", page);
-        } else {
-            templates = templateService.getExamTemplate(page);
+        Long college = getCurrentUserCollege();
+        if (college!=-1){
+            if (name!=null){
+                templates = templateService.getCollegeTemplateByNameLike(college,("%" + name + "%"),page);
+            }else{
+                templates = templateService.getCollegeTemplate(college,page);
+            }
+        }else{
+            if (name != null) {
+                templates = templateService.getExamTemplateByNameLike("%" + name + "%", page);
+            } else {
+                templates = templateService.getExamTemplate(page);
+            }
         }
         List<ExamTemplate> list = templates.getContent();
         mv.addObject("temps", getTemplateStatInfo(list));
@@ -362,6 +378,16 @@ public class ExamTemplateController {
             }
         }else {
             return storeService.getAll();
+        }
+    }
+
+    public long getCurrentUserCollege(){
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            Long collegeId = user.getCollegeId();
+            return collegeId;
+        }else{
+            return Long.MAX_VALUE;
         }
     }
 }

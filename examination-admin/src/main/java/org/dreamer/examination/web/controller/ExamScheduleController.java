@@ -2,14 +2,9 @@ package org.dreamer.examination.web.controller;
 
 import com.google.common.base.Joiner;
 import org.apache.commons.lang3.StringUtils;
-import org.dreamer.examination.entity.ExamSchedule;
-import org.dreamer.examination.entity.ExamScheduleViewVO;
-import org.dreamer.examination.entity.ExamTemplate;
-import org.dreamer.examination.entity.Types;
+import org.dreamer.examination.entity.*;
 import org.dreamer.examination.rbac.ShiroDatabaseRealm;
-import org.dreamer.examination.service.ExamScheduleService;
-import org.dreamer.examination.service.ExamTemplateService;
-import org.dreamer.examination.service.RBACService;
+import org.dreamer.examination.service.*;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
@@ -47,6 +42,8 @@ public class ExamScheduleController {
     private ExamTemplateService templateService;
     @Autowired
     private RBACService rbacService;
+    @Autowired
+    private ExaminationService examService;
 
 //    private static String[] majors = {"M001", "M002", "M003", "M004", "M005"};
 
@@ -163,6 +160,13 @@ public class ExamScheduleController {
             examScheduleService.addExamSchedule(scheduleData,majors);
         }
         return "redirect:/examschedule/list";
+    }
+
+    @RequestMapping(value = "/countExamUseSchedule")
+    public @ResponseBody Result countOfExamUseSchedule(Long scheduleId){
+        int count = examService.countExamBySchedule(scheduleId);
+        Result result = new Result(true,String.valueOf(count));
+        return result;
     }
 
 

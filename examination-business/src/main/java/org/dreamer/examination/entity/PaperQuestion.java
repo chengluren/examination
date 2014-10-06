@@ -21,7 +21,7 @@ public class PaperQuestion implements Serializable {
     private Long quesId;
     private float score;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "paper_id")
     private Paper paper;
 

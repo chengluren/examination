@@ -41,9 +41,18 @@
 
    function deleteSchedule(id){
        if(window.confirm("您确定要删除考试计划吗?")){
-           window.location.href = "${ctx}/examschedule/delete/"+id;
+           $.post("${ctx}/examschedule/countExamUseSchedule",{scheduleId:id},function(data){
+               if(data.message && parseInt(data.message)>0){
+                   if(window.confirm("已有考生参加该考试计划，您确定要删除该计划及学生考试记录吗？")){
+                       window.location.href = "${ctx}/examschedule/delete/"+id;
+                   }
+               }else{
+                   window.location.href = "${ctx}/examschedule/delete/"+id;
+               }
+           });
        }
    }
+
    function initExamTempComboGrid() {
        $("#tempName").on("keyup",function(){
            if($("#tempName").val().length==0){

@@ -23,7 +23,7 @@ public class Examination implements Serializable{
     @Column(length = 10)
     private String examStaffId;
 
-    @OneToOne
+    @OneToOne(cascade ={CascadeType.ALL})
     @JoinColumn(name = "paper_id")
     private Paper paper;
 

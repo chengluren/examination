@@ -8,9 +8,9 @@ import java.io.Serializable;
  * @version 1.0
  *          ${tags}
  */
-@Entity
-@Table(name="v_examination_stu_not")
-@IdClass(NotParticipatePK.class)
+//@Entity
+//@Table(name="v_examination_stu_not")
+//@IdClass(NotParticipatePK.class)
 public class StudentNotParticipateView implements Serializable {
     @Id
     private Long scheduleId;

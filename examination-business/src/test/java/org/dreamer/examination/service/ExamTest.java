@@ -2,6 +2,8 @@ package org.dreamer.examination.service;
 
 import org.dreamer.examination.business.ExaminationManager;
 import org.dreamer.examination.entity.*;
+import org.dreamer.examination.vo.ExamAndQuestionVO;
+import org.dreamer.examination.vo.ExamQuestionVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lcheng
@@ -28,6 +27,14 @@ public class ExamTest {
     private ExamScheduleService scheduleService;
     @Autowired
     private ExaminationManager examManager;
+    @Autowired
+    private QuestionService quesService;
+    @Autowired
+    private ExaminationService examService;
+    @Autowired
+    private AnswerService answerService;
+    @Autowired
+    private PaperService paperService;
 
 //    @Test
 //    public void testTakeExam() {
@@ -82,27 +89,46 @@ public class ExamTest {
 //    }
 
     @Test
-    public void testConcurrentNewExamination(){
-         int nt = 10;
-         final int times = 10;
-         Thread[] threads = new Thread[nt];
-        for(int i=0;i<nt;i++){
+    public void testConcurrentNewExamination() {
+        int nt = 3;
+        final int times = 10;
+        Thread[] threads = new Thread[nt];
+        for (int i = 0; i < nt; i++) {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for(int j=0;j<times;j++){
-                       examManager.newExamination("479","",250);
+                    for (int j = 0; j < times; j++) {
+                        Random r = new Random();
+                        ExamAndQuestionVO vo = examManager.newExamination("480", "", 400);
+                        Long paperId = vo.getPaperId();
+
+                        List<Answer> answers = new ArrayList();
+                        List<PaperQuestion> pqs = paperService.getPaperQuestions(paperId);
+                        for(PaperQuestion q : pqs){
+                            Answer a = new Answer();
+                            a.setExamId(vo.getExamId());
+                            a.setQuesId(q.getQuesId());
+                            String ra = quesService.getQuestion(q.getQuesId()).getAnswer();
+                            if(r.nextInt(100)>3){
+                                a.setAnswer(ra);
+                            }else{
+                                a.setAnswer("W");
+                            }
+                            answers.add(a);
+                        }
+                        answerService.addAnswers(answers);
+                        examService.scoreExam(vo.getExamId());
                     }
                 }
             });
             threads[i] = t;
         }
         long start = System.currentTimeMillis();
-        for(Thread t: threads){
+        for (Thread t : threads) {
             t.start();
         }
 
-        for(Thread t: threads){
+        for (Thread t : threads) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -110,13 +136,13 @@ public class ExamTest {
             }
         }
         long end = System.currentTimeMillis();
-        System.out.println("cost:"+(end-start)+" ms");
+        System.out.println("cost:" + (end - start) + " ms");
     }
 
     @Test
-    public void testExamTemplate(){
+    public void testExamTemplate() {
         ExamTemplate template = templateService.getExamTemplate(50);
-        Assert.assertEquals(10,template.getMustChooseDefs().size());
+        Assert.assertEquals(10, template.getMustChooseDefs().size());
     }
 
     @Test

@@ -285,109 +285,109 @@ public class ExamQueryController {
             e.printStackTrace();
         }
     }
-    @RequestMapping(value = "/notParticipate")
-    public ModelAndView getNotParticipateStuList(StudentNotParticipateView vo,@PageableDefault Pageable page){
-        ModelAndView mv = new ModelAndView("exam.notParticipate-list");
-        Map<String, Object> map = new HashMap<>();
-        if (vo.getScheduleId() != null) {
-            map.put("scheduleId", vo.getScheduleId());
-            ExamSchedule schedule = scheduleService.getExamSchedule(vo.getScheduleId());
-            mv.addObject("scheduleName", schedule.getName());
-            mv.addObject("scheduleId", vo.getScheduleId());
-        }
-        if (StringUtils.isNotEmpty(vo.getStuMajor())) {
-            map.put("stuMajor-li", vo.getStuMajor());
-        }
-        if (StringUtils.isNotEmpty(vo.getStuClassName())) {
-            map.put("stuClassName-li", vo.getStuClassName());
-        }
-        if (StringUtils.isNotEmpty(vo.getStuNo())) {
-            map.put("stuNo-li", vo.getStuNo());
-        }
-        setCollegeIdMap(map);
+//    @RequestMapping(value = "/notParticipate")
+//    public ModelAndView getNotParticipateStuList(StudentNotParticipateView vo,@PageableDefault Pageable page){
+//        ModelAndView mv = new ModelAndView("exam.notParticipate-list");
+//        Map<String, Object> map = new HashMap<>();
+//        if (vo.getScheduleId() != null) {
+//            map.put("scheduleId", vo.getScheduleId());
+//            ExamSchedule schedule = scheduleService.getExamSchedule(vo.getScheduleId());
+//            mv.addObject("scheduleName", schedule.getName());
+//            mv.addObject("scheduleId", vo.getScheduleId());
+//        }
+//        if (StringUtils.isNotEmpty(vo.getStuMajor())) {
+//            map.put("stuMajor-li", vo.getStuMajor());
+//        }
+//        if (StringUtils.isNotEmpty(vo.getStuClassName())) {
+//            map.put("stuClassName-li", vo.getStuClassName());
+//        }
+//        if (StringUtils.isNotEmpty(vo.getStuNo())) {
+//            map.put("stuNo-li", vo.getStuNo());
+//        }
+//        setCollegeIdMap(map);
+//
+//        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+//        List<SqlQueryItem> itemList = builder.builder(map);
+//        Page<StudentNotParticipateView>  notpstus = examViewService.getNotParticipateStudents(itemList,null,page);
+//        mv.addObject("notParticipate", notpstus);
+//        mv.addObject("page", notpstus.getNumber() + 1);
+//        mv.addObject("totalPage", notpstus.getTotalPages());
+//        mv.addObject("totalCount", notpstus.getTotalElements());
+//        //mv.addObject("schedulelist", scheduleService.getAllSchedule());
+//        //搜索参数
+//        if (vo == null) {
+//            vo = new StudentNotParticipateView();
+//        }
+//        mv.addObject("query", vo);
+//        return mv;
+//    }
+//
+//    @RequestMapping(value = "/notParticipateDownload")
+//    public void downloadNotParticipate(StudentNotParticipateView vo, HttpServletResponse response) {
+//        ExcelCreator creator = new NotParticipateExcelCreator(examViewService, vo);
+//        String title = "";
+//        if (vo != null && StringUtils.isNotEmpty(vo.getScheduleName())) {
+//            title = vo.getScheduleName() + "考试未参考记录表";
+//        } else {
+//            title = "考试未参考记录表";
+//        }
+//        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
+//        Long collegeId = user.getCollegeId();
+//        if (collegeId!=null && collegeId !=-1){
+//            vo.setCollegeId(collegeId);
+//        }
+//
+//        ExcelSettings settings = new ExcelSettings(title, Constants.NOT_PARTICIPATE_COLUMNS);
+//        try {
+//            response.reset();
+//            String fileName = title + ".xlsx";
+//            fileName = new String(fileName.getBytes(), "ISO8859-1");
+//            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+//            response.setContentType("application/octet-stream");
+//            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+//            creator.createExcel(settings, ((NotParticipateExcelCreator) creator).new NotParticipateDataProvider(), bos);
+//            bos.flush();
+//            bos.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
-        List<SqlQueryItem> itemList = builder.builder(map);
-        Page<StudentNotParticipateView>  notpstus = examViewService.getNotParticipateStudents(itemList,null,page);
-        mv.addObject("notParticipate", notpstus);
-        mv.addObject("page", notpstus.getNumber() + 1);
-        mv.addObject("totalPage", notpstus.getTotalPages());
-        mv.addObject("totalCount", notpstus.getTotalElements());
-        //mv.addObject("schedulelist", scheduleService.getAllSchedule());
-        //搜索参数
-        if (vo == null) {
-            vo = new StudentNotParticipateView();
-        }
-        mv.addObject("query", vo);
-        return mv;
-    }
-
-    @RequestMapping(value = "/notParticipateDownload")
-    public void downloadNotParticipate(StudentNotParticipateView vo, HttpServletResponse response) {
-        ExcelCreator creator = new NotParticipateExcelCreator(examViewService, vo);
-        String title = "";
-        if (vo != null && StringUtils.isNotEmpty(vo.getScheduleName())) {
-            title = vo.getScheduleName() + "考试未参考记录表";
-        } else {
-            title = "考试未参考记录表";
-        }
-        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
-        Long collegeId = user.getCollegeId();
-        if (collegeId!=null && collegeId !=-1){
-            vo.setCollegeId(collegeId);
-        }
-
-        ExcelSettings settings = new ExcelSettings(title, Constants.NOT_PARTICIPATE_COLUMNS);
-        try {
-            response.reset();
-            String fileName = title + ".xlsx";
-            fileName = new String(fileName.getBytes(), "ISO8859-1");
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
-            response.setContentType("application/octet-stream");
-            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
-            creator.createExcel(settings, ((NotParticipateExcelCreator) creator).new NotParticipateDataProvider(), bos);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 考试统计，通过率
-     *
-     * @param scheduleid 考试安排编号
-     * @param className  班级
-     * @param page
-     * @return
-     */
-    @RequestMapping(value = "/passratelist")
-    public ModelAndView getExamRecordPassrateList(Long scheduleid, String className, @PageableDefault Pageable page) {
-        ModelAndView mv = new ModelAndView("exam.examquerypassrate-list");
-        Page<ExaminationViewPassRateVO> examViewRecordVOs = null;
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (scheduleid != null) {
-            map.put("scheduleid", scheduleid);
-            ExamSchedule schedule = scheduleService.getExamSchedule(scheduleid);
-            mv.addObject("scheduleName", schedule.getName());
-            mv.addObject("scheduleid", scheduleid);
-        }
-        if (!StringUtils.isEmpty(className)) {
-            map.put("className-li", className);
-        }
-        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
-        List<SqlQueryItem> itemList = builder.builder(map);
-        examViewRecordVOs = examViewService.getExaminationPassRateByFilter(itemList, null, page);
-        mv.addObject("examrecord", examViewRecordVOs);
-        mv.addObject("page", examViewRecordVOs.getNumber() + 1);
-        mv.addObject("totalPage", examViewRecordVOs.getTotalPages());
-        mv.addObject("schedulelist", scheduleService.getAllSchedule());
-        //搜索参数
-        mv.addObject("scheduleid", scheduleid);
-        mv.addObject("className", className);
-        return mv;
-    }
+//    /**
+//     * 考试统计，通过率
+//     *
+//     * @param scheduleid 考试安排编号
+//     * @param className  班级
+//     * @param page
+//     * @return
+//     */
+//    @RequestMapping(value = "/passratelist")
+//    public ModelAndView getExamRecordPassrateList(Long scheduleid, String className, @PageableDefault Pageable page) {
+//        ModelAndView mv = new ModelAndView("exam.examquerypassrate-list");
+//        Page<ExaminationViewPassRateVO> examViewRecordVOs = null;
+//
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        if (scheduleid != null) {
+//            map.put("scheduleid", scheduleid);
+//            ExamSchedule schedule = scheduleService.getExamSchedule(scheduleid);
+//            mv.addObject("scheduleName", schedule.getName());
+//            mv.addObject("scheduleid", scheduleid);
+//        }
+//        if (!StringUtils.isEmpty(className)) {
+//            map.put("className-li", className);
+//        }
+//        SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+//        List<SqlQueryItem> itemList = builder.builder(map);
+//        examViewRecordVOs = examViewService.getExaminationPassRateByFilter(itemList, null, page);
+//        mv.addObject("examrecord", examViewRecordVOs);
+//        mv.addObject("page", examViewRecordVOs.getNumber() + 1);
+//        mv.addObject("totalPage", examViewRecordVOs.getTotalPages());
+//        mv.addObject("schedulelist", scheduleService.getAllSchedule());
+//        //搜索参数
+//        mv.addObject("scheduleid", scheduleid);
+//        mv.addObject("className", className);
+//        return mv;
+//    }
 
     @RequestMapping(value = "/paper")
     public ModelAndView examPaper(Long examId) {

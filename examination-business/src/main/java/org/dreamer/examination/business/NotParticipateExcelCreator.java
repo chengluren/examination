@@ -73,9 +73,10 @@ public class NotParticipateExcelCreator extends AbstractExcelCreator<StudentNotP
             if (queryParam.getCollegeId()!=null && queryParam.getCollegeId()!=-1){
                 map.put("collegeId",queryParam.getCollegeId());
             }
-            SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
-            List<SqlQueryItem> itemList = builder.builder(map);
-            return examService.getNotParticipateStudents(itemList, null, page);
+//            SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
+//            List<SqlQueryItem> itemList = builder.builder(map);
+//            return examService.getNotParticipateStudents(itemList, null, page);
+            return null;
         }
     }
 }

@@ -64,6 +64,10 @@ public class ExamTemplateService {
         return templateDao.findAll(page);
     }
 
+    public Page<BaseInfoVO> getExamTempateBaseInfo(long college,String likeName,Pageable page){
+        return templateDao.findNameInfo(college,likeName,page);
+    }
+
     public Page<BaseInfoVO> getExamTempateBaseInfo(String likeName,Pageable page){
         return templateDao.findNameInfo(likeName,page);
     }
@@ -82,6 +86,15 @@ public class ExamTemplateService {
 
     public Page<ExamTemplate> getExamTemplateByNameLike(String nameLike, Pageable page) {
         return templateDao.findByNameLike(nameLike, page);
+    }
+
+    public Page<ExamTemplate> getCollegeTemplate(long collegeId, Pageable page){
+         return templateDao.findByCollege(collegeId, page);
+    }
+
+
+    public Page<ExamTemplate> getCollegeTemplateByNameLike(long collegeId,String nameLike, Pageable page){
+        return templateDao.findByCollegeAndName(collegeId,nameLike,page);
     }
 
     public List<Object[]> getExamTemplateInfo(Long tempId) {

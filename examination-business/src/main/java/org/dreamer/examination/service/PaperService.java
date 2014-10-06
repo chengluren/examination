@@ -80,6 +80,10 @@ public class PaperService {
         paperDao.delete(paper);
     }
 
+    public void deleteSchedulePapers(Long scheduleId){
+        paperDao.deleteSchedulePapers(scheduleId);
+    }
+
 
     public Long getPaperCount()
     {

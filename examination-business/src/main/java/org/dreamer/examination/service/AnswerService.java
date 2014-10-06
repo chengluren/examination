@@ -17,16 +17,16 @@ public class AnswerService {
     private AnswerDao answerDao;
 
     public void addAnswers(List<Answer> answers){
-        for (Answer a:answers){
-            int count = answerDao.countByExamIdAndQuesId(a.getExamId(),a.getQuesId());
-            if (count>0){
-                //answerDao.deleteByExamIdAndQuesId(a.getExamId(),a.getQuesId());
-                answerDao.updateAnswer(a.getExamId(),a.getQuesId(),a.getAnswer());
-            }else{
-                answerDao.save(a);
-            }
-        }
-       // answerDao.save(answers);
+//        for (Answer a:answers){
+//            int count = answerDao.countByExamIdAndQuesId(a.getExamId(),a.getQuesId());
+//            if (count>0){
+//                //answerDao.deleteByExamIdAndQuesId(a.getExamId(),a.getQuesId());
+//                answerDao.updateAnswer(a.getExamId(),a.getQuesId(),a.getAnswer());
+//            }else{
+//                answerDao.save(a);
+//            }
+//        }
+       answerDao.save(answers);
     }
 
     public void addAnswer(Answer a){
@@ -49,5 +49,9 @@ public class AnswerService {
 
     public List<Object[]> getExamAnswerStats(Long examId){
         return answerDao.findExamAnswerStat(examId);
+    }
+
+    public void deleteScheduleAnswers(Long scheduleId){
+        answerDao.deleteBySchedule(scheduleId);
     }
 }

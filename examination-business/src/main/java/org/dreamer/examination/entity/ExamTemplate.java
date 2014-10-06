@@ -39,6 +39,9 @@ public class ExamTemplate implements Serializable {
 
     //是否将多选题混入选择题中，而不把多选题当做单独考试题型
     private boolean multiChoiceMixedInChoice;
+    //该模板是属于哪个院系的
+    @Column(name = "college")
+    private long college;
 
     public long getId() {
         return id;
@@ -86,5 +89,13 @@ public class ExamTemplate implements Serializable {
 
     public void setMultiChoiceMixedInChoice(boolean multiChoiceMixedInChoice) {
         this.multiChoiceMixedInChoice = multiChoiceMixedInChoice;
+    }
+
+    public long getCollege() {
+        return college;
+    }
+
+    public void setCollege(long college) {
+        this.college = college;
     }
 }

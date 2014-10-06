@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by lcheng on 2014/9/25.
  */
-public interface ExamStatDao extends JpaRepository<ExamStatView,Long> {
+//public interface ExamStatDao extends JpaRepository<ExamStatView,Long> {
+public interface ExamStatDao {
 
-    public Page<ExamStatView> findByExamStaffId(String staffId,Pageable page);
-
-    public Page<ExamStatView> findByExamStaffIdAndScheduleId(String staffId,Long scheduleId,Pageable page);
+//    public Page<ExamStatView> findByExamStaffId(String staffId,Pageable page);
+//
+//    public Page<ExamStatView> findByExamStaffIdAndScheduleId(String staffId,Long scheduleId,Pageable page);
 }

@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.Query;
  * @version 1.0
  *          ${tags}
  */
-public interface ExaminationViewPassRateDao extends CommonRepository<ExaminationViewPassRateVO,Long>{
+//public interface ExaminationViewPassRateDao extends CommonRepository<ExaminationViewPassRateVO,Long>{
 
-    @Query(value = "select sum(ev.passrate)/count(ev.id) from ExaminationViewPassRateVO ev")
-    public Double getAveragePassRate();
+public interface ExaminationViewPassRateDao {
+
+//    @Query(value = "select sum(ev.passrate)/count(ev.id) from ExaminationViewPassRateVO ev")
+//    public Double getAveragePassRate();
 }

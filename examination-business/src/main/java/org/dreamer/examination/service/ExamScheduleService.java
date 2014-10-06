@@ -30,6 +30,12 @@ public class ExamScheduleService {
     private ExamScheduleViewDao scheduleViewDao;
     @Autowired
     private ScheduleMajorDao scheduleMajorDao;
+    @Autowired
+    private ExaminationService examService;
+    @Autowired
+    private PaperService paperService;
+    @Autowired
+    private AnswerService answerService;
 
     public void addExamSchedule(ExamSchedule schedule) {
         scheduleDao.save(schedule);
@@ -120,6 +126,9 @@ public class ExamScheduleService {
 
 
     public void delete(Long id) {
+        answerService.deleteScheduleAnswers(id);
+        //paperService.deleteSchedulePapers(id);
+        examService.deleteExamination(id);
         scheduleDao.delete(id);
         scheduleMajorDao.deleteByScheduleId(id);
     }

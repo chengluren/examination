@@ -10,8 +10,8 @@ import java.util.Date;
 /**
  * Created by lcheng on 2014/9/25.
  */
-@Entity
-@Table(name = "v_exam_stats")
+//@Entity
+//@Table(name = "v_exam_stats")
 public class ExamStatView implements Serializable {
     @Id
     private Long id;

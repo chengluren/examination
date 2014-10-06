@@ -30,10 +30,10 @@ public class ExaminationViewService {
     @Autowired
     private ExaminationViewPassDao examViewPassDao;
 
-    @Autowired
-    private ExaminationViewPassRateDao examinationViewPassRateDao;
-    @Autowired
-    private StudentNotParticipateDao notParticipateDao;
+    //    @Autowired
+//    private ExaminationViewPassRateDao examinationViewPassRateDao;
+//    @Autowired
+//    private StudentNotParticipateDao notParticipateDao;
 
     /**
      * 成绩查询
@@ -82,25 +82,26 @@ public class ExaminationViewService {
      * @param _page
      * @return
      */
-    public Page<ExaminationViewPassRateVO> getExaminationPassRateByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
-        Page<ExaminationViewPassRateVO> examPage = examinationViewPassRateDao.queryResult(_paramList, _sortList, _page);
-        return examPage;
-    }
+//    public Page<ExaminationViewPassRateVO> getExaminationPassRateByFilter(List<SqlQueryItem> _paramList, List<SqlSortItem> _sortList, Pageable _page) {
+//        Page<ExaminationViewPassRateVO> examPage = examinationViewPassRateDao.queryResult(_paramList, _sortList, _page);
+//        return examPage;
+//    }
 
 
-    public Double getAveragePassRate() {
-        return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0 : examinationViewPassRateDao.getAveragePassRate();
-    }
+//    public Double getAveragePassRate() {
+//        return examinationViewPassRateDao.getAveragePassRate() == null ? 100.0 : examinationViewPassRateDao.getAveragePassRate();
+//    }
 
     /**
      * 查询未参加考试的学生
+     *
      * @param paramList
      * @param sortList
      * @param page
      * @return
      */
-    public Page<StudentNotParticipateView> getNotParticipateStudents(List<SqlQueryItem> paramList, List<SqlSortItem> sortList, Pageable page){
-        return notParticipateDao.queryResult(paramList,sortList,page);
-    }
+//    public Page<StudentNotParticipateView> getNotParticipateStudents(List<SqlQueryItem> paramList, List<SqlSortItem> sortList, Pageable page) {
+//        return notParticipateDao.queryResult(paramList, sortList, page);
+//    }
 
 }

@@ -23,12 +23,23 @@ public interface ExamTemplateDao extends JpaRepository<ExamTemplate,Long> {
 
     public List<ExamTemplate> findByNameLike(String likeName);
 
+    public Page<ExamTemplate> findByCollege(long collegeId,Pageable pageable);
+
     public Page<ExamTemplate> findByName(String name,Pageable pageable);
+
+    public Page<ExamTemplate> findByCollegeAndName(long college,String name,Pageable pageable);
 
     public Page<ExamTemplate> findByNameLike(String likeName,Pageable pageable);
 
-    @Query("select new org.dreamer.examination.vo.BaseInfoVO(t.id,t.name) from ExamTemplate t where t.name like ?1")
+    public Page<ExamTemplate> findByCollegeAndNameLike(long college,String likeName,Pageable pageable);
+
+    @Query("select new org.dreamer.examination.vo.BaseInfoVO(t.id,t.name) from ExamTemplate t " +
+            "where t.name like ?1 order by t.id desc")
     public Page<BaseInfoVO> findNameInfo(String likeName,Pageable pageable);
+
+    @Query("select new org.dreamer.examination.vo.BaseInfoVO(t.id,t.name) from ExamTemplate t where t.college =?1 " +
+            "and t.name like ?2 order by t.id desc")
+    public Page<BaseInfoVO> findNameInfo(long collegeId,String likeName,Pageable pageable);
 
     @Query("select t.id,t.name,t.passScore,t.multiChoiceMixedInChoice from ExamTemplate t where t.id = ?1")
     public List<Object[]> findTemplateBaseInfo(Long tempId);

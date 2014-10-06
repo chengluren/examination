@@ -316,17 +316,19 @@
 
     function save(){
         var result = collectAllData();
-        if(result.tempQuesDefs && result.tempQuesDefs.length>0){
-            $.post("${ctx}/template/new",{
-                "template":JSON.stringify(result)
-            },function(data){
-                 if(data.success){
-                    window.location.href = "${ctx}/template/list";
-                 }else{
-                     alert(data.message);
-                 }
-            });
+        if(result.tempQuesDefs.length==0 && result.mustChooseDefs.length==0){
+            alert("您没有为考试选择必考题或者随机题！");
+            return;
         }
+        $.post("${ctx}/template/new",{
+            "template":JSON.stringify(result)
+        },function(data){
+            if(data.success){
+                window.location.href = "${ctx}/template/list";
+            }else{
+                alert(data.message);
+            }
+        });
     }
 
     function loadMustChooseData(page, size) {

@@ -36,6 +36,9 @@
                     <shiro:hasRole name="admin">
                         <li><a href="${ctx}/store/list"><i class="fa fa-angle-double-right"></i> 题库分类</a></li>
                     </shiro:hasRole>
+                    <shiro:hasRole name="major-admin">
+                        <li><a href="${ctx}/store/college"><i class="fa fa-angle-double-right"></i> 题库列表</a></li>
+                    </shiro:hasRole>
                     <c:if test="${questionListType=='db'}">
                         <li><a href="${ctx}/question/list"><i class="fa fa-angle-double-right"></i> 试题管理</a></li>
                     </c:if>

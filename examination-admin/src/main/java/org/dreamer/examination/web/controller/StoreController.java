@@ -118,6 +118,29 @@ public class StoreController {
         return "redirect:/store/list";
     }
 
+    @RequestMapping(value = "/college")
+    public ModelAndView getCollegeMajorStore(Long mid) {
+        ModelAndView mv = new ModelAndView("exam.store-major");
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user != null && user.getCollegeId() != -1) {
+            Long collegeId = user.getCollegeId();
+            College col = collegeService.getCollege(collegeId);
+            List<Major> majors = col.getMajors();
+            mv.addObject("majors", majors);
+            if (mid == null) {
+                if (majors.size() > 0) {
+                    mid = majors.get(0).getId();
+                }
+            }
+            if (mid != null) {
+                mv.addObject("cmId",mid);
+                List<QuestionStore> stores = storeService.getStoreForMajor(mid);
+                mv.addObject("stores", stores);
+            }
+        }
+        return mv;
+    }
+
     @RequestMapping(value = "/major")
     @ResponseBody
     public JSONPObject getMajorStore(Long major, String callback) {

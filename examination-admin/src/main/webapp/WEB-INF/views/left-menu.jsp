@@ -77,21 +77,24 @@
                     <%--<li><a href="${ctx}/examquery/passratelist"><i class="fa fa-angle-double-right"></i> 考试成绩统计</a></li>--%>
                 </ul>
             </li>
-            <shiro:hasRole name="admin">
+
             <li class="treeview active">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>系统管理</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <c:if test="${questionListType=='index'}">
-                        <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
-                    </c:if>
-                    <li><a href="${ctx}/rbac/userRolesList"><i class="fa fa-angle-double-right"></i> 用户角色管理</a></li>
-                    <li><a href="${ctx}/rbac/rolePermissionList"><i class="fa fa-angle-double-right"></i> 角色权限管理</a></li>
+                    <shiro:hasRole name="admin">
+                        <c:if test="${questionListType=='index'}">
+                            <li><a href="${ctx}/index/admin"><i class="fa fa-angle-double-right"></i> 索引管理</a></li>
+                        </c:if>
+                        <li><a href="${ctx}/rbac/userRolesList"><i class="fa fa-angle-double-right"></i> 用户角色管理</a></li>
+                        <li><a href="${ctx}/rbac/rolePermissionList"><i class="fa fa-angle-double-right"></i> 角色权限管理</a></li>
+                    </shiro:hasRole>
+                    <li><a href="${ctx}/rbac/modifyPwd"><i class="fa fa-angle-double-right"></i> 修改密码</a></li>
                 </ul>
             </li>
-            </shiro:hasRole>
+
         </ul>
     </section>
     <!-- /.sidebar -->

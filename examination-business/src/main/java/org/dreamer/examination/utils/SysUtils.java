@@ -1,5 +1,6 @@
 package org.dreamer.examination.utils;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -73,5 +74,12 @@ public class SysUtils implements ApplicationContextAware {
      */
     public static String getConfigValue(String propName, String defaultValue) {
         return SysUtils.getAppConfigProp().getProperty(propName, defaultValue);
+    }
+
+    public static String hashPwd(String pwd,String salt){
+        Md5Hash hash = new Md5Hash(pwd);
+        String p2 = hash.toString()+salt;
+        hash = new Md5Hash(p2);
+        return hash.toString();
     }
 }

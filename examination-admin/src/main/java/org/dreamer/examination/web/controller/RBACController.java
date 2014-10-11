@@ -4,7 +4,9 @@ import org.dreamer.examination.entity.Result;
 import org.dreamer.examination.entity.RolePermission;
 import org.dreamer.examination.entity.User;
 import org.dreamer.examination.entity.UserRole;
+import org.dreamer.examination.rbac.ShiroDatabaseRealm;
 import org.dreamer.examination.service.RBACService;
+import org.dreamer.examination.utils.SysUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -112,5 +114,27 @@ public class RBACController {
             result = new Result(false, "删除角色权限失败!");
         }
         return result;
+    }
+
+    @RequestMapping(value = "/modifyPwd", method = RequestMethod.GET)
+    public ModelAndView modifyPwd(){
+        ModelAndView mv = new ModelAndView("exam.pwd-edit");
+        return mv;
+    }
+
+    @RequestMapping(value = "/modifyPwd", method = RequestMethod.POST)
+    public @ResponseBody Result modifyPwd(String newPwd){
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
+        if (user!=null){
+            Long uid = user.getId();
+            User u = rbacService.getUser(uid);
+            String hashedPwd = SysUtils.hashPwd(newPwd,u.getSalt());
+            rbacService.updateUserPwd(hashedPwd,uid);
+            Result result = new Result(true,"");
+            return result;
+        } else{
+            Result result = new Result(false,"");
+            return result;
+        }
     }
 }

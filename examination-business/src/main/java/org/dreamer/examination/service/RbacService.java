@@ -30,10 +30,10 @@ public class RBACService {
     @Autowired
     private RolePermissionDao rolePermissionDao;
 
-    public ShiroDatabaseRealm.ShiroUser getCurrentUser(){
+    public ShiroDatabaseRealm.ShiroUser getCurrentUser() {
         Object obj = SecurityUtils.getSubject().getPrincipal();
-        if (obj!=null && obj instanceof ShiroDatabaseRealm.ShiroUser){
-            return (ShiroDatabaseRealm.ShiroUser)obj;
+        if (obj != null && obj instanceof ShiroDatabaseRealm.ShiroUser) {
+            return (ShiroDatabaseRealm.ShiroUser) obj;
         }
         return null;
     }
@@ -50,11 +50,11 @@ public class RBACService {
         return userRoleDao.findByUserName(userName);
     }
 
-    public List<String> getUserRoleStr(String userName){
-         return userRoleDao.findUserRoleNames(userName);
+    public List<String> getUserRoleStr(String userName) {
+        return userRoleDao.findUserRoleNames(userName);
     }
 
-    public List<String> getAdminUserCollege(Long userRoleid){
+    public List<String> getAdminUserCollege(Long userRoleid) {
         return userRoleDao.findAdminUserCollege(userRoleid);
     }
 
@@ -62,12 +62,20 @@ public class RBACService {
         return rolePermissionDao.findByRoleName(roleName);
     }
 
-    public List<String> getRolePermissionStr(String roleName){
+    public List<String> getRolePermissionStr(String roleName) {
         return rolePermissionDao.findRolePermissions(roleName);
     }
 
     public void addUser(User user) {
         userDao.save(user);
+    }
+
+    public User getUser(Long uid) {
+        return userDao.findOne(uid);
+    }
+
+    public void updateUserPwd(String hashedPwd, Long uid) {
+        userDao.updateUserPwd(hashedPwd, uid);
     }
 
     public void addUserRole(UserRole userRole) {

@@ -47,7 +47,7 @@
     function deleteTemplate(id){
         if(window.confirm("您确定要删除该考试方案吗？")){
             $.ajax({
-                url:"/template/delete",
+                url:"${ctx}/template/delete",
                 method:"get",
                 data:{
                     tempId : id

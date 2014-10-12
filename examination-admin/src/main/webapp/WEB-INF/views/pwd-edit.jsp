@@ -24,7 +24,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" id="newPwdForm">
                             <div class="form-group">
                                 <label for="newPwd" class="col-sm-2 control-label">新密码:</label>
                                 <div class="col-sm-3">

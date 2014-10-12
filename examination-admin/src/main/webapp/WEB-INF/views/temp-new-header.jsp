@@ -320,6 +320,17 @@
             alert("您没有为考试选择必考题或者随机题！");
             return;
         }
+        var ts=0;
+        for(var i=0;i<result.mustChooseDefs.length;i++){
+            ts = ts + result.mustChooseDefs[i].score;
+        }
+        for(var i=0;i<result.tempQuesDefs.length;i++){
+            ts = ts + result.tempQuesDefs[i]['count']*result.tempQuesDefs[i]['score'];
+        }
+        if(ts < result.passScore){
+            alert("试卷总分小于考试通过分数，请恰当设置考试通过分数值!");
+            return;
+        }
         $.post("${ctx}/template/new",{
             "template":JSON.stringify(result)
         },function(data){

@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/jquery.validate.js"></script>
+<script type="text/javascript" src="${ctx}/asset/js/plugins/validation/messages_zh.js"></script>
+
 <script type="text/javascript">
     function bindConfirmCheck() {
         $("#pwdConfirm").on("keyup", function () {
@@ -31,6 +34,11 @@
         var newPwd = $("#newPwd").val(),
                 pwdConfirm = $("#pwdConfirm").val();
         if (newPwd == pwdConfirm) {
+            var valid = $("#newPwdForm").valid();
+            if(!valid){
+                alert("新密码不能为空，并且至少6个字符长!");
+                return;
+            }
             $.post("${ctx}/rbac/modifyPwd", {'newPwd': newPwd}, function (data) {
                 if (data.success) {
                     alert("密码修改成功!");
@@ -43,8 +51,18 @@
         }
     }
 
+    function bindValidator(){
+        $("#newPwdForm").validate({
+            rules:{
+                "newPwd":{required: true,minlength:6},
+                "pwdConfirm":{required: true,minlength:6}
+            }
+        });
+    }
+
     $(document).ready(function(){
         bindConfirmCheck();
+        bindValidator();
     });
 
 </script>

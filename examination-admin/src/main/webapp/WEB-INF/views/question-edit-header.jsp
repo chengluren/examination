@@ -7,15 +7,17 @@
     var quesType = '${quesType}';
     var page = ${page};
     function deleteOption(id, groupId) {
-        if (id && id != "") {
-            var url = "${ctx}/question/option/delete/" + id;
-            $.post(url, function (data) {
-                if (data.success) {
-                    $(groupId).remove();
-                }
-            });
-        } else {
-            $(groupId).remove();
+        if(window.confirm("您确定要删除该选项吗?")){
+            if (id && id != "") {
+                var url = "${ctx}/question/option/delete/" + id;
+                $.post(url, function (data) {
+                    if (data.success) {
+                        $(groupId).remove();
+                    }
+                });
+            } else {
+                $(groupId).remove();
+            }
         }
     }
     function createNewOption() {

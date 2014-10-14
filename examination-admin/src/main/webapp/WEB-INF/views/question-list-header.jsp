@@ -42,7 +42,7 @@
         $(el).bootstrapPaginator(pgOptions);
     }
     function deleteQuestion(id){
-       if(window.confirm("您确定要删除该实体吗？")){
+       if(window.confirm("您确定要删除该试题吗？")){
            var storeId = $("#stores").val(),
                quesType = $("#quesType").val(),
                page = $("#paginator").bootstrapPaginator("getPages").current;

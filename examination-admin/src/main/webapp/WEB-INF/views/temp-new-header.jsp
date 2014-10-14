@@ -322,7 +322,7 @@
         }
         var ts=0;
         for(var i=0;i<result.mustChooseDefs.length;i++){
-            ts = ts + result.mustChooseDefs[i].score;
+            ts = ts + parseInt(result.mustChooseDefs[i].score);
         }
         for(var i=0;i<result.tempQuesDefs.length;i++){
             ts = ts + result.tempQuesDefs[i]['count']*result.tempQuesDefs[i]['score'];

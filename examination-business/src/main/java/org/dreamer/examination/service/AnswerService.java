@@ -39,6 +39,10 @@ public class AnswerService {
        }
     }
 
+    public void deleteAnswer(Long id){
+        answerDao.delete(id);
+    }
+
     public List<Answer> getExamAnswers(Long examId){
         return answerDao.findByExamId(examId);
     }

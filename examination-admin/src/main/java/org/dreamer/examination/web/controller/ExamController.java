@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 考试控制器
@@ -189,6 +186,27 @@ public class ExamController {
         result.put("quesStat", statMap);
         result.put("answers", answerMap);
         return new JSONPObject(callback, result);
+    }
+
+    @RequestMapping(value = "/correctAnswerCommit")
+    @ResponseBody
+    public JSONPObject correctAnswerCommit(String callback) {
+        List<Examination> exams = examService.getExamination();
+        Set<Long> temp = null;
+        for (Examination exam : exams){
+            temp = new HashSet<>();
+            List<Answer> answers =  answerService.getExamAnswers(exam.getId());
+            for (Answer a : answers){
+                if (temp.contains(a.getQuesId())){
+                   answerService.deleteAnswer(a.getId());
+                   //System.out.println("delete answer:" + a.getExamId() + "," + a.getQuesId());
+                }else{
+                    temp.add(a.getQuesId());
+                }
+            }
+            examService.scoreExam(exam.getId());
+        }
+        return new JSONPObject(callback,"1");
     }
 
     private List<Map<String, ?>> convertAnswers(List<Object[]> result) {

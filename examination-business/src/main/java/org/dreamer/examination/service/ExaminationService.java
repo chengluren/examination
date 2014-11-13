@@ -1,6 +1,7 @@
 package org.dreamer.examination.service;
 
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.ArrayUtils;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.*;
 import org.dreamer.examination.vo.AnswerJudgeVO;
@@ -46,6 +47,10 @@ public class ExaminationService {
 
     public Examination getExamination(long examId) {
         return examDao.findOne(examId);
+    }
+
+    public List<Examination> getExamination(){
+       return examDao.findAll();
     }
 
     public Page<ExamRecordVO> getExamRecords(String straffId, Pageable page) {
@@ -100,22 +105,31 @@ public class ExaminationService {
                     }
                 } else if (type.equals(Types.QuestionType.MultipleChoice)) {
                     String[] as = vo.getAnswer().trim().split(",");
-                    String[] ras = vo.getRealAnswer().split(",");
+                    //String[] ras = vo.getRealAnswer().split(",");
+                    String ra = vo.getRealAnswer();
+                    String[] ras = new String[ra.length()];
+                    for(int i=0;i<ra.length();i++){
+                        ras[i] = String.valueOf(ra.charAt(i));
+                    }
                     Set<String> aset = Sets.newHashSet(as);
                     Set<String> rset = Sets.newHashSet(ras);
                     if (rset.size() == aset.size() && Sets.intersection(aset, rset).containsAll(aset)) {
                         score += vo.getScore();
-                    } else if (rset.size() < aset.size() && Sets.intersection(aset, rset).containsAll(rset)) {
+                    } else {
                         log.info(vo.getQuesId()+" : "+vo.getRealAnswer()+"-->"+vo.getAnswer());
-                        if (rset.size() > 0 && aset.size() > 0) {
-                            score += (vo.getScore() * (rset.size() / aset.size()));
-                        }
-//                        score += (vo.getScore()/2.0);
                     }
+//                    else if (rset.size() < aset.size() && Sets.intersection(aset, rset).containsAll(rset)) {
+//
+//                        if (rset.size() > 0 && aset.size() > 0) {
+//                            score += (vo.getScore() * (rset.size() / aset.size()));
+//                        }
+//                    }
                 }
             }
         }
-        examDao.updateExamFinalScore(examId, score, new Date());
+        Examination e = examDao.getOne(examId);
+        Date d = e.getCommitTime()!=null ? e.getCommitTime() : new Date();
+        examDao.updateExamFinalScore(examId, score, d);
         log.info(examId+" total score is "+score);
         return score;
     }

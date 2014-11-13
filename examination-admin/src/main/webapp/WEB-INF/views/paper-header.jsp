@@ -47,12 +47,16 @@
                 function (data) {
                     $.each(data, function (idx, val) {
                         var el =$("#a" + val[0]),
-                            answer = (val[1]=="1") ? "√":((val[1]=="0") ? "×":val[1]);
-                        if(el && $.trim(el.attr("a"))!=val[1]){
+                            answer = (val[1]=="1") ? "√":((val[1]=="0") ? "×":val[1]),
+                            correctAnswer="";
+                        if(el){
+                            correctAnswer = $.trim(el.attr("a")).replace(/,/gm,'');
+                        }
+                        if(el && correctAnswer!=val[1]){
                             el.parent().addClass("txt-underline");
                              el.addClass("text-red");
                              el.html(answer);
-                        }else if(el && $.trim(el.attr("a"))==val[1]){
+                        }else if(el && correctAnswer==val[1]){
                             el.addClass("text-success");
                             el.html(answer);
                         }

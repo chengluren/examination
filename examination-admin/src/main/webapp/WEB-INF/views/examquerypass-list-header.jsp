@@ -92,7 +92,7 @@
         var page = ${page},
                 totalPage = ${totalPage};
         if(page>0 && totalPage>=page){
-            createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/notpasslist");
+            createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/passlist");
         }
     });
 </script>

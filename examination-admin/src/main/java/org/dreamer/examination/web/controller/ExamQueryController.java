@@ -9,18 +9,21 @@ import org.dreamer.examination.service.*;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.utils.Constants;
+import org.dreamer.examination.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -121,7 +124,7 @@ public class ExamQueryController {
     public ModelAndView getExamRecordPassList(ExaminationViewPassVO viewVO, @PageableDefault Pageable page) {
         ModelAndView mv = new ModelAndView("exam.examquerypass-list");
         Page<ExaminationViewPassVO> examViewRecordVOs = null;
-        if (viewVO.getPromise()==null){
+        if (viewVO.getPromise() == null) {
             viewVO.setPromise(-1);
         }
 
@@ -141,8 +144,8 @@ public class ExamQueryController {
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
         }
-        if (viewVO.getPromise()!=null && viewVO.getPromise()!=-1){
-            map.put("promise",viewVO.getPromise());
+        if (viewVO.getPromise() != null && viewVO.getPromise() != -1) {
+            map.put("promise", viewVO.getPromise());
         }
         setCollegeIdMap(map);
 
@@ -204,7 +207,7 @@ public class ExamQueryController {
             response.setContentType("application/octet-stream");
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
 
-            CertificateCreator creator = new CertificateCreator(examViewService,vo);
+            CertificateCreator creator = new CertificateCreator(examViewService, vo);
             XWPFDocument word = creator.create();
             word.write(bos);
             bos.flush();
@@ -389,6 +392,41 @@ public class ExamQueryController {
 //        return mv;
 //    }
 
+    @RequestMapping(value = "/notParticipate", method = RequestMethod.GET)
+    public ModelAndView notParticipate(Long scheId, String scheName, String className) {
+        ModelAndView mv = new ModelAndView("exam.notParticipate-list");
+        try{
+            if (className != null) {
+                className = new String(className.getBytes(), "ISO8859-1");
+                mv.addObject("className", className);
+            }
+            if (scheName!=null){
+                scheName = new String(scheName.getBytes(), "ISO8859-1");
+                mv.addObject("scheName", scheName);
+            }
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (scheId != null) {
+            mv.addObject("scheId", scheId);
+        }else{
+            mv.addObject("scheId", -1L);
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = "/notParticipateData", method = RequestMethod.GET)
+    @ResponseBody
+    public List<StudentVO> notParticipateData(Long scheId, String className) {
+        List<StudentVO> data = new ArrayList<>();
+        if (scheId != null && scheId!=-1 && StringUtils.isNotEmpty(className)) {
+            data = scheduleService.getScheduleParticipateStudent(scheId, className);
+        } else if (scheId != null && scheId!=-1 && StringUtils.isEmpty(className)) {
+            data = scheduleService.getScheduleParticipateStudent(scheId);
+        }
+        return data;
+    }
+
     @RequestMapping(value = "/paper")
     public ModelAndView examPaper(Long examId) {
         ModelAndView mv = new ModelAndView("exam.paper");
@@ -446,19 +484,19 @@ public class ExamQueryController {
         return result;
     }
 
-    private void setCollegeId(ExaminationViewBaseClass vo){
-        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
+    private void setCollegeId(ExaminationViewBaseClass vo) {
+        ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
         Long collegeId = user.getCollegeId();
-        if (collegeId!=null && collegeId !=-1){
+        if (collegeId != null && collegeId != -1) {
             vo.setCollegeId(collegeId);
         }
     }
 
-    private void setCollegeIdMap(Map<String,Object> map){
+    private void setCollegeIdMap(Map<String, Object> map) {
         ShiroDatabaseRealm.ShiroUser user = rbacService.getCurrentUser();
-        if (user!=null){
+        if (user != null) {
             long collegeId = user.getCollegeId();
-            if(collegeId!=-1){
+            if (collegeId != -1) {
                 map.put("collegeId", collegeId);
             }
         }

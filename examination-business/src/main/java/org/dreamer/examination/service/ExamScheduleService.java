@@ -1,6 +1,7 @@
 package org.dreamer.examination.service;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.repository.ExamScheduleDao;
 import org.dreamer.examination.repository.ExamScheduleViewDao;
@@ -9,6 +10,7 @@ import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.dreamer.examination.vo.ExamScheduleVO;
 import org.dreamer.examination.vo.ScheduleDateVO;
+import org.dreamer.examination.vo.StudentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ExamScheduleService {
@@ -138,8 +141,8 @@ public class ExamScheduleService {
         return scheduleList;
     }
 
-    public List<ScheduleDateVO> getCollegeScheduleByDate(Long collegeId,Date begin, Date end){
-        return scheduleDao.findCollegeScheduleByDateFilter(collegeId,begin,end);
+    public List<ScheduleDateVO> getCollegeScheduleByDate(Long collegeId, Date begin, Date end) {
+        return scheduleDao.findCollegeScheduleByDateFilter(collegeId, begin, end);
     }
 
     public List<Integer> getStudentSessions() {
@@ -164,6 +167,46 @@ public class ExamScheduleService {
                                                           Long tempId, Pageable page) {
         return scheduleDao.findCollegeSchedule(collegeId, nameLike, tempId, page);
     }
+
+    public List<StudentVO> getScheduleStudent(Long scheduleId) {
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId);
+        List<StudentVO> result = toStudentVO(stus);
+        return result;
+    }
+
+    public List<StudentVO> getScheduleStudent(Long scheduleId,String className) {
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,className);
+        List<StudentVO> result = toStudentVO(stus);
+        return result;
+    }
+
+    public List<StudentVO> getScheduleParticipateStudent(Long scheduleId){
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId);
+        List<String> joined = scheduleDao.findParticipateStudents(scheduleId);
+        Set<String> joinedId = Sets.newHashSet(joined);
+        List<StudentVO> result = new ArrayList<>();
+        for (Object[] stu : stus){
+            if (!joinedId.contains(stu[5].toString())){
+                StudentVO vo = new StudentVO(stu);
+                result.add(vo);
+            }
+        }
+        return result;
+    }
+
+    public List<StudentVO> getScheduleParticipateStudent(Long scheduleId,String className){
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,className);
+        List<String> joined = scheduleDao.findParticipateStudents(scheduleId,className);
+        Set<String> joinedId = Sets.newHashSet(joined);
+        List<StudentVO> result = new ArrayList<>();
+        for (Object[] stu : stus){
+            if (!joinedId.contains(stu[5].toString())){
+                StudentVO vo = new StudentVO(stu);
+                result.add(vo);
+            }
+        }
+        return result;
+    }
     //============================================================
 
     public void updateScheduleMajorNames(Long id) {
@@ -172,6 +215,15 @@ public class ExamScheduleService {
             String majorNames = Joiner.on(",").join(majors);
             scheduleDao.updateScheduleMajorNames(id, majorNames);
         }
+    }
+
+    private List<StudentVO> toStudentVO(List<Object[]> stus){
+        List<StudentVO> result = new ArrayList<>(stus.size());
+        for (Object[] stu : stus){
+            StudentVO vo = new StudentVO(stu);
+            result.add(vo);
+        }
+        return result;
     }
 
 }

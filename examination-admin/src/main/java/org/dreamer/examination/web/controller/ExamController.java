@@ -190,23 +190,39 @@ public class ExamController {
 
     @RequestMapping(value = "/correctAnswerCommit")
     @ResponseBody
-    public JSONPObject correctAnswerCommit(String callback) {
-        List<Examination> exams = examService.getExamination();
-        Set<Long> temp = null;
-        for (Examination exam : exams){
-            temp = new HashSet<>();
+    public JSONPObject correctAnswerCommit(Long examId,String callback) {
+        if (examId==null){
+            List<Examination> exams = examService.getExamination();
+            Set<Long> temp = null;
+            for (Examination exam : exams){
+                temp = new HashSet<>();
+                List<Answer> answers =  answerService.getExamAnswers(exam.getId());
+                for (Answer a : answers){
+                    if (temp.contains(a.getQuesId())){
+                        answerService.deleteAnswer(a.getId());
+                        //System.out.println("delete answer:" + a.getExamId() + "," + a.getQuesId());
+                    }else{
+                        temp.add(a.getQuesId());
+                    }
+                }
+                examService.scoreExam(exam.getId());
+            }
+        }else{
+            Examination exam = examService.getExamination(examId);
+            Set<Long> temp = new HashSet<>();
             List<Answer> answers =  answerService.getExamAnswers(exam.getId());
             for (Answer a : answers){
                 if (temp.contains(a.getQuesId())){
-                   answerService.deleteAnswer(a.getId());
-                   //System.out.println("delete answer:" + a.getExamId() + "," + a.getQuesId());
+                    answerService.deleteAnswer(a.getId());
                 }else{
                     temp.add(a.getQuesId());
                 }
             }
             examService.scoreExam(exam.getId());
         }
-        return new JSONPObject(callback,"1");
+        Map<String,String> result = new HashMap<>();
+        result.put("success","1");
+        return new JSONPObject(callback,result);
     }
 
     private List<Map<String, ?>> convertAnswers(List<Object[]> result) {

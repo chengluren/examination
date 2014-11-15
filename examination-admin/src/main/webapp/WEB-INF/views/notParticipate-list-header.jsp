@@ -2,12 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <style>
-    .box .box-tools a{ color: #ffffff; }
+    .box .box-tools a {
+        color: #ffffff;
+    }
 </style>
-<script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>
+<%--<script type="text/javascript" src="${ctx}/asset/js/plugins/bspaginator/bootstrap-paginator.js"></script>--%>
 <link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery-ui-1.10.1.custom.css" rel="stylesheet" type="text/css"/>
 <link href="${ctx}/asset/js/plugins/combogrid/css/smoothness/jquery.ui.combogrid.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}/asset/js/plugins/bstable/bootstrap-table.min.css" rel="stylesheet" type="text/css"/>
 <script src="${ctx}/asset/js/plugins/combogrid/jquery.ui.combogrid-1.6.3.js" type="text/javascript"></script>
+<script src="${ctx}/asset/js/plugins/bstable/bootstrap-table.min.js" type="text/javascript"></script>
+<script src="${ctx}/asset/js/plugins/bstable/bootstrap-table-zh-CN.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     function createPaginator(ulId, curPage, totalPage, toUrl) {
         var pgOptions = {
@@ -37,7 +42,7 @@
         $("#" + ulId).bootstrapPaginator(pgOptions);
     }
 
-    function examRecordDownload(){
+    function examRecordDownload() {
         var param = {
             scheduleId: $("#scheduleId").val(),
             majorName: $("#stuMajor").val(),
@@ -45,15 +50,15 @@
             stuNo: $("#stuNo").val()
         };
         var p = $.param(param),
-                url = "${ctx}/examquery/notParticipateDownload?"+ p,
+                url = "${ctx}/examquery/notParticipateDownload?" + p,
                 url = encodeURI(url);
         window.location.href = url;
     }
 
     function initScheduleComboGrid() {
-        $("#scheduleName").on("keyup",function(){
-            if($("#scheduleName").val().length==0){
-                $("#scheduleId").val("");
+        $("#scheduleName").on("keyup", function () {
+            if ($("#scheduleName").val().length == 0) {
+                $("#scheId").val("");
             }
         });
         $("#scheduleName").combogrid({
@@ -66,19 +71,32 @@
             ],
             select: function (event, ui) {
                 $("#scheduleName").val(ui.item.name);
-                $("#scheduleId").val(ui.item.id);
+                $("#scheId").val(ui.item.id);
                 return false;
             },
-            showOn:true
+            showOn: true
+        });
+    }
+
+    function initTable() {
+        $("#dataTable").bootstrapTable({
+            url: "${ctx}/examquery/notParticipateData",
+            queryParams: function (params) {
+                params['scheId'] = '${scheId}';
+                params['className'] = '${className}';
+                return params;
+            },
+            method:"GET"
         });
     }
 
     $(document).ready(function () {
         initScheduleComboGrid();
-        var page = ${page},
-                totalPage = ${totalPage};
-        if(page>0 && totalPage>=page){
-            createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/notParticipate");
-        }
+        initTable();
+        <%--var page = ${page},--%>
+        <%--totalPage = ${totalPage};--%>
+        <%--if(page>0 && totalPage>=page){--%>
+        <%--createPaginator("paginator", ${page}, ${totalPage}, "${ctx}/examquery/notParticipate");--%>
+        <%--}--%>
     });
 </script>

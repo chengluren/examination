@@ -76,6 +76,32 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule, Long> {
     public Page<ExamScheduleViewVO> findCollegeSchedule(Long collegeId, String nameLike, Long tempId, Pageable page);
     //===========================================================
 
+    //===================查找考试计划需要参与的学生=================
+    @Query(value = "select s.stu_collage,s.stu_professional,s.stu_class_name,s.stu_name,s.stu_username,s.stu_id " +
+            "from jiaoda_member_student s where s.stu_professional_id in (" +
+            "SELECT sm.majorId  FROM schedule_majors sm WHERE sm.scheduleId = ?1) order by s.stu_username",
+            nativeQuery = true)
+    public List<Object[]> findScheduleStudents(Long scheduleId);
+
+    @Query(value = "select s.stu_collage,s.stu_professional,s.stu_class_name,s.stu_name,s.stu_username,s.stu_id" +
+            "from jiaoda_member_student s where s.stu_professional_id in (" +
+            "SELECT sm.majorId  FROM schedule_majors sm WHERE sm.scheduleId = ?1) " +
+            "AND s.stu_class_name like ?2 " +
+            "order by s.stu_username",
+            nativeQuery = true)
+    public List<Object[]> findScheduleStudents(Long scheduleId,String className);
+
+    @Query(value = "(SELECT v.examStaffId FROM v_examination_pass v where v.scheduleid = ?1) UNION " +
+            "(SELECT v1.examStaffId FROM v_examination_notpass v1 where v1.scheduleid = ?1) ",
+            nativeQuery = true)
+    public List<String> findParticipateStudents(Long scheduleId);
+
+    @Query(value = "(SELECT v.examStaffId FROM v_examination_pass v where v.scheduleid = ?1 and v.className like ?2) UNION " +
+            "(SELECT v1.examStaffId FROM v_examination_notpass v1 where v1.scheduleid = ?1 and v1.className like ?2) ",
+            nativeQuery = true)
+    public List<String> findParticipateStudents(Long scheduleId,String className);
+    //===========================================================
+
     @Modifying
     @Query("update ExamSchedule set majorNames =:majorNames where id = :id")
     public void updateScheduleMajorNames(@Param("id") Long id, @Param("majorNames") String majorNames);

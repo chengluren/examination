@@ -169,19 +169,22 @@ public class ExamScheduleService {
     }
 
     public List<StudentVO> getScheduleStudent(Long scheduleId) {
-        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId);
+        ExamSchedule sche = scheduleDao.getOne(scheduleId);
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,sche.getAdmissionYear());
         List<StudentVO> result = toStudentVO(stus);
         return result;
     }
 
     public List<StudentVO> getScheduleStudent(Long scheduleId,String className) {
-        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,className);
+        ExamSchedule sche = scheduleDao.getOne(scheduleId);
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,sche.getAdmissionYear(),className);
         List<StudentVO> result = toStudentVO(stus);
         return result;
     }
 
     public List<StudentVO> getScheduleParticipateStudent(Long scheduleId){
-        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId);
+        ExamSchedule sche = scheduleDao.getOne(scheduleId);
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,sche.getAdmissionYear());
         List<String> joined = scheduleDao.findParticipateStudents(scheduleId);
         Set<String> joinedId = Sets.newHashSet(joined);
         List<StudentVO> result = new ArrayList<>();
@@ -195,7 +198,8 @@ public class ExamScheduleService {
     }
 
     public List<StudentVO> getScheduleParticipateStudent(Long scheduleId,String className){
-        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,className);
+        ExamSchedule sche = scheduleDao.getOne(scheduleId);
+        List<Object[]> stus = scheduleDao.findScheduleStudents(scheduleId,sche.getAdmissionYear(),className);
         List<String> joined = scheduleDao.findParticipateStudents(scheduleId,className);
         Set<String> joinedId = Sets.newHashSet(joined);
         List<StudentVO> result = new ArrayList<>();

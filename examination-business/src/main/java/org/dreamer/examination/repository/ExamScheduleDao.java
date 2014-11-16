@@ -79,17 +79,18 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule, Long> {
     //===================查找考试计划需要参与的学生=================
     @Query(value = "select s.stu_collage,s.stu_professional,s.stu_class_name,s.stu_name,s.stu_username,s.stu_id " +
             "from jiaoda_member_student s where s.stu_professional_id in (" +
-            "SELECT sm.majorId  FROM schedule_majors sm WHERE sm.scheduleId = ?1) order by s.stu_username",
+            "SELECT sm.majorId  FROM schedule_majors sm WHERE sm.scheduleId = ?1) AND s.stu_session = ?2 order by s.stu_username",
             nativeQuery = true)
-    public List<Object[]> findScheduleStudents(Long scheduleId);
+    public List<Object[]> findScheduleStudents(Long scheduleId,int session);
 
-    @Query(value = "select s.stu_collage,s.stu_professional,s.stu_class_name,s.stu_name,s.stu_username,s.stu_id" +
+    @Query(value = "select s.stu_collage,s.stu_professional,s.stu_class_name,s.stu_name,s.stu_username,s.stu_id " +
             "from jiaoda_member_student s where s.stu_professional_id in (" +
             "SELECT sm.majorId  FROM schedule_majors sm WHERE sm.scheduleId = ?1) " +
-            "AND s.stu_class_name like ?2 " +
+            "AND s.stu_session = ?2 "+
+            "AND s.stu_class_name like ?3 " +
             "order by s.stu_username",
             nativeQuery = true)
-    public List<Object[]> findScheduleStudents(Long scheduleId,String className);
+    public List<Object[]> findScheduleStudents(Long scheduleId,int session,String className);
 
     @Query(value = "(SELECT v.examStaffId FROM v_examination_pass v where v.scheduleid = ?1) UNION " +
             "(SELECT v1.examStaffId FROM v_examination_notpass v1 where v1.scheduleid = ?1) ",

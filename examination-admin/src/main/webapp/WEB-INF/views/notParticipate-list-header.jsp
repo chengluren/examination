@@ -44,14 +44,12 @@
 
     function examRecordDownload() {
         var param = {
-            scheduleId: $("#scheduleId").val(),
-            majorName: $("#stuMajor").val(),
-            className: $("#stuClassName").val(),
-            stuNo: $("#stuNo").val()
+            scheId: $("#scheId").val(),
+            className: $("#className").val()
         };
         var p = $.param(param),
-                url = "${ctx}/examquery/notParticipateDownload?" + p,
-                url = encodeURI(url);
+                url = "${ctx}/examquery/notParticipateDownload?" + p;
+                //url = encodeURI(url);
         window.location.href = url;
     }
 
@@ -59,6 +57,7 @@
         $("#scheduleName").on("keyup", function () {
             if ($("#scheduleName").val().length == 0) {
                 $("#scheId").val("");
+                $("#scheName").val("");
             }
         });
         $("#scheduleName").combogrid({
@@ -72,6 +71,7 @@
             select: function (event, ui) {
                 $("#scheduleName").val(ui.item.name);
                 $("#scheId").val(ui.item.id);
+                $("#scheName").val(ui.item.name);
                 return false;
             },
             showOn: true
@@ -86,7 +86,8 @@
                 params['className'] = '${className}';
                 return params;
             },
-            method:"GET"
+            method:"GET",
+            pagination:true
         });
     }
 

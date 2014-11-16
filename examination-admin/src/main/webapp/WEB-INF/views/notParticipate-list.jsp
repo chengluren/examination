@@ -37,11 +37,11 @@
                                     <%--</select>--%>
                                     <input type="hidden" name="scheId" id="scheId" value="${scheId}"  />
                                     <input type="hidden" name="scheName" id="scheName" value="${scheName}"  />
-                                    <input id="scheduleName"  class="form-control" class="form-control" placeholder="请选择考试安排" />
+                                    <input id="scheduleName" value="${scheName}"  class="form-control" class="form-control" placeholder="请选择考试安排" />
                                 </div>
-                                <label for="stuClassName" class="col-sm-2 control-label">班级:</label>
+                                <label for="className" class="col-sm-2 control-label">班级:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" value="${query.stuClassName}" class="form-control" id="stuClassName" name="stuClassName" placeholder="请输入班级">
+                                    <input type="text" value="${className}" class="form-control" id="className" name="className" placeholder="请输入班级">
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
                                 <button type="button" class="btn btn-primary btn-flat" onclick="examRecordDownload();">下载</button>

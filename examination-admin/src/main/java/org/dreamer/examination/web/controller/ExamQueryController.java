@@ -325,36 +325,39 @@ public class ExamQueryController {
 //        return mv;
 //    }
 //
-//    @RequestMapping(value = "/notParticipateDownload")
-//    public void downloadNotParticipate(StudentNotParticipateView vo, HttpServletResponse response) {
-//        ExcelCreator creator = new NotParticipateExcelCreator(examViewService, vo);
-//        String title = "";
-//        if (vo != null && StringUtils.isNotEmpty(vo.getScheduleName())) {
-//            title = vo.getScheduleName() + "考试未参考记录表";
-//        } else {
-//            title = "考试未参考记录表";
-//        }
-//        ShiroDatabaseRealm.ShiroUser  user = rbacService.getCurrentUser();
-//        Long collegeId = user.getCollegeId();
-//        if (collegeId!=null && collegeId !=-1){
-//            vo.setCollegeId(collegeId);
-//        }
-//
-//        ExcelSettings settings = new ExcelSettings(title, Constants.NOT_PARTICIPATE_COLUMNS);
-//        try {
-//            response.reset();
-//            String fileName = title + ".xlsx";
-//            fileName = new String(fileName.getBytes(), "ISO8859-1");
-//            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
-//            response.setContentType("application/octet-stream");
-//            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
-//            creator.createExcel(settings, ((NotParticipateExcelCreator) creator).new NotParticipateDataProvider(), bos);
-//            bos.flush();
-//            bos.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @RequestMapping(value = "/notParticipateDownload")
+    public void downloadNotParticipate(Long scheId,String className,HttpServletResponse response) {
+        if (className!=null){
+            try{
+                className = new String(className.getBytes("ISO-8859-1"),"UTF-8");
+            } catch (UnsupportedEncodingException e){
+                e.printStackTrace();
+            }
+        }
+        ExcelCreator creator = new NotParticipateExcelCreator(scheduleService, scheId,className);
+        String title = "";
+        if (scheId != null && scheId!=-1) {
+            ExamSchedule schedule = scheduleService.getExamSchedule(scheId);
+            title = schedule.getName() + "考试未参考记录表";
+        } else {
+            title = "考试未参考记录表";
+        }
+
+        ExcelSettings settings = new ExcelSettings(title, Constants.NOT_PARTICIPATE_COLUMNS);
+        try {
+            response.reset();
+            String fileName = title + ".xlsx";
+            fileName = new String(fileName.getBytes(), "ISO8859-1");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setContentType("application/octet-stream");
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            creator.createExcel(settings, ((NotParticipateExcelCreator) creator).new NotParticipateDataProvider(), bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    /**
 //     * 考试统计，通过率
@@ -397,11 +400,11 @@ public class ExamQueryController {
         ModelAndView mv = new ModelAndView("exam.notParticipate-list");
         try{
             if (className != null) {
-                className = new String(className.getBytes(), "ISO8859-1");
+                className = new String(className.getBytes("ISO8859-1"), "UTF-8");
                 mv.addObject("className", className);
             }
             if (scheName!=null){
-                scheName = new String(scheName.getBytes(), "ISO8859-1");
+                scheName = new String(scheName.getBytes("ISO8859-1"), "UTF-8");
                 mv.addObject("scheName", scheName);
             }
         }catch (UnsupportedEncodingException e) {
@@ -420,7 +423,12 @@ public class ExamQueryController {
     public List<StudentVO> notParticipateData(Long scheId, String className) {
         List<StudentVO> data = new ArrayList<>();
         if (scheId != null && scheId!=-1 && StringUtils.isNotEmpty(className)) {
-            data = scheduleService.getScheduleParticipateStudent(scheId, className);
+            try{
+                className = new String(className.getBytes("ISO8859-1"), "UTF-8");
+            }catch(UnsupportedEncodingException e){
+                e.printStackTrace();
+            }
+            data = scheduleService.getScheduleParticipateStudent(scheId, "%"+className+"%");
         } else if (scheId != null && scheId!=-1 && StringUtils.isEmpty(className)) {
             data = scheduleService.getScheduleParticipateStudent(scheId);
         }

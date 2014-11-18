@@ -1,6 +1,7 @@
 package org.dreamer.examination.web.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.dreamer.examination.entity.*;
 import org.dreamer.examination.rbac.ShiroDatabaseRealm;
@@ -73,7 +74,7 @@ public class StoreController {
             store.setGeneric(false);
         }
         String[] majors = {};
-        if (storeMajor != null) {
+        if (StringUtils.isNotEmpty(storeMajor)) {
             majors = storeMajor.split(",");
         }
         storeService.addQuestionStore(store, majors);

@@ -1,5 +1,6 @@
 package org.dreamer.examination.importer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.dreamer.examination.entity.ChoiceQuestion;
@@ -43,10 +44,13 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
             for (int i=5;i<max;i++){
                 Cell cell = row.getCell(i);
                 String op = (cell != null) ? cell.getStringCellValue() : null;
-                if(op.charAt(1)=='.'){
+                if(StringUtils.isNotEmpty(op) && op.length()>2 &&
+                        Character.isLetter(op.charAt(0)) && op.charAt(1)=='.'){
                     op = op.substring(2);
                 }
-                options.add(op);
+                if (StringUtils.isNotEmpty(op)){
+                    options.add(op);
+                }
             }
             List<QuestionOption> ops = parseOption(options);
 

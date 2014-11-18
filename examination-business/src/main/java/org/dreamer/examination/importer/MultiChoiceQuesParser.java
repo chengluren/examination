@@ -37,15 +37,19 @@ public class MultiChoiceQuesParser extends AbstractParser implements Parser{
             Cell anaCell = row.getCell(3);
 
             Cell answerCell = row.getCell(4);
-            String multiAnswer = answerCell.getStringCellValue().trim();
+            String multiAnswer = (answerCell!=null) ? answerCell.getStringCellValue().trim() : "";
             String answer = (answerCell!=null) ? parseMultiChoiceAnswer(multiAnswer) : null;
 
             List<String> options = new ArrayList<>();
             for (int i=5;i<max;i++){
                 Cell cell = row.getCell(i);
                 String op = (cell != null) ? cell.getStringCellValue() : null;
-                if(op!=null && op.length()>2 && Character.isLetter(op.charAt(0))&& op.charAt(1)=='.'){
-                    op = op.substring(2);
+                if(op!=null && op.length()>2 && Character.isLetter(op.charAt(0))){
+                    if (op.charAt(1)=='.' || op.charAt(1)==','||op.charAt(1)==' '){
+                        op = op.substring(2);
+                    }else{
+                        op = op.substring(1);
+                    }
                 }
                 if (op!=null&&op.length()>0){
                     options.add(op);

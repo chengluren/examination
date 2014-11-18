@@ -38,7 +38,7 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
             Cell anaCell = row.getCell(3);
 
             Cell answerCell = row.getCell(4);
-            String answer = (answerCell!=null) ? answerCell.getStringCellValue().trim() : null;
+            String answer = (answerCell!=null) ? answerCell.getStringCellValue().trim() : "";
 
             List<String> options = new ArrayList<>();
             for (int i=5;i<max;i++){
@@ -46,7 +46,11 @@ public class ChoiceQuesParser extends AbstractParser implements Parser {
                 String op = (cell != null) ? cell.getStringCellValue() : null;
                 if(StringUtils.isNotEmpty(op) && op.length()>2 &&
                         Character.isLetter(op.charAt(0)) && op.charAt(1)=='.'){
-                    op = op.substring(2);
+                    if (op.charAt(1)=='.' || op.charAt(1)==','||op.charAt(1)==' '){
+                        op = op.substring(2);
+                    }else{
+                        op = op.substring(1);
+                    }
                 }
                 if (StringUtils.isNotEmpty(op)){
                     options.add(op);

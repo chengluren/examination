@@ -6,6 +6,7 @@ package org.dreamer.examination.utils;
  *          ${tags}
  */
 public class Constants {
+    public static final int DEFAULT_PAGE_SIZE = 200;
 
     public static final String CACHE_PAPER_QUES_ID = "paper_questions";
 

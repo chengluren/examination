@@ -34,12 +34,40 @@ public class DefaultExcelImporter implements Importer {
     public void doImport(File file,long storeId) {
         try (InputStream is = new FileInputStream(file)) {
             Workbook wb = WorkbookFactory.create(is);
-            doImportInternal(wb.getSheetAt(0),new ChoiceQuesParser(),storeId);
-            doImportInternal(wb.getSheetAt(1),new MultiChoiceQuesParser(),storeId);
-            doImportInternal(wb.getSheetAt(2),new TrueFalseQuesParser(),storeId);
+//            doImportInternal(wb.getSheetAt(0),new ChoiceQuesParser(),storeId);
+//            doImportInternal(wb.getSheetAt(1),new MultiChoiceQuesParser(),storeId);
+//            doImportInternal(wb.getSheetAt(2),new TrueFalseQuesParser(),storeId);
+            List<Question> clist = parseQuestions(wb.getSheetAt(0),new ChoiceQuesParser(),storeId);
+            List<Question> mlist = parseQuestions(wb.getSheetAt(1),new ChoiceQuesParser(),storeId);
+            List<Question> tflist = parseQuestions(wb.getSheetAt(2),new ChoiceQuesParser(),storeId);
+            clist.addAll(mlist);
+            clist.addAll(tflist);
+            questionService.addQuestion(clist);
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<Question> parseQuestions(Sheet sheet,Parser p,long storeId){
+        int maxRow = sheet.getLastRowNum();
+        List<Question> list = new ArrayList<>();
+        for (int i=1;i<=maxRow;i++){
+            Row row = sheet.getRow(i);
+            Question q = p.parse(row);
+            if (q!=null){
+                q.setStoreId(storeId);
+                list.add(q);
+            }
+        }
+        if(list.size()>0){
+            String type = SysUtils.getConfigValue("question.list.type","db");
+            boolean index = type.equals("index") ? true: false;
+            if (index){
+                QuestionIndexer indexer = SysUtils.getBean(QuestionIndexer.class);
+                indexer.indexQuestions(list);
+            }
+        }
+        return list;
     }
 
     private void doImportInternal(Sheet sheet,Parser p,long storeId){

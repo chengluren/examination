@@ -221,6 +221,10 @@ public class ExamScheduleService {
         }
     }
 
+    public void backupExamData(Long scheId){
+        scheduleDao.backupExamData(scheId);
+    }
+
     private List<StudentVO> toStudentVO(List<Object[]> stus){
         List<StudentVO> result = new ArrayList<>(stus.size());
         for (Object[] stu : stus){

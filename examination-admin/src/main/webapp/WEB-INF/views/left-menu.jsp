@@ -90,6 +90,7 @@
                         </c:if>
                         <li><a href="${ctx}/rbac/userRolesList"><i class="fa fa-angle-double-right"></i> 用户角色管理</a></li>
                         <li><a href="${ctx}/rbac/rolePermissionList"><i class="fa fa-angle-double-right"></i> 角色权限管理</a></li>
+                        <li><a href="${ctx}/data/backup"><i class="fa fa-angle-double-right"></i> 数据备份</a></li>
                     </shiro:hasRole>
                     <li><a href="${ctx}/rbac/modifyPwd"><i class="fa fa-angle-double-right"></i> 修改密码</a></li>
                 </ul>

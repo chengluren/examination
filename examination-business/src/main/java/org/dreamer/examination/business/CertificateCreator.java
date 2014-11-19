@@ -9,6 +9,9 @@ import org.dreamer.examination.entity.ExaminationViewPassVO;
 import org.dreamer.examination.service.ExaminationViewService;
 import org.dreamer.examination.sql.builder.SqlQueryModelBuilder;
 import org.dreamer.examination.sql.model.SqlQueryItem;
+import org.dreamer.examination.sql.model.SqlSortItem;
+import org.dreamer.examination.sql.model.SqlSortType;
+import org.dreamer.examination.utils.Constants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,13 +37,16 @@ public class CertificateCreator {
         XWPFDocument doc = new XWPFDocument();
 
         List<SqlQueryItem> filter = buildFilter();
-        Pageable page = new PageRequest(0,50);
-        Page<ExaminationViewPassVO> data =  examService.getExaminationPassByFilter(filter,null,page);
+        Pageable page = new PageRequest(0, Constants.DEFAULT_PAGE_SIZE);
+        List<SqlSortItem> sorts = new ArrayList<>();
+        sorts.add(new SqlSortItem("className", SqlSortType.ASC));
+        sorts.add(new SqlSortItem("stuNo", SqlSortType.ASC));
+        Page<ExaminationViewPassVO> data =  examService.getExaminationPassByFilter(filter,sorts,page);
         doCreate(doc,data.getContent(),false);
         int totalPage = data.getTotalPages();
         for (int p=1;p<totalPage;p++){
-            page = new PageRequest(p,50);
-            data = examService.getExaminationPassByFilter(filter,null,page);
+            page = new PageRequest(p,Constants.DEFAULT_PAGE_SIZE);
+            data = examService.getExaminationPassByFilter(filter,sorts,page);
             doCreate(doc,data.getContent(),true);
         }
         return doc;

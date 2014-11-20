@@ -3,3 +3,5 @@ target/
 *.iml
 .project
 exam-update
+/examination-admin/target/
+/examination-business/target/

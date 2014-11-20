@@ -28,31 +28,37 @@ public class CertificateCreator {
     private ExaminationViewService examService;
     private ExaminationViewPassVO param;
 
-    public CertificateCreator(ExaminationViewService examService,ExaminationViewPassVO param){
+    public CertificateCreator(ExaminationViewService examService, ExaminationViewPassVO param) {
         this.examService = examService;
         this.param = param;
     }
 
-    public XWPFDocument create(){
+    public XWPFDocument create() {
         XWPFDocument doc = new XWPFDocument();
 
         List<SqlQueryItem> filter = buildFilter();
         Pageable page = new PageRequest(0, Constants.DEFAULT_PAGE_SIZE);
-        List<SqlSortItem> sorts = new ArrayList<>();
-        sorts.add(new SqlSortItem("className", SqlSortType.ASC));
-        sorts.add(new SqlSortItem("stuNo", SqlSortType.ASC));
-        Page<ExaminationViewPassVO> data =  examService.getExaminationPassByFilter(filter,sorts,page);
-        doCreate(doc,data.getContent(),false);
+//        List<SqlSortItem> sorts = new ArrayList<>();
+//        sorts.add(new SqlSortItem("className", SqlSortType.ASC));
+//        sorts.add(new SqlSortItem("stuNo", SqlSortType.ASC));
+        Page<ExaminationViewPassVO> data = examService.getExaminationPassByFilter(filter, null, page);
+        doCreate(doc, data.getContent(), false);
         int totalPage = data.getTotalPages();
-        for (int p=1;p<totalPage;p++){
-            page = new PageRequest(p,Constants.DEFAULT_PAGE_SIZE);
-            data = examService.getExaminationPassByFilter(filter,sorts,page);
-            doCreate(doc,data.getContent(),true);
+        for (int p = 1; p < totalPage; p++) {
+            page = new PageRequest(p, Constants.DEFAULT_PAGE_SIZE);
+            data = examService.getExaminationPassByFilter(filter, null, page);
+            doCreate(doc, data.getContent(), true);
         }
         return doc;
     }
 
-    private List<SqlQueryItem> buildFilter(){
+    public XWPFDocument create(List<ExaminationViewPassVO> data) {
+        XWPFDocument doc = new XWPFDocument();
+        doCreate(doc, data, true);
+        return doc;
+    }
+
+    private List<SqlQueryItem> buildFilter() {
         Map<String, Object> map = new HashMap<>();
         if (param.getScheduleid() != null) {
             map.put("scheduleid", param.getScheduleid());
@@ -66,33 +72,33 @@ public class CertificateCreator {
         if (StringUtils.isNotEmpty(param.getStuNo())) {
             map.put("stuNo", param.getStuNo());
         }
-        if (param.getCollegeId()!=null && param.getCollegeId()!=-1){
-            map.put("collegeId",param.getCollegeId());
+        if (param.getCollegeId() != null && param.getCollegeId() != -1) {
+            map.put("collegeId", param.getCollegeId());
         }
-        if (param.getPromise()!=null && param.getPromise()!=-1){
-            map.put("promise",param.getPromise());
+        if (param.getPromise() != null && param.getPromise() != -1) {
+            map.put("promise", param.getPromise());
         }
         SqlQueryModelBuilder builder = new SqlQueryModelBuilder();
         List<SqlQueryItem> itemList = builder.builder(map);
         return itemList;
     }
 
-    private void doCreate(XWPFDocument doc,List<ExaminationViewPassVO> data,boolean firstPageBreak){
-         if (data!=null && data.size()>0){
-              for (int i=0;i<data.size();i++){
-                  if (i==0 && firstPageBreak){
-                      doCreate(doc,data.get(i),firstPageBreak);
-                  }else{
-                      doCreate(doc,data.get(i),true);
-                  }
-              }
-         }
+    private void doCreate(XWPFDocument doc, List<ExaminationViewPassVO> data, boolean firstPageBreak) {
+        if (data != null && data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                if (i == 0 && firstPageBreak) {
+                    doCreate(doc, data.get(i), firstPageBreak);
+                } else {
+                    doCreate(doc, data.get(i), true);
+                }
+            }
+        }
     }
 
-    private void doCreate(XWPFDocument doc,ExaminationViewPassVO vo,boolean pageBreak){
+    private void doCreate(XWPFDocument doc, ExaminationViewPassVO vo, boolean pageBreak) {
         XWPFParagraph title = doc.createParagraph();
         title.setAlignment(ParagraphAlignment.CENTER);
-        if (pageBreak){
+        if (pageBreak) {
             title.setPageBreak(true);
         }
 
@@ -108,16 +114,16 @@ public class CertificateCreator {
         content.setIndentationFirstLine(600);
 
         String stuName = vo.getStuName();
-        Date cTime  = vo.getExamCommitTime();
+        Date cTime = vo.getExamCommitTime();
         Calendar cal = Calendar.getInstance();
         cal.setTime(cTime);
 
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH)+1;
+        int month = cal.get(Calendar.MONTH) + 1;
 
         XWPFRun r2 = content.createRun();
 
-        r2.setText(stuName+" 同学于 " +year+" 年"+month+" 月参加了北京交通大学安全知识培训" +
+        r2.setText(stuName + " 同学于 " + year + " 年" + month + " 月参加了北京交通大学安全知识培训" +
                 "及通识安全/专业安全知识考试，考试合格，特发此证。");
         r2.setFontFamily("SimHei");
         r2.setFontSize(16);
@@ -158,4 +164,29 @@ public class CertificateCreator {
         r5.setText("    年   月   日");
     }
 
+//    public static void main(String[] args) {
+//        CertificateCreator creator = new CertificateCreator(null, null);
+//        List<ExaminationViewPassVO> data = new ArrayList<>();
+//        Date date = new Date();
+//        for (int i = 0; i < 400; i++) {
+//            ExaminationViewPassVO vo = new ExaminationViewPassVO();
+//            vo.setClassName("机制026");
+//            vo.setCollege("机械学院");
+//            vo.setMajorName("机械设计制造");
+//            vo.setFinalScore(96F);
+//            vo.setStuName("程亮");
+//            vo.setStuNo("0001" + i);
+//            vo.setExamCommitTime(date);
+//            data.add(vo);
+//        }
+//        try (FileOutputStream fos = new FileOutputStream(new File("D:/test.docx"));
+//             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+//            XWPFDocument doc = creator.create(data);
+//            doc.write(bos);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

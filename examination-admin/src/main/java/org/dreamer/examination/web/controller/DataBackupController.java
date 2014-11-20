@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,17 +35,38 @@ public class DataBackupController {
 
     @RequestMapping(value = "/backupData", method = RequestMethod.POST)
     @ResponseBody
-    public Result backupExamData(Long scheId) {
-        String dir = SysUtils.getConfigValue("dir.databackup","c:/mysqlData/");
+    public Result backupExamData(Long scheId, String scheName) {
+        String dir = SysUtils.getConfigValue("dir.databackup", "c:/mysqlData/");
+        dir = dir + scheId + "_" + scheName + "/";
         Path path = Paths.get(dir);
-        if (Files.notExists(path)){
-            try {
-                Files.createDirectory(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            Files.deleteIfExists(path);
+            Files.createDirectory(path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        scheduleService.backupExamData(scheId);
-        return new Result(true,"");
+        Result result = null;
+        try {
+            scheduleService.backupExamData(scheId, dir);
+            result = new Result(true, "");
+        } catch (Throwable e) {
+            result = new Result(false, "");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/deleteExamData", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteExamData(Long scheId){
+        Result result = null;
+        try {
+            scheduleService.deleteExamData(scheId);
+            result = new Result(true, "");
+        } catch (Throwable e) {
+            result = new Result(false, "");
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -108,6 +108,10 @@ public interface ExamScheduleDao extends JpaRepository<ExamSchedule, Long> {
     public void updateScheduleMajorNames(@Param("id") Long id, @Param("majorNames") String majorNames);
 
     @Modifying
-    @Query(value = "call test_p(?1)",nativeQuery = true)
-    public void backupExamData(Long schedId);
+    @Query(value = "call dump_schedule_data(?1,?2)",nativeQuery = true)
+    public void backupExamData(Long schedId,String dataDir);
+
+    @Modifying
+    @Query(value = "call del_schedule_exam_data(?1,?2)",nativeQuery = true)
+    public void deleteExamData(Long schedId,Integer deleteSchedule);
 }

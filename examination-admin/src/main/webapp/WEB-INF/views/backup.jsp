@@ -40,8 +40,8 @@
                   <input id="scheduleName" value="${scheName}"  class="form-control" class="form-control" placeholder="请选择考试安排" />
                 </div>
 
-                <button type="button" class="btn btn-primary btn-flat" onclick="backupData()">备份考试数据</button>
-                <button type="button" class="btn btn-primary btn-flat" onclick="deleteData();">删除考试数据</button>
+                <button type="button" id="backupBtn" class="btn btn-primary btn-flat ladda-button" data-style="expand-right"><span class="ladda-label">备份考试数据</span></button>
+                <button type="button" id="deleteBtn" class="btn btn-primary btn-flat ladda-button" data-style="expand-right"><span class="ladda-label">删除考试数据</span></button>
               </div>
 
               <div class="form-group">

@@ -221,8 +221,12 @@ public class ExamScheduleService {
         }
     }
 
-    public void backupExamData(Long scheId){
-        scheduleDao.backupExamData(scheId);
+    public void backupExamData(Long scheId,String dataDir){
+        scheduleDao.backupExamData(scheId,dataDir);
+    }
+
+    public void deleteExamData(Long scheId){
+        scheduleDao.deleteExamData(scheId,1);
     }
 
     private List<StudentVO> toStudentVO(List<Object[]> stus){

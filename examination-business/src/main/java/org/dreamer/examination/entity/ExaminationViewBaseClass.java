@@ -47,7 +47,7 @@ public abstract class ExaminationViewBaseClass {
     private Float finalScore;
 
     @Column(name = "paperid")
-    private String paperid;
+    private Long paperid;
 
     @Column(name = "examStartTime")
     private Date examStartTime;
@@ -116,11 +116,11 @@ public abstract class ExaminationViewBaseClass {
         this.finalScore = finalScore;
     }
 
-    public String getPaperid() {
+    public Long getPaperid() {
         return paperid;
     }
 
-    public void setPaperid(String paperid) {
+    public void setPaperid(Long paperid) {
         this.paperid = paperid;
     }
 

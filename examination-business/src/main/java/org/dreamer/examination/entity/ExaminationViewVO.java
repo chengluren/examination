@@ -11,7 +11,7 @@ import java.util.Date;
  *          ${tags}
  */
 @Entity
-@Table(name="v_examination")
+@Table(name="examinations")
 public class ExaminationViewVO extends ExaminationViewBaseClass implements Serializable{
 
 

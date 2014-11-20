@@ -1,0 +1,17 @@
+CREATE PROCEDURE update_exam_data
+BEGIN
+DECLARE curId INT;
+DECLARE curExamStaffId VARCHAR(10);
+
+DECLARE examCur CURSOR
+	FOR
+	SELECT id,examStaffId FROM examinations;
+DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET Done = 1;
+
+OPEN examCur;
+FETCH NEXT FROM examCur INTO curId,curExamStaffId;
+
+REPEAT
+
+UNTIL Done END REPEAT;
+END

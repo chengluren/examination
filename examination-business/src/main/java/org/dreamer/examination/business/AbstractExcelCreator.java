@@ -3,6 +3,7 @@ package org.dreamer.examination.business;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.dreamer.examination.utils.Constants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,7 +59,7 @@ public abstract class AbstractExcelCreator<T> implements ExcelCreator<T> {
         createTitle(workbook, sheet, settings.getTitle(), settings.getColumns().length-1);
         createColumn(workbook, sheet, settings.getColumns());
 
-        Pageable page = new PageRequest(0, 50);
+        Pageable page = new PageRequest(0, Constants.DEFAULT_PAGE_SIZE);
         Page<T> data = dataProvider.getNextPageData(page);
         int currPage = 0;
         int totalPage = data.getTotalPages();
@@ -70,7 +71,7 @@ public abstract class AbstractExcelCreator<T> implements ExcelCreator<T> {
                 rowNum++;
             }
             currPage++;
-            data = dataProvider.getNextPageData(new PageRequest(currPage, 50));
+            data = dataProvider.getNextPageData(new PageRequest(currPage, Constants.DEFAULT_PAGE_SIZE));
         }
         try {
             workbook.write(os);

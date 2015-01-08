@@ -48,7 +48,7 @@ public class AnswerService {
     }
 
     public List<Object[]> getCommitAndCorrectAnswers(Long examId){
-        return answerDao.findCommitAndRealAnswerArr(examId);
+        return answerDao.findCommitAndRealAnswerNoView(examId);
     }
 
     public List<Object[]> getExamAnswerStats(Long examId){

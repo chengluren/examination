@@ -47,16 +47,22 @@ public class ExamRecordExcelCreator extends AbstractExcelCreator<ExaminationView
 
         examTimeCell.setCellStyle(cs);
 
-        Cell classNameCell = row.createCell(3);
+        Cell collegeCell = row.createCell(3);
+        collegeCell.setCellValue(data.getCollege());
+
+        Cell majorCell = row.createCell(4);
+        majorCell.setCellValue(data.getMajorName());
+
+        Cell classNameCell = row.createCell(5);
         classNameCell.setCellValue(data.getClassName());
 
-        Cell stuNoCell = row.createCell(4);
+        Cell stuNoCell = row.createCell(6);
         stuNoCell.setCellValue(data.getStuNo());
 
-        Cell stuNameCell = row.createCell(5);
+        Cell stuNameCell = row.createCell(7);
         stuNameCell.setCellValue(data.getStuName());
 
-        Cell scoreCell = row.createCell(6);
+        Cell scoreCell = row.createCell(8);
         scoreCell.setCellValue(data.getFinalScore());
     }
 
@@ -71,10 +77,13 @@ public class ExamRecordExcelCreator extends AbstractExcelCreator<ExaminationView
                 map.put("majorName-li",queryParam.getMajorName());
             }
             if (StringUtils.isNotEmpty(queryParam.getClassName())) {
-                map.put("className", queryParam.getClassName());
+                map.put("className-li", queryParam.getClassName());
+            }
+            if (StringUtils.isNotEmpty(queryParam.getCollege())) {
+                map.put("college-li", queryParam.getCollege());
             }
             if (StringUtils.isNotEmpty(queryParam.getStuNo())) {
-                map.put("stuNo", queryParam.getStuNo());
+                map.put("stuNo-li", queryParam.getStuNo());
             }
             if (queryParam.getCollegeId()!=null && queryParam.getCollegeId()!=-1){
                 map.put("collegeId",queryParam.getCollegeId());

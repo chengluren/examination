@@ -16,7 +16,10 @@
             totalPages: totalPage,
             onPageClicked: function (e, originalEvent, type, page) {
                 var p = page - 1;
-                window.location.href = toUrl + "?page=" + p + "&size=10";
+                var url = toUrl + "?page=" + p + "&size=10";
+                $("form").attr("action",url);
+                $("form").submit();
+                //window.location.href = toUrl + "?page=" + p + "&size=10";
             },
             elementCls: "pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
@@ -38,30 +41,36 @@
     }
 
     function examRecordDownload(){
-        var param = {
-            scheduleid: $("#scheduleid").val(),
-            majorName: $("#majorName").val(),
-            className: $("#className").val(),
-            stuNo: $("#stuNo").val(),
-            promise:$("input[name='promise']:checked").val()
-        };
-        var p = $.param(param),
-                url = "${ctx}/examquery/examPassDownload?"+ p,
-                url = encodeURI(url);
-        window.location.href = url;
+        <%--var param = {--%>
+            <%--scheduleid: $("#scheduleid").val(),--%>
+            <%--majorName: $("#majorName").val(),--%>
+            <%--className: $("#className").val(),--%>
+            <%--stuNo: $("#stuNo").val(),--%>
+            <%--promise:$("input[name='promise']:checked").val()--%>
+        <%--};--%>
+        <%--var p = $.param(param),--%>
+                <%--url = "${ctx}/examquery/examPassDownload?"+ p,--%>
+                <%--url = encodeURI(url);--%>
+        <%--window.location.href = url;--%>
+
+        $("form").attr("action","${ctx}/examquery/examPassDownload");
+        $("form").submit();
     }
+
     function certificateDownload(){
-        var param = {
-            scheduleid: $("#scheduleid").val(),
-            majorName: $("#majorName").val(),
-            className: $("#className").val(),
-            stuNo: $("#stuNo").val(),
-            promise:$("input[name='promise']:checked").val()
-        };
-        var p = $.param(param),
-                url = "${ctx}/examquery/passCertificateDownload?"+ p,
-                url = encodeURI(url);
-        window.location.href = url;
+        <%--var param = {--%>
+            <%--scheduleid: $("#scheduleid").val(),--%>
+            <%--majorName: $("#majorName").val(),--%>
+            <%--className: $("#className").val(),--%>
+            <%--stuNo: $("#stuNo").val(),--%>
+            <%--promise:$("input[name='promise']:checked").val()--%>
+        <%--};--%>
+        <%--var p = $.param(param),--%>
+                <%--url = "${ctx}/examquery/passCertificateDownload?"+ p,--%>
+                <%--url = encodeURI(url);--%>
+        <%--window.location.href = url;--%>
+        $("form").attr("action","${ctx}/examquery/passCertificateDownload");
+        $("form").submit();
     }
 
     function initScheduleComboGrid() {

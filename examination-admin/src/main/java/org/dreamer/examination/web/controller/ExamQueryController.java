@@ -73,6 +73,9 @@ public class ExamQueryController {
         if (StringUtils.isNotEmpty(viewVO.getClassName())) {
             map.put("className-li", viewVO.getClassName());
         }
+        if (StringUtils.isNotEmpty(viewVO.getCollege())) {
+            map.put("college-li", viewVO.getCollege());
+        }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
         }
@@ -140,6 +143,9 @@ public class ExamQueryController {
         }
         if (StringUtils.isNotEmpty(viewVO.getClassName())) {
             map.put("className-li", viewVO.getClassName());
+        }
+        if (StringUtils.isNotEmpty(viewVO.getCollege())) {
+            map.put("college-li", viewVO.getCollege());
         }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());
@@ -241,6 +247,9 @@ public class ExamQueryController {
         }
         if (StringUtils.isNotEmpty(viewVO.getClassName())) {
             map.put("className-li", viewVO.getClassName());
+        }
+        if (StringUtils.isNotEmpty(viewVO.getCollege())) {
+            map.put("college-li", viewVO.getCollege());
         }
         if (StringUtils.isNotEmpty(viewVO.getStuNo())) {
             map.put("stuNo-li", viewVO.getStuNo());

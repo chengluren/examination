@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <aside class="right-side">
     <!-- Content Header (Page header) -->
@@ -38,12 +39,18 @@
                                     <input type="hidden" name="scheduleid" id="scheduleid" value="${scheduleid}"  />
                                     <input id="scheduleName" value="${scheduleName}" class="form-control" class="form-control" placeholder="请选择考试安排" />
                                 </div>
-
-                                <label for="majorName" class="col-sm-1 control-label">专业:</label>
-                                <div class="col-sm-3">
-                                    <%--<input type="text" value="${query.major}" class="form-control" id="major" name="major" placeholder="请输入专业">--%>
-                                    <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
-                                </div>
+                                <shiro:hasRole name="admin">
+                                    <label for="college" class="col-sm-1 control-label">学院:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.college}" class="form-control" id="college" name="college" placeholder="请输入学院">
+                                    </div>
+                                </shiro:hasRole>
+                                <shiro:hasRole name="major-admin">
+                                    <label for="majorName" class="col-sm-1 control-label">专业:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
+                                    </div>
+                                </shiro:hasRole>
 
                                 <div class="radio">
                                      <label><span style="font-weight: bold;line-height: 1.428571429;font-size: 14px">承诺书:</span>
@@ -62,15 +69,27 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="className" class="col-sm-2 control-label">班级:</label>
-                                <div class="col-sm-3">
-                                    <input type="text" value="${query.className}" class="form-control" id="className" name="className" placeholder="请输入班级">
-                                </div>
+                                <shiro:hasRole name="admin">
+                                    <label for="majorName" class="col-sm-2 control-label">专业:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.majorName}" class="form-control" id="majorName" name="majorName" placeholder="请输入专业">
+                                    </div>
+                                    <label for="className" class="col-sm-1 control-label">班级:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.className}" class="form-control" id="className" name="className" placeholder="请输入班级">
+                                    </div>
+                                </shiro:hasRole>
+                                <shiro:hasRole name="major-admin">
+                                    <label for="className" class="col-sm-2 control-label">班级:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.className}" class="form-control" id="className" name="className" placeholder="请输入班级">
+                                    </div>
 
-                                <label for="stuNo" class="col-sm-1 control-label">学号:</label>
-                                <div class="col-sm-3">
-                                    <input type="text" value="${query.stuNo}" class="form-control" id="stuNo" name="stuNo" placeholder="请输入学号">
-                                </div>
+                                    <label for="stuNo" class="col-sm-1 control-label">学号:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" value="${query.stuNo}" class="form-control" id="stuNo" name="stuNo" placeholder="请输入学号">
+                                    </div>
+                                </shiro:hasRole>
 
                                 <button type="submit" class="btn btn-primary btn-flat">查询</button>
                                 <button type="button" class="btn btn-primary btn-flat" onclick="examRecordDownload();">下载</button>
@@ -81,6 +100,7 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>考试名称</th>
+                                <th>学 院</th>
                                 <th>专 业</th>
                                 <th>班 级</th>
                                 <th>学 号</th>
@@ -94,6 +114,7 @@
                                 <tr>
                                     <td>${st.index+1}</td>
                                     <td>${s.schedulename}</td>
+                                    <td>${s.college}</td>
                                     <td>${s.majorName}</td>
                                     <td>${s.className}</td>
                                     <td>${s.stuNo}</td>

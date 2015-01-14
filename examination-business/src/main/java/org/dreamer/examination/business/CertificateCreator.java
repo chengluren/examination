@@ -67,10 +67,13 @@ public class CertificateCreator {
             map.put("majorName-li", param.getMajorName());
         }
         if (StringUtils.isNotEmpty(param.getClassName())) {
-            map.put("className", param.getClassName());
+            map.put("className-li", param.getClassName());
+        }
+        if (StringUtils.isNotEmpty(param.getCollege())) {
+            map.put("college-li", param.getCollege());
         }
         if (StringUtils.isNotEmpty(param.getStuNo())) {
-            map.put("stuNo", param.getStuNo());
+            map.put("stuNo-li", param.getStuNo());
         }
         if (param.getCollegeId() != null && param.getCollegeId() != -1) {
             map.put("collegeId", param.getCollegeId());

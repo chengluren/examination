@@ -106,7 +106,7 @@
         }
 
         function getExamAnswer() {
-            $.getJSON("http://localhost:8080/exam/examAnswers?examId=1&callback=?", function (data) {
+            $.getJSON("http://localhost:8080/exam/examAnswers?examId=3553&callback=?", function (data) {
                 console.log(data);
             });
         }
@@ -127,10 +127,10 @@
 //                getExamSchedule();
 //                getExamRecord();
 //        getExamRecord2();
-//        getExamAnswer();
+        getExamAnswer();
 //        getExamAnswerWithStats();
         //getExamRecordStats();
-        getExamRecord2Stats();
+//        getExamRecord2Stats();
     </script>
 </head>
 <body>

@@ -25,7 +25,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form class="form-horizontal" role="form"  method="get" action="${ctx}/examquery/notParticipate">
+                        <form class="form-horizontal" role="form"  method="post" action="${ctx}/examquery/notParticipate">
                             <div class="form-group">
                                 <label for="scheId" class="col-sm-2 control-label">考试名称:</label>
                                 <div class="col-sm-3">

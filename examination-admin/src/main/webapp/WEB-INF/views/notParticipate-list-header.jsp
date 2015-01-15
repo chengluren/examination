@@ -20,8 +20,11 @@
             currentPage: curPage,
             totalPages: totalPage,
             onPageClicked: function (e, originalEvent, type, page) {
-                var p = page - 1;
-                window.location.href = toUrl + "?page=" + p + "&size=10";
+                var p = page - 1
+                        url = toUrl + "?page=" + p + "&size=10";
+                //window.location.href = toUrl + "?page=" + p + "&size=10";
+                $("form").attr("action",url);
+                $("form").submit();
             },
             elementCls: "pagination pagination-sm no-margin",
             itemTexts: function (type, page) {
@@ -43,14 +46,17 @@
     }
 
     function examRecordDownload() {
-        var param = {
-            scheId: $("#scheId").val(),
-            className: $("#className").val()
-        };
-        var p = $.param(param),
-                url = "${ctx}/examquery/notParticipateDownload?" + p;
-                //url = encodeURI(url);
-        window.location.href = url;
+        <%--var param = {--%>
+            <%--scheId: $("#scheId").val(),--%>
+            <%--className: $("#className").val()--%>
+        <%--};--%>
+        <%--var p = $.param(param),--%>
+                <%--url = "${ctx}/examquery/notParticipateDownload?" + p;--%>
+                <%--//url = encodeURI(url);--%>
+        <%--window.location.href = url;--%>
+
+        $("form").attr("action","${ctx}/examquery/notParticipateDownload");
+        $("form").submit();
     }
 
     function initScheduleComboGrid() {
@@ -86,7 +92,8 @@
                 params['className'] = '${className}';
                 return params;
             },
-            method:"GET",
+            method:"POST",
+            contentType: "application/x-www-form-urlencoded",
             pagination:true
         });
     }

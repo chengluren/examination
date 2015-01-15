@@ -336,13 +336,6 @@ public class ExamQueryController {
 //
     @RequestMapping(value = "/notParticipateDownload")
     public void downloadNotParticipate(Long scheId,String className,HttpServletResponse response) {
-        if (className!=null){
-            try{
-                className = new String(className.getBytes("ISO-8859-1"),"UTF-8");
-            } catch (UnsupportedEncodingException e){
-                e.printStackTrace();
-            }
-        }
         ExcelCreator creator = new NotParticipateExcelCreator(scheduleService, scheId,className);
         String title = "";
         if (scheId != null && scheId!=-1) {
@@ -404,20 +397,26 @@ public class ExamQueryController {
 //        return mv;
 //    }
 
-    @RequestMapping(value = "/notParticipate", method = RequestMethod.GET)
+    @RequestMapping(value = "/notParticipate")
     public ModelAndView notParticipate(Long scheId, String scheName, String className) {
         ModelAndView mv = new ModelAndView("exam.notParticipate-list");
-        try{
-            if (className != null) {
-                className = new String(className.getBytes("ISO8859-1"), "UTF-8");
-                mv.addObject("className", className);
-            }
-            if (scheName!=null){
-                scheName = new String(scheName.getBytes("ISO8859-1"), "UTF-8");
-                mv.addObject("scheName", scheName);
-            }
-        }catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+//        try{
+//            if (className != null) {
+//                className = new String(className.getBytes("ISO8859-1"), "UTF-8");
+//                mv.addObject("className", className);
+//            }
+//            if (scheName!=null){
+//                scheName = new String(scheName.getBytes("ISO8859-1"), "UTF-8");
+//                mv.addObject("scheName", scheName);
+//            }
+//        }catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        if (className != null) {
+            mv.addObject("className", className);
+        }
+        if (scheName!=null){
+            mv.addObject("scheName", scheName);
         }
         if (scheId != null) {
             mv.addObject("scheId", scheId);
@@ -427,16 +426,11 @@ public class ExamQueryController {
         return mv;
     }
 
-    @RequestMapping(value = "/notParticipateData", method = RequestMethod.GET)
+    @RequestMapping(value = "/notParticipateData")
     @ResponseBody
     public List<StudentVO> notParticipateData(Long scheId, String className) {
         List<StudentVO> data = new ArrayList<>();
         if (scheId != null && scheId!=-1 && StringUtils.isNotEmpty(className)) {
-            try{
-                className = new String(className.getBytes("ISO8859-1"), "UTF-8");
-            }catch(UnsupportedEncodingException e){
-                e.printStackTrace();
-            }
             data = scheduleService.getScheduleParticipateStudent(scheId, "%"+className+"%");
         } else if (scheId != null && scheId!=-1 && StringUtils.isEmpty(className)) {
             data = scheduleService.getScheduleParticipateStudent(scheId);

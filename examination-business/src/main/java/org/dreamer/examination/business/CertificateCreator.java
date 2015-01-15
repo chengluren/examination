@@ -126,7 +126,7 @@ public class CertificateCreator {
 
         XWPFRun r2 = content.createRun();
 
-        r2.setText(stuName + " 同学于 " + year + " 年" + month + " 月参加了北京交通大学安全知识培训" +
+        r2.setText(vo.getCollege()+" "+vo.getClassName()+"班"+stuName + " 同学于 " + year + " 年" + month + " 月参加了北京交通大学安全知识培训" +
                 "及通识安全/专业安全知识考试，考试合格，特发此证。");
         r2.setFontFamily("SimHei");
         r2.setFontSize(16);

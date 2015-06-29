@@ -12,6 +12,7 @@ import org.dreamer.examination.sql.model.SqlQueryItem;
 import org.dreamer.examination.sql.model.SqlSortItem;
 import org.dreamer.examination.sql.model.SqlSortType;
 import org.dreamer.examination.utils.Constants;
+import org.dreamer.examination.utils.SysUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -99,6 +100,7 @@ public class CertificateCreator {
     }
 
     private void doCreate(XWPFDocument doc, ExaminationViewPassVO vo, boolean pageBreak) {
+        String school = SysUtils.getConfigValue("school");
         XWPFParagraph title = doc.createParagraph();
         title.setAlignment(ParagraphAlignment.CENTER);
         if (pageBreak) {
@@ -126,7 +128,7 @@ public class CertificateCreator {
 
         XWPFRun r2 = content.createRun();
 
-        r2.setText(vo.getCollege()+" "+vo.getClassName()+"班"+stuName + " 同学于 " + year + " 年" + month + " 月参加了北京交通大学安全知识培训" +
+        r2.setText(vo.getCollege()+" "+vo.getClassName()+"班"+stuName + " 同学于 " + year + " 年" + month + " 月参加了"+school+"安全知识培训" +
                 "及通识安全/专业安全知识考试，考试合格，特发此证。");
         r2.setFontFamily("SimHei");
         r2.setFontSize(16);
@@ -136,7 +138,8 @@ public class CertificateCreator {
         XWPFRun r3 = name.createRun();
         r3.setFontFamily("SimHei");
         r3.setFontSize(16);
-        r3.setText("北京交通大学");
+//        r3.setText("北京交通大学");
+        r3.setText(school);
 
 
         XWPFParagraph promise = doc.createParagraph();

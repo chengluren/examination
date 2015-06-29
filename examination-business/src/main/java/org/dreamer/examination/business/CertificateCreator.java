@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -101,6 +102,12 @@ public class CertificateCreator {
 
     private void doCreate(XWPFDocument doc, ExaminationViewPassVO vo, boolean pageBreak) {
         String school = SysUtils.getConfigValue("school");
+        try {
+            school = new String(school.getBytes("ISO-8859-1"));
+            System.out.println(school);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         XWPFParagraph title = doc.createParagraph();
         title.setAlignment(ParagraphAlignment.CENTER);
         if (pageBreak) {
